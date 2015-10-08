@@ -2,7 +2,7 @@
 ## Initialization
 
 ```python
-from SynapsePay import Client
+from synapse_pay_rest import Client
 
 options = {
 	'ouath_key':USER_OAUTH KEY, # Optional
@@ -15,7 +15,7 @@ options = {
 
 USER_ID = ID_OF_USER # Optional
 
-client = SynapsePayClient.new options, USER_ID
+client = Client(options, USER_ID)
 
 ```
 

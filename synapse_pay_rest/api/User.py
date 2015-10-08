@@ -32,7 +32,7 @@ class User():
 		ok, error = checkKwargs(create_keys, kwargs)
 		if ok:
 			path = self.create_user_path()
-			response = self.client.post(path, payload)
+			response = self.client.post(path, kwargs['payload'])
 			if response.has_key('_id'):
 				self.client.set_user_id(response['_id'])
 		else:
@@ -135,5 +135,11 @@ class User():
 
 		:return response 	The JSON response
 	'''
-	def answer_kba(self, payload):
-		response = self.client.patch(USER_PATH + '/{0}'.format(str(self.client.user_id)), payload)
+	def answer_kba(self, **kwargs):
+		kba_keys = ['payload']
+		ok, error = checkKwargs(kba_keys, kwargs)
+		if ok:
+			response = self.client.patch(USER_PATH + '/{0}'.format(str(self.client.user_id)), kwargs['payload'])
+		else:
+			response = error
+		return analyze_response(response)

@@ -151,7 +151,7 @@ acct_rout_payload = {
 acct_rout_response = client.Node.add(payload=acct_rout_payload)
 
 
-# Verify Micro-Deposits on ACH Node
+# Verify ACH-US Node via Micro-Deposits
 
 micro_payload = {
 	"micro":[0.1,0.1]
@@ -173,7 +173,7 @@ login_payload = {
 login_response = client.Node.add(payload=login_payload)
 
 
-# Verify Node via MFA
+# Verify ACH-US Node via MFA
 
 mfa_payload = {
 	"access_token":ACCESS_TOKEN_IN_LOGIN_RESPONSE,

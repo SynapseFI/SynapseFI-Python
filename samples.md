@@ -117,7 +117,7 @@ file_response = client.User.attach_file(file='https://s3.amazonaws.com/synapse_d
 
 nodes_response = client.Node.get()
 
-# Add Synapse Node
+# Add SYNAPSE-US Node
 
 synapse_node_payload = {
 	"type":"SYNAPSE-US",
@@ -131,7 +131,7 @@ synapse_node_payload = {
 
 synapse_node_response = client.Node.add(payload=synapse_node_payload)
 
-# Add ACH Node through Account and Routing Number Details
+# Add ACH-US Node through Account and Routing Number Details
 
 acct_rout_payload = {
 	"type":"ACH-US",
@@ -159,7 +159,7 @@ micro_payload = {
 
 micro_response = client.Node.verify(node_id=NODE_ID, payload=micro_payload)
 
-# Add ACH node through account login
+# Add ACH-US node through account login
 
 login_payload = {
 	"type":"ACH-US",
@@ -173,7 +173,7 @@ login_payload = {
 login_response = client.Node.add(payload=login_payload)
 
 
-# Verify Login Node
+# Verify Node via MFA
 
 mfa_payload = {
 	"access_token":ACCESS_TOKEN_IN_LOGIN_RESPONSE,

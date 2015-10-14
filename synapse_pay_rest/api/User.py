@@ -114,12 +114,15 @@ class User():
 		ok, error = checkKwargs(file_keys, kwargs)
 		if ok:
 			base64_image = convert_file_to_base64(kwargs['file'])
-			payload = {
-				'doc': {
-					'attachment':base64_image
+			if base64_image:
+				payload = {
+					'doc': {
+						'attachment':base64_image
+					}
 				}
-			}
-			response = self.client.patch(USER_PATH + '/{0}'.format(str(self.client.user_id)), payload)
+				response = self.client.patch(USER_PATH + '/{0}'.format(str(self.client.user_id)), payload)
+			else:
+				response = create_custom_error_message('The file object could not be converted to base64.')
 		else:
 			response = error
 		return analyze_response(response)

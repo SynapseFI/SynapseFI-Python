@@ -102,6 +102,10 @@ kba_payload = {
 
 kba_response = client.User.answer_kba(payload=kba_payload)
 
+# Attach a File
+
+file_response = client.User.attach_file(file='https://s3.amazonaws.com/synapse_django/static_assets/marketing/images/synapse_dark.png')
+
 ```
 
 

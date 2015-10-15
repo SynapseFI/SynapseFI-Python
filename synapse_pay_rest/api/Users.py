@@ -2,7 +2,7 @@ from HelperFunctions import *
 
 USER_PATH = '/users'
 
-class User():
+class Users():
 
 	def __init__(self, client):
 		self.client = client

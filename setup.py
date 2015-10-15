@@ -1,11 +1,11 @@
-
+# COMMAND TO UPLOAD: python setup.py sdist upload -r pypi
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 from os import path
 
-here = path.abspath(path.dirname(__file__))
+# here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 # with open(path.join(here, 'synapse_pay/README.md'), encoding='utf-8') as f:
@@ -22,7 +22,7 @@ setup(
     description='SynapsePay Rest Python Library',
 
     # The project's main homepage.
-    url='https://github.com/synapsepay/python',
+    url='https://github.com/synapsepay/SynapsePayRest-Python',
 
     # Author details
     author='SynapsePay LLC',

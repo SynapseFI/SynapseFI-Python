@@ -1,9 +1,9 @@
 # Basic wrapper around the the requests library.
 from http_client import *
 # Assign all the api classes
-from api.User import *
+from api.Users import *
 from api.Trans import *
-from api.Node import *
+from api.Nodes import *
 
 class Client():
 
@@ -31,6 +31,6 @@ class Client():
 				base_url = 'https://sandbox.synapsepay.com/api/3/users'
 
 		self.client = HttpClient(options, user_id)
-		self.User = User(self.client)
-		self.Node = Node(self.client)
+		self.Users = Users(self.client)
+		self.Nodes = Nodes(self.client)
 		self.Trans = Trans(self.client)

@@ -69,7 +69,6 @@ class HttpClient():
 		self.user_id = user_id
 
 	def success_handler(self, r):
-		print r.json()
 		return r.json()
 
 	def bad_request_handler(self, r):
@@ -109,17 +108,15 @@ class HttpClient():
 			}
 
 	def delete(self, url):
-		log_information(True)
+		log_information(False)
 		r = self.session.delete(BASE_URL + url)
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
 		except Exception, e:
-			print str(e)
 			return NO_CLUE_ERROR
 
 	def get(self, url, params=None):
-		log_information(True)
-		print params
+		log_information(False)
 		r = self.session.get(BASE_URL + url, params=params)
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
@@ -128,7 +125,7 @@ class HttpClient():
 			return NO_CLUE_ERROR
 
 	def post(self, url, payload):
-		log_information(True)
+		log_information(False)
 		r = self.session.post(BASE_URL + url, data=json.dumps(payload))
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
@@ -137,7 +134,7 @@ class HttpClient():
 			return NO_CLUE_ERROR
 
 	def patch(self, url, payload):
-		log_information(True)
+		log_information(False)
 		r = self.session.patch(BASE_URL + url, data=json.dumps(payload))
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)

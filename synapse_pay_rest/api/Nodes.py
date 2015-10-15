@@ -2,7 +2,7 @@ from HelperFunctions import *
 
 NODES_PATH = '/users/{0}/nodes/{1}'
 
-class Node():
+class Nodes():
 
 	def __init__(self, client):
 		self.client = client
@@ -17,7 +17,7 @@ class Node():
 
 	def add(self, **kwargs):
 		if not 'payload' in kwargs:
-			return create_custom_error(message='Set the user id before making this API call.')
+			return create_custom_error(message='Missing the "payload" parameter.')
 		path = self.create_node_path()
 		response = self.client.post(path, kwargs['payload'])
 		return analyze_response(response)

@@ -1,13 +1,13 @@
 # Basic wrapper around the the requests library.
-from http_client import *
+from synapse_pay_rest.http_client import HttpClient
 # Assign all the api classes
-from api.Users import *
-from api.Trans import *
-from api.Nodes import *
+from synapse_pay_rest.api.Users import Users
+from synapse_pay_rest.api.Trans import Trans
+from synapse_pay_rest.api.Nodes import Nodes
+
 
 class Client():
-
-	'''
+    '''
 		Initialize the client to make SynapsePay v3 API calls.
 
 		:param options	{
@@ -24,13 +24,13 @@ class Client():
 							}
 						}
 	'''
-	def __init__(self, options, user_id=None):
-		base_url = 'https://synapsepay.com/api/3/users'
-		if options.has_key('development_mode'):
-			if options['development_mode']:
-				base_url = 'https://sandbox.synapsepay.com/api/3/users'
 
-		self.client = HttpClient(options, user_id)
-		self.Users = Users(self.client)
-		self.Nodes = Nodes(self.client)
-		self.Trans = Trans(self.client)
+    def __init__(self, options, user_id=None):
+        base_url = 'https://synapsepay.com/api/3/users'
+        if options.get('development_mode', False):
+            base_url = 'https://sandbox.synapsepay.com/api/3/users'
+
+        self.client = HttpClient(options, user_id)
+        self.Users = Users(self.client)
+        self.Nodes = Nodes(self.client)
+        self.Trans = Trans(self.client)

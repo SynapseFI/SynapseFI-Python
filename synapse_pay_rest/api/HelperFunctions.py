@@ -31,7 +31,7 @@ def convert_file_to_base64(file_path):
         try:
             response = requests.get(file_path)
             mime_type = mimetypes.guess_type(file_path)[0]
-            uri = ("data:" + mime_type + ";" + "base64," + base64.b64encode(response.content))
+            uri = ("data:" + mime_type + ";" + "base64," + base64.b64encode(response.content).decode('ascii'))
             return uri
         except Exception as e:
             print(str(e))

@@ -112,7 +112,7 @@ class HttpClient():
 		r = self.session.delete(BASE_URL + url)
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
-		except Exception, e:
+		except Exception as e:
 			return NO_CLUE_ERROR
 
 	def get(self, url, params=None):
@@ -120,7 +120,7 @@ class HttpClient():
 		r = self.session.get(BASE_URL + url, params=params)
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
-		except Exception, e:
+		except Exception as e:
 			print str(e)
 			return NO_CLUE_ERROR
 
@@ -129,7 +129,7 @@ class HttpClient():
 		r = self.session.post(BASE_URL + url, data=json.dumps(payload))
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
-		except Exception, e:
+		except Exception as e:
 			print str(e)
 			return NO_CLUE_ERROR
 
@@ -138,7 +138,7 @@ class HttpClient():
 		r = self.session.patch(BASE_URL + url, data=json.dumps(payload))
 		try:
 			return self.RESPONSE_HANDLERS[r.status_code](r)
-		except Exception, e:
+		except Exception as e:
 			print str(e)
 			return NO_CLUE_ERROR
 

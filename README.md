@@ -1,7 +1,6 @@
-## SynapsePayRest-Python
+## [Deprecated] SynapsePayRest-Python
 
-Simple API wrapper for SynapsePay REST V3 API.  This wrapper aims to handle the headers for each API request and appropriate error handling.
-
+Current Library https://github.com/synapsepayments/SynapsePay-Python
 
 ## Code Example
 
@@ -9,7 +8,9 @@ Check out the samples.md and our API documentation(http://docs.synapsepay.com/v3
 
 ## Installation
 
+```bash
 pip install synapse_pay_rest
+```
 
 ## License
 

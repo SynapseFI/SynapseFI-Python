@@ -4,22 +4,7 @@ import logging
 import json
 
 
-def log_information(should_log):
-    if should_log:
-        try:
-            import http.client as http_client
-        except ImportError:
-            # Python 2
-            import httplib as http_client
-        http_client.HTTPConnection.debuglevel = 1
-
-        logging.basicConfig()
-        logging.getLogger().setLevel(logging.DEBUG)
-        requests_log = logging.getLogger("requests.packages.urllib3")
-        requests_log.setLevel(logging.DEBUG)
-        requests_log.propagate = True
-
-
+# TODO: this is so bad
 NO_CLUE_ERROR = {
     "error": {
         "en": "An error has occured in this library."
@@ -27,47 +12,57 @@ NO_CLUE_ERROR = {
     "success": False
 }
 
-BASE_URL = 'https://synapsepay.com/api/3'
-
 
 class HttpClient():
-    def __init__(self, options, user_id=None):
-        global BASE_URL
+    def __init__(self, **kwargs):
+        self.update_headers(
+            client_id=kwargs['client_id'],
+            client_secret=kwargs['client_secret'],
+            fingerprint=kwargs['fingerprint'],
+            ip_address=kwargs['ip_address'],
+            oauth_key=''
+        )
+
+        self.base_url = kwargs['base_url']
+        self.logging = kwargs['logging']
+
         self.session = requests.Session()
-        if 'oauth_key' in options:
-            initial_fingerprint = options['oauth_key'] + '|' + options['fingerprint']
-        else:
-            initial_fingerprint = '|' + options['fingerprint']
-        gateway = options['client_id'] + '|' + options['client_secret']
-        if 'development_mode' in options:
-            if options['development_mode']:
-                BASE_URL = 'https://sandbox.synapsepay.com/api/3'
-        lang = 'en'
-        if 'lang' in options:
-            lang = options['lang']
+        self.session.headers.update(self.headers)
+
+        # TODO: move this
+        # self.RESPONSE_HANDLERS = {
+        #     200: self.success_handler,
+        #     202: self.success_handler,
+        #     400: self.bad_request_handler,
+        #     401: self.unauthorized_handler,
+        #     402: self.request_failed_handler,
+        #     404: self.not_found_handler,
+        #     409: self.incorrect_values_handler,
+        #     500: self.server_error_handler
+        # }
+
+    def update_headers(self, **kwargs):
+        """Summary
+
+        Args:
+            **kwargs: Description
+
+        Returns:
+            TYPE: Description
+        """
+        header_options = ['client_id', 'client_secret', 'fingerprint',
+                          'ip_address', 'oauth_key']
+        for prop in header_options:
+            if kwargs.get(prop) is not None:
+                setattr(self, prop, kwargs.get(prop))
 
         self.headers = {
             'Content-Type': 'application/json',
-            'X-SP-GATEWAY': gateway,
-            'X-SP-USER': initial_fingerprint,
-            'X-SP-USER-IP': options['ip_address'],
-            'X-SP-LANG': lang
+            'X-SP-LANG': 'en',
+            'X-SP-GATEWAY': self.client_id + '|' + self.client_secret,
+            'X-SP-USER': self.oauth_key + '|' + self.fingerprint,
+            'X-SP-USER-IP': self.ip_address
         }
-
-        self.session.headers.update(self.headers)
-
-        self.RESPONSE_HANDLERS = {
-            200: self.success_handler,
-            202: self.success_handler,
-            400: self.bad_request_handler,
-            401: self.unauthorized_handler,
-            402: self.request_failed_handler,
-            404: self.not_found_handler,
-            409: self.incorrect_values_handler,
-            500: self.server_error_handler
-        }
-
-        self.user_id = user_id
 
     def success_handler(self, r):
         return r.json()
@@ -109,16 +104,16 @@ class HttpClient():
             }
 
     def delete(self, url):
-        log_information(False)
-        r = self.session.delete(BASE_URL + url)
+        self.log_information(self.logging)
+        r = self.session.delete(self.base_url + url)
         try:
             return self.RESPONSE_HANDLERS[r.status_code](r)
         except Exception as e:
             return NO_CLUE_ERROR
 
     def get(self, url, params=None):
-        log_information(False)
-        r = self.session.get(BASE_URL + url, params=params)
+        self.log_information(self.logging)
+        r = self.session.get(self.base_url + url, params=params)
         try:
             return self.RESPONSE_HANDLERS[r.status_code](r)
         except Exception as e:
@@ -126,8 +121,8 @@ class HttpClient():
             return NO_CLUE_ERROR
 
     def post(self, url, payload):
-        log_information(False)
-        r = self.session.post(BASE_URL + url, data=json.dumps(payload))
+        self.log_information(self.logging)
+        r = self.session.post(self.base_url + url, data=json.dumps(payload))
         try:
             return self.RESPONSE_HANDLERS[r.status_code](r)
         except Exception as e:
@@ -135,8 +130,8 @@ class HttpClient():
             return NO_CLUE_ERROR
 
     def patch(self, url, payload):
-        log_information(False)
-        r = self.session.patch(BASE_URL + url, data=json.dumps(payload))
+        self.log_information(self.logging)
+        r = self.session.patch(self.base_url + url, data=json.dumps(payload))
         try:
             return self.RESPONSE_HANDLERS[r.status_code](r)
         except Exception as e:
@@ -149,3 +144,18 @@ class HttpClient():
 
     def set_user_id(self, user_id):
         self.user_id = user_id
+
+    def log_information(should_log):
+        if should_log:
+            try:
+                import http.client as http_client
+            except ImportError:
+                # Python 2
+                import httplib as http_client
+            http_client.HTTPConnection.debuglevel = 1
+
+            logging.basicConfig()
+            logging.getLogger().setLevel(logging.DEBUG)
+            requests_log = logging.getLogger("requests.packages.urllib3")
+            requests_log.setLevel(logging.DEBUG)
+            requests_log.propagate = True

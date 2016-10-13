@@ -17,16 +17,16 @@ class Users():
         else:
             return USER_PATH
 
-    '''
-		Creates a SynapsePay user and updates the client with the new oauth key.
+    """
+        Creates a SynapsePay user and updates the client with the new oauth key.
 
-		:api add_doc		http://api.synapsepay.com/docs/attach-document
+        :api add_doc        http://api.synapsepay.com/docs/attach-document
 
-		:param user_id		The id of the user to add SSN info to.
-		:param options		The body of the API response.
+        :param user_id        The id of the user to add SSN info to.
+        :param options        The body of the API response.
 
-		:return response 	The JSON response
-	'''
+        :return response     The JSON response
+    """
 
     def create(self, **kwargs):
         create_keys = ['payload']
@@ -76,16 +76,16 @@ class Users():
             response = error
         return analyze_response(response)
 
-    '''
-		Adds the SSN information for the specific user. See
-		http://api.synapsepay.com/docs/attach-document for more
-		detailed explanation of this api and more example payloads.
+    """
+        Adds the SSN information for the specific user. See
+        http://api.synapsepay.com/docs/attach-document for more
+        detailed explanation of this api and more example payloads.
 
-		:param user_id	The id of the user to add SSN info to.
-		:param options	The body of the API response.
+        :param user_id    The id of the user to add SSN info to.
+        :param options    The body of the API response.
 
-		:return response 	The JSON response
-	'''
+        :return response     The JSON response
+    """
 
     def add_doc(self, **kwargs):
         update_keys = ['payload']
@@ -107,10 +107,10 @@ class Users():
             response = error
         return analyze_response(response)
 
-    '''
-		Uploads a file for the user to help verify their identity. Can be an image, pdf, etc.
-		See 
-	'''
+    """
+        Uploads a file for the user to help verify their identity. Can be an image, pdf, etc.
+        See 
+    """
 
     def attach_file(self, **kwargs):
         file_keys = ['file']
@@ -130,16 +130,16 @@ class Users():
             response = error
         return analyze_response(response)
 
-    '''
-		Adds the SSN information for the specific user. See
-		http://api.synapsepay.com/docs/attach-document for more
-		detailed explanation of this api and more example payloads.
+    """
+        Adds the SSN information for the specific user. See
+        http://api.synapsepay.com/docs/attach-document for more
+        detailed explanation of this api and more example payloads.
 
-		:param user_id	The id of the user to add SSN info to.
-		:param options	The body of the API response.
+        :param user_id    The id of the user to add SSN info to.
+        :param options    The body of the API response.
 
-		:return response 	The JSON response
-	'''
+        :return response     The JSON response
+    """
 
     def answer_kba(self, **kwargs):
         kba_keys = ['payload']

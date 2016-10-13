@@ -11,11 +11,11 @@ def checkKwargs(keys, kwargs):
     return True, None
 
 
-'''
-	Converts a file object into a correctly padded base64 representation
-	for the SynapsePay API.  Mimetype padding is done by file 
-	extension not by content(for now).
-'''
+"""
+    Converts a file object into a correctly padded base64 representation
+    for the SynapsePay API.  Mimetype padding is done by file 
+    extension not by content(for now).
+"""
 
 
 def convert_file_to_base64(file_path):
@@ -38,11 +38,11 @@ def convert_file_to_base64(file_path):
             return None
 
 
-'''
-	Used to create JSON formatted error messages that occur at the
-	library level.  This allows for no exceptions to ever be raised
-	for the user.
-'''
+"""
+    Used to create JSON formatted error messages that occur at the
+    library level.  This allows for no exceptions to ever be raised
+    for the user.
+"""
 
 
 def create_custom_error_message(error_message):
@@ -54,15 +54,15 @@ def create_custom_error_message(error_message):
     }
 
 
-'''
-	If we ever wanted to make a different response for the
-	user(i.e. just the string message) we could change it here.
-	However, for now it just forwards the json response.
+"""
+    If we ever wanted to make a different response for the
+    user(i.e. just the string message) we could change it here.
+    However, for now it just forwards the json response.
 
-	:param response 	The JSON response from the api call.
+    :param response     The JSON response from the api call.
 
-	:return response 	Returns the JSON response.
-'''
+    :return response     Returns the JSON response.
+"""
 
 
 def analyze_response(response):

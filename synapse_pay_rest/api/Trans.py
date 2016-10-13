@@ -33,16 +33,16 @@ class Trans():
             response = error
         return analyze_response(response)
 
-    '''
-		Updates a transaction by giving it a comment.
+    """
+        Updates a transaction by giving it a comment.
 
-		:param user_id				The id of the user whose transaction is going to be deleted.
-		:param node_id				The id of the node that initiated the transaction to be deleted.
-		:param trans_id				The id the transaction to be deleted.
-		:param transaction_object	The object returned when the transaction was created.
+        :param user_id                The id of the user whose transaction is going to be deleted.
+        :param node_id                The id of the node that initiated the transaction to be deleted.
+        :param trans_id                The id the transaction to be deleted.
+        :param transaction_object    The object returned when the transaction was created.
 
-		:return response 	The JSON response
-	'''
+        :return response     The JSON response
+    """
 
     def update(self, **kwargs):
         update_keys = ['payload', 'node_id', 'trans_id']
@@ -54,17 +54,17 @@ class Trans():
             response = error
         return analyze_response(response)
 
-    '''
-		Deletes a specific transaction. See http://api.synapsepay.com/docs/attach-document
-		for more information.
+    """
+        Deletes a specific transaction. See http://api.synapsepay.com/docs/attach-document
+        for more information.
 
-		:param user_id				The id of the user whose transaction is going to be deleted.
-		:param node_id				The id of the node that initiated the transaction to be deleted.
-		:param trans_id				The id the transaction to be deleted.
-		:param transaction_object	The object returned when the transaction was created.
+        :param user_id                The id of the user whose transaction is going to be deleted.
+        :param node_id                The id of the node that initiated the transaction to be deleted.
+        :param trans_id                The id the transaction to be deleted.
+        :param transaction_object    The object returned when the transaction was created.
 
-		:return response 	The JSON response
-	'''
+        :return response     The JSON response
+    """
 
     def delete(self, **kwargs):
         delete_keys = ['node_id', 'trans_id']

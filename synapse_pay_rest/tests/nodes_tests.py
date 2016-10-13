@@ -9,14 +9,14 @@ class NodesTestCases(unittest.TestCase):
         self.client.users.refresh(self.user['_id'], refresh_payload)
 
     def test_create_a_new_node(self):
-        response = self.client.nodes.add(self.user['_id'],
-                                         nodes_create_payload)
+        response = self.client.nodes.create(self.user['_id'],
+                                            nodes_create_payload)
         node = response['nodes'][0]
         self.assertIsNotNone(node['_id'])
 
     def test_get_existing_node(self):
-        response = self.client.nodes.add(self.user['_id'],
-                                         nodes_create_payload)
+        response = self.client.nodes.create(self.user['_id'],
+                                            nodes_create_payload)
         node = response['nodes'][0]
         node = self.client.nodes.get(self.user['_id'], node['_id'])
         self.assertIsNotNone(node['_id'])
@@ -26,8 +26,8 @@ class NodesTestCases(unittest.TestCase):
         self.assertIsNotNone(response['nodes'])
 
     def test_update_node_with_microdeposits(self):
-        response = self.client.nodes.add(self.user['_id'],
-                                         ach_us_create_payload)
+        response = self.client.nodes.create(self.user['_id'],
+                                            ach_us_create_payload)
         node = response['nodes'][0]
         self.assertEqual('CREDIT', node['allowed'])
         node = self.client.nodes.update(self.user['_id'], node['_id'],
@@ -35,8 +35,8 @@ class NodesTestCases(unittest.TestCase):
         self.assertEqual('CREDIT-AND-DEBIT', node['allowed'])
 
     def test_delete_node(self):
-        response = self.client.nodes.add(self.user['_id'],
-                                         nodes_create_payload)
+        response = self.client.nodes.create(self.user['_id'],
+                                            nodes_create_payload)
         node = response['nodes'][0]
         response = self.client.nodes.delete(self.user['_id'], node['_id'])
         self.assertEqual('200', response['http_code'])

@@ -26,3 +26,12 @@ ach_us_create_payload = {
 }
 
 ach_us_micro_payload = {"micro": [0.1, 0.1]}
+
+ach_us_bank_login_payload = {
+    "type": "ACH-US",
+    "info": {
+        "bank_id": "synapse_nomfa",
+        "bank_pw": "test1234",
+        "bank_name": "fake"
+    }
+}

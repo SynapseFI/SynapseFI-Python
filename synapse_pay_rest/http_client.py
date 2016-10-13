@@ -51,12 +51,14 @@ class HttpClient():
 
     def post(self, url, payload):
         self.log_information(self.logging)
-        response = self.session.post(self.base_url + url, data=json.dumps(payload))
+        data = json.dumps(payload)
+        response = self.session.post(self.base_url + url, data=data)
         return self.parse_response(response)
 
     def patch(self, url, payload):
         self.log_information(self.logging)
-        response = self.session.patch(self.base_url + url, data=json.dumps(payload))
+        data = json.dumps(payload)
+        response = self.session.patch(self.base_url + url, data=data)
         return self.parse_response(response)
 
     def delete(self, url):

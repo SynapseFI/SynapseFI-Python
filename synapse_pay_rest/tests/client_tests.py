@@ -17,7 +17,7 @@ class ClientTestCases(unittest.TestCase):
         self.assertIsInstance(self.client.http_client, HttpClient)
         self.assertIsInstance(self.client.users, Users)
         self.assertIsInstance(self.client.nodes, Nodes)
-        self.assertIsInstance(self.client.transactions, Transactions)
+        self.assertIsInstance(self.client.transactions, Trans)
 
     def test_passes_correct_base_url_to_http_client(self):
         sandbox = 'https://sandbox.synapsepay.com/api/3'

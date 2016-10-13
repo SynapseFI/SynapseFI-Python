@@ -12,7 +12,7 @@ class Nodes():
         else:
             return path
 
-    def add(self, user_id, payload, **kwargs):
+    def create(self, user_id, payload, **kwargs):
         path = self.create_node_path(user_id)
         response = self.client.post(path, payload)
         return response
@@ -28,6 +28,7 @@ class Nodes():
         return response
 
     def verify(self, user_id, payload, node_id=None, **kwargs):
+        # TODO deprecate
         if node_id:
             # PATCH to verify microdeposits
             self.update(user_id, payload, node_id, **kwargs)

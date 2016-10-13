@@ -1,7 +1,7 @@
 """ Custom errors for handling HTTP and API errors. """
 
 
-class HttpError(Exception):
+class SynapsePayError(Exception):
     """Custom class for handling HTTP and API errors."""
     def __init__(self, message, code, response):
         self.message = message
@@ -9,11 +9,11 @@ class HttpError(Exception):
         self.response = response
 
 
-class ClientError(HttpError):
+class ClientError(SynapsePayError):
     pass
 
 
-class BadRequest(ClientError):
+class BadRequestError(ClientError):
     """ Raised on the HTTP status code 400 """
     pass
 
@@ -63,7 +63,7 @@ class TooManyRequestsError(ClientError):
     pass
 
 
-class ServerError(HttpError):
+class ServerError(SynapsePayError):
     """ Raised on a 5xx HTTP status code """
     pass
 
@@ -90,7 +90,7 @@ class GatewayTimeoutError(ServerError):
 
 class ErrorFactory():
     ERRORS = {
-        400: BadRequest,
+        400: BadRequestError,
         401: UnauthorizedError,
         402: RequestDeclinedError,
         403: ForbiddenError,
@@ -108,7 +108,7 @@ class ErrorFactory():
 
     def from_response(cls, response):
         code = response.status_code
-        klass = cls.ERRORS.get(code, HttpError)
+        klass = cls.ERRORS.get(code, SynapsePayError)
         body = response.json()
         message, error_code = cls.parse_error(body)
         return klass(message=message, code=error_code, response=response)

@@ -219,7 +219,7 @@ delete_response = client.Nodes.delete(node_id=NODE_ID)
 ```python
 
 
-# Get All Transactions
+# Get All Trans
 
 transactions_response = client.Trans.get(node_id=NODE_ID)
 
@@ -238,7 +238,6 @@ trans_payload = {
     "extra":{
         "supp_id":"1283764wqwsdd34wd13212",
         "note":"Deposit to bank account",
-        "webhook":"http://requestb.in/q94kxtq9",
         "process_on":1,
         "ip":"192.168.0.1"
     },

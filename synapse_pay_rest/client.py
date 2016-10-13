@@ -2,7 +2,7 @@
 from synapse_pay_rest.http_client import HttpClient
 # Assign all the api classes
 from synapse_pay_rest.api.users import Users
-from synapse_pay_rest.api.transactions import Transactions
+from synapse_pay_rest.api.transactions import Trans
 from synapse_pay_rest.api.nodes import Nodes
 
 
@@ -19,4 +19,4 @@ class Client():
                                       **kwargs)
         self.users = Users(self.http_client)
         self.nodes = Nodes(self.http_client)
-        self.transactions = Transactions(self.http_client)
+        self.transactions = Trans(self.http_client)

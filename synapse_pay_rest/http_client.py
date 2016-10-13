@@ -4,15 +4,6 @@ import logging
 import json
 
 
-# TODO: this is so bad
-NO_CLUE_ERROR = {
-    "error": {
-        "en": "An error has occured in this library."
-    },
-    "success": False
-}
-
-
 class HttpClient():
     def __init__(self, **kwargs):
         self.update_headers(
@@ -29,20 +20,8 @@ class HttpClient():
         self.session = requests.Session()
         self.session.headers.update(self.headers)
 
-        # TODO: move this
-        # self.RESPONSE_HANDLERS = {
-        #     200: self.success_handler,
-        #     202: self.success_handler,
-        #     400: self.bad_request_handler,
-        #     401: self.unauthorized_handler,
-        #     402: self.request_failed_handler,
-        #     404: self.not_found_handler,
-        #     409: self.incorrect_values_handler,
-        #     500: self.server_error_handler
-        # }
-
     def update_headers(self, **kwargs):
-        """Summary
+        """Updates the supplied properties on self and in the header dictionary.
 
         Args:
             **kwargs: Description
@@ -64,86 +43,21 @@ class HttpClient():
             'X-SP-USER-IP': self.ip_address
         }
 
-    def success_handler(self, r):
-        return r.json()
-
-    def bad_request_handler(self, r):
-        return r.json()
-
-    def unauthorized_handler(self, r):
-        return r.json()
-
-    def request_failed_handler(self, r):
-        return {
-            "error": {
-                "en": "An error has occured in this library."
-            },
-            "success": False
-        }
-
-    def not_found_handler(self, r):
-        return {
-            "error": {
-                "en": "The url is not found."
-            },
-            "success": False
-        }
-
-    def incorrect_values_handler(self, r):
-        return r.json()
-
-    def server_error_handler(self, r):
-        try:
-            return r.json()
-        except:
-            return {
-                "error": {
-                    "en": "Unknown sever error has occurred."
-                },
-                "success": False
-            }
-
-    def delete(self, url):
-        self.log_information(self.logging)
-        r = self.session.delete(self.base_url + url)
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            return NO_CLUE_ERROR
-
     def get(self, url, params=None):
         self.log_information(self.logging)
-        r = self.session.get(self.base_url + url, params=params)
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            print(str(e))
-            return NO_CLUE_ERROR
+        return self.session.get(self.base_url + url, params=params)
 
     def post(self, url, payload):
         self.log_information(self.logging)
-        r = self.session.post(self.base_url + url, data=json.dumps(payload))
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            print(str(e))
-            return NO_CLUE_ERROR
+        return self.session.post(self.base_url + url, data=json.dumps(payload))
 
     def patch(self, url, payload):
         self.log_information(self.logging)
-        r = self.session.patch(self.base_url + url, data=json.dumps(payload))
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            print(str(e))
-            return NO_CLUE_ERROR
+        return self.session.patch(self.base_url + url, data=json.dumps(payload))
 
-    def update_oauth(self, oauth_key):
-        self.headers['X-SP-USER'] = oauth_key + '|' + self.headers['X-SP-USER'].split('|')[1]
-        self.session.headers.update(self.headers)
-
-    def set_user_id(self, user_id):
-        self.user_id = user_id
+    def delete(self, url):
+        self.log_information(self.logging)
+        return self.session.delete(self.base_url + url)
 
     def log_information(should_log):
         if should_log:

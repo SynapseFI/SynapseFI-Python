@@ -3,7 +3,7 @@ from .HelperFunctions import *
 TRANS_PATH = '/users/{0}/nodes/{1}/trans/{2}'
 
 
-class Trans():
+class Transactions():
     def __init__(self, client):
         self.client = client
 

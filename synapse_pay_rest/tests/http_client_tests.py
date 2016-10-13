@@ -1,5 +1,4 @@
 import unittest
-from synapse_pay_rest.http_client import HttpClient
 from .test_helpers import *
 
 
@@ -14,9 +13,9 @@ class HttpClientTestCases(unittest.TestCase):
             logging=True
         )
 
-    def test_attrs_are_set(self):
+    def test_properties_are_set(self):
         self.assertEqual('https://sandbox.synapsepay.com/api/3',
-                    self.http_client.base_url)
+                         self.http_client.base_url)
         self.assertTrue(self.http_client.logging)
 
     def test_headers_are_properly_formatted(self):
@@ -27,7 +26,7 @@ class HttpClientTestCases(unittest.TestCase):
         self.assertEqual(user, headers['X-SP-USER'])
         self.assertEqual(IP_ADDRESS, headers['X-SP-USER-IP'])
 
-    def test_update_headers_updates_the_specified_kwargs(self):
+    def test_update_headers_changes_the_specified_headers_and_props(self):
         new_oauth_key = 'oauth_key'
         self.http_client.update_headers(oauth_key=new_oauth_key)
         headers = self.http_client.headers
@@ -36,3 +35,4 @@ class HttpClientTestCases(unittest.TestCase):
         self.assertEqual(gateway, headers['X-SP-GATEWAY'])
         self.assertEqual(user, headers['X-SP-USER'])
         self.assertEqual(IP_ADDRESS, headers['X-SP-USER-IP'])
+        self.assertEqual(new_oauth_key, self.http_client.oauth_key)

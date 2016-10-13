@@ -2,7 +2,7 @@
 from synapse_pay_rest.http_client import HttpClient
 # Assign all the api classes
 from synapse_pay_rest.api.Users import Users
-from synapse_pay_rest.api.Trans import Trans
+from synapse_pay_rest.api.Transactions import Transactions
 from synapse_pay_rest.api.Nodes import Nodes
 
 
@@ -10,27 +10,15 @@ class Client():
     """
         Initialize the client to make SynapsePay v3 API calls.
 
-        :param options    {
-                            'client':{
-                                'client_id':YOUR_CLIENT_ID,
-                                'client_secret':YOUR_CLIENT_SECRET
-                            },
-                            'user':{
-                                'fingerprint':USER_FINGERPRINT,
-                            },
-                            'oauth':{
-                                'oauth_key':USER_OAUTH_KEY,
-                                'refresh_token':USER_REFRESH_TOKEN
-                            }
-                        }
     """
 
-    def __init__(self, options, user_id=None):
+    def __init__(self, user_id=None, **kwargs):
         base_url = 'https://synapsepay.com/api/3'
-        if options.get('development_mode', True):
+        if kwargs.get('development_mode'):
             base_url = 'https://sandbox.synapsepay.com/api/3'
 
-        self.client = HttpClient(options, user_id)
-        self.Users = Users(self.client)
-        self.Nodes = Nodes(self.client)
-        self.Trans = Trans(self.client)
+        self.http_client = HttpClient(user_id=user_id, base_url=base_url,
+                                      **kwargs)
+        self.users = Users(self.http_client)
+        self.nodes = Nodes(self.http_client)
+        self.transactions = Transactions(self.http_client)

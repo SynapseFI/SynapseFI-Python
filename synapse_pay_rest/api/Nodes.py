@@ -1,55 +1,43 @@
 from .helper_functions import *
 
-NODES_PATH = '/users/{0}/nodes/{1}'
-
 
 class Nodes():
     def __init__(self, client):
         self.client = client
 
-    def create_node_path(self, node_id=None):
+    def create_node_path(self, user_id, node_id=None):
+        path = '/users/{0}/nodes'.format(user_id)
         if node_id:
-            return NODES_PATH.format(self.client.user_id, node_id)
+            return path + '/' + node_id
         else:
-            return NODES_PATH.replace('/{1}', '').format(self.client.user_id)
+            return path
 
-    def add(self, **kwargs):
-        if not 'payload' in kwargs:
-            return create_custom_error_message(error_message='Missing the "payload" parameter.')
-        path = self.create_node_path()
-        response = self.client.post(path, kwargs['payload'])
-        return analyze_response(response)
+    def add(self, user_id, payload, **kwargs):
+        path = self.create_node_path(user_id)
+        response = self.client.post(path, payload)
+        return response
 
-    def verify(self, **kwargs):
-        micro_keys = ['payload', 'node_id']
-        ok_micro, error_micro = checkKwargs(micro_keys, kwargs)
-        mfa_keys = ['payload']
-        ok_mfa, error_mfa = checkKwargs(mfa_keys, kwargs)
-        response = None
-        if ok_micro:
-            path = self.create_node_path(kwargs['node_id'])
-            response = self.client.patch(path, kwargs['payload'])
-        elif ok_mfa:
-            path = self.create_node_path()
-            response = self.client.post(path, kwargs['payload'])
-        else:
-            return error_micro
-        return analyze_response(response)
-
-    def delete(self, **kwargs):
-        if not 'node_id' in kwargs:
-            return create_custom_error_message(error_message='Missing "node_id" argument')
-        path = self.create_node_path(kwargs['node_id'])
-        response = self.client.delete(path)
-        return analyze_response(response)
-
-    def get(self, **kwargs):
-        path = None
-        if 'node_id' in kwargs:
-            path = self.create_node_path(kwargs['node_id'])
-        elif self.client.user_id:
-            path = self.create_node_path()
-        else:
-            return create_custom_error_message(error_message='Set the user id before making this API call.')
+    def get(self, user_id, node_id=None, **kwargs):
+        path = self.create_node_path(user_id, node_id)
         response = self.client.get(path)
-        return analyze_response(response)
+        return response
+
+    def update(self, user_id, node_id, **kwargs):
+        path = self.create_node_path(user_id, node_id)
+        response = self.client.patch(path, payload)
+        return response
+
+    def verify(self, user_id, payload, node_id=None, **kwargs):
+        if node_id:
+            # PATCH to verify microdeposits
+            self.update(user_id, payload, node_id, **kwargs)
+        else:
+            # POST to verify MFA
+            path = self.create_node_path(user_id)
+            response = self.client.post(path, payload)
+        return response
+
+    def delete(self, user_id, **kwargs):
+        path = self.create_node_path(user_id, node_id)
+        response = self.client.delete(path)
+        return response

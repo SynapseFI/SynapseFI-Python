@@ -1,17 +1,9 @@
 from .test_helpers import *
-from .payloads.user_payloads import *
 
 
 class UsersTestCases(unittest.TestCase):
     def setUp(self):
-        self.client = Client(
-            client_id=CLIENT_ID,
-            client_secret=CLIENT_SECRET,
-            fingerprint=FINGERPRINT,
-            ip_address=IP_ADDRESS,
-            development_mode=True,
-            logging=False
-        )
+        self.client = test_client
 
     def test_create_a_new_user(self):
         user = self.client.users.create(users_create_payload)
@@ -30,6 +22,10 @@ class UsersTestCases(unittest.TestCase):
         user = self.client.users.get(USER_ID)
         payload['refresh_token'] = user['refresh_token']
         new_login = payload['update']['login']['email']
+        new_phone = payload['update']['phone_number']
+        new_name = payload['update']['legal_name']
         user = self.client.users.update(USER_ID, payload)
         self.assertIsNotNone(user['_id'])
         self.assertEqual(new_login, user['logins'][-1]['email'])
+        self.assertIn(new_phone, user['phone_numbers'])
+        self.assertIn(new_name, user['legal_names'])

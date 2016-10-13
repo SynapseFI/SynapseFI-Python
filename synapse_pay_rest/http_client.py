@@ -18,9 +18,6 @@ class HttpClient():
         self.logging = kwargs.get('logging', False)
         self.user_id = kwargs.get('user_id')
 
-        self.session = requests.Session()
-        self.session.headers.update(self.headers)
-
     def update_headers(self, **kwargs):
         """Updates the supplied properties on self and in the header dictionary.
 
@@ -43,6 +40,8 @@ class HttpClient():
             'X-SP-USER': self.oauth_key + '|' + self.fingerprint,
             'X-SP-USER-IP': self.ip_address
         }
+        self.session = requests.Session()
+        self.session.headers.update(self.headers)
 
     def get(self, url, params=None):
         self.log_information(self.logging)

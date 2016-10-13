@@ -3,14 +3,14 @@ from .helper_functions import *
 
 class Users():
     def __init__(self, client):
-        self.url = '/users'
         self.client = client
 
     def create_user_path(self, user_id=None):
+        path = '/users'
         if user_id:
-            return self.url + '/' + user_id
+            return path + '/' + user_id
         else:
-            return self.url
+            return path
 
     def create(self, payload, **kwargs):
         """ Creates a SynapsePay user and updates the client with the new oauth
@@ -52,7 +52,7 @@ class Users():
 
     def refresh(self, user_id, payload, **kwargs):
         path = '/oauth/{0}'.format(self.client.user_id)
-        response = self.client.post(path, kwargs.get('payload'))
+        response = self.client.post(path, payload)
         if 'oauth_key' in response:
             self.client.update_headers(oauth_key=response['oauth_key'])
         return response
@@ -68,7 +68,7 @@ class Users():
             :return response     The JSON response
         """
         path = self.create_user_path(user_id)
-        response = self.client.patch(path, kwargs.get('payload'))
+        response = self.client.patch(path, payload)
         return response
 
     def verify(self, user_id, payload, **kwargs):

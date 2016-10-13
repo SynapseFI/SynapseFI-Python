@@ -1,15 +1,13 @@
 # Basic wrapper around the the requests library.
 from synapse_pay_rest.http_client import HttpClient
 # Assign all the api classes
-from synapse_pay_rest.api.Users import Users
-from synapse_pay_rest.api.Transactions import Transactions
-from synapse_pay_rest.api.Nodes import Nodes
+from synapse_pay_rest.api.users import Users
+from synapse_pay_rest.api.transactions import Transactions
+from synapse_pay_rest.api.nodes import Nodes
 
 
 class Client():
-    """
-        Initialize the client to make SynapsePay v3 API calls.
-
+    """ Initialize the client to make SynapsePay v3 API calls.
     """
 
     def __init__(self, user_id=None, **kwargs):

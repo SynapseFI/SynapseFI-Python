@@ -1,4 +1,4 @@
-from .HelperFunctions import *
+from .helper_functions import *
 
 NODES_PATH = '/users/{0}/nodes/{1}'
 

@@ -1,4 +1,4 @@
-from .HelperFunctions import *
+from .helper_functions import *
 
 TRANS_PATH = '/users/{0}/nodes/{1}/trans/{2}'
 

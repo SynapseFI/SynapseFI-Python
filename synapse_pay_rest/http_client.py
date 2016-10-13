@@ -15,7 +15,8 @@ class HttpClient():
         )
 
         self.base_url = kwargs['base_url']
-        self.logging = kwargs['logging']
+        self.logging = kwargs.get('logging', False)
+        self.user_id = kwargs.get('user_id')
 
         self.session = requests.Session()
         self.session.headers.update(self.headers)
@@ -45,21 +46,41 @@ class HttpClient():
 
     def get(self, url, params=None):
         self.log_information(self.logging)
-        return self.session.get(self.base_url + url, params=params)
+        response = self.session.get(self.base_url + url, params=params)
+        if response.status_code >= 300:
+            # TODO: handle error
+            pass
+        else:
+            return response.json()
 
     def post(self, url, payload):
         self.log_information(self.logging)
-        return self.session.post(self.base_url + url, data=json.dumps(payload))
+        response = self.session.post(self.base_url + url, data=json.dumps(payload))
+        if response.status_code >= 300:
+            # TODO: handle error
+            pass
+        else:
+            return response.json()
 
     def patch(self, url, payload):
         self.log_information(self.logging)
-        return self.session.patch(self.base_url + url, data=json.dumps(payload))
+        response = self.session.patch(self.base_url + url, data=json.dumps(payload))
+        if response.status_code >= 300:
+            # TODO: handle error
+            pass
+        else:
+            return response.json()
 
     def delete(self, url):
         self.log_information(self.logging)
-        return self.session.delete(self.base_url + url)
+        response = self.session.delete(self.base_url + url)
+        if response.status_code >= 300:
+            # TODO: handle error
+            pass
+        else:
+            return response.json()
 
-    def log_information(should_log):
+    def log_information(self, should_log):
         if should_log:
             try:
                 import http.client as http_client

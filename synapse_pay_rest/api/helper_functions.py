@@ -6,7 +6,7 @@ import requests
 
 def convert_file_to_base64(file_path):
     """ Converts a file object into a correctly padded base64 representation
-        for the SynapsePay API.  Mimetype padding is done by file 
+        for the SynapsePay API.  Mimetype padding is done by file
         extension not by content(for now).
     """
     file_object = None

@@ -22,7 +22,7 @@ class Nodes():
         response = self.client.get(path)
         return response
 
-    def update(self, user_id, node_id, **kwargs):
+    def update(self, user_id, node_id, payload, **kwargs):
         path = self.create_node_path(user_id, node_id)
         response = self.client.patch(path, payload)
         return response
@@ -37,7 +37,7 @@ class Nodes():
             response = self.client.post(path, payload)
         return response
 
-    def delete(self, user_id, **kwargs):
+    def delete(self, user_id, node_id, **kwargs):
         path = self.create_node_path(user_id, node_id)
         response = self.client.delete(path)
         return response

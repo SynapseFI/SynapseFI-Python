@@ -2,6 +2,7 @@ import requests
 import traceback
 import logging
 import json
+from synapse_pay_rest.errors import *
 
 
 class HttpClient():
@@ -19,7 +20,7 @@ class HttpClient():
         self.user_id = kwargs.get('user_id')
 
     def update_headers(self, **kwargs):
-        """Updates the supplied properties on self and in the header dictionary.
+        """ Updates the supplied properties on self and in the header dictionary.
 
         Args:
             **kwargs: Description
@@ -46,36 +47,26 @@ class HttpClient():
     def get(self, url, params=None):
         self.log_information(self.logging)
         response = self.session.get(self.base_url + url, params=params)
-        if response.status_code >= 300:
-            # TODO: handle error
-            pass
-        else:
-            return response.json()
+        return self.parse_response(response)
 
     def post(self, url, payload):
         self.log_information(self.logging)
         response = self.session.post(self.base_url + url, data=json.dumps(payload))
-        if response.status_code >= 300:
-            # TODO: handle error
-            pass
-        else:
-            return response.json()
+        return self.parse_response(response)
 
     def patch(self, url, payload):
         self.log_information(self.logging)
         response = self.session.patch(self.base_url + url, data=json.dumps(payload))
-        if response.status_code >= 300:
-            # TODO: handle error
-            pass
-        else:
-            return response.json()
+        return self.parse_response(response)
 
     def delete(self, url):
         self.log_information(self.logging)
         response = self.session.delete(self.base_url + url)
+        return self.parse_response(response)
+
+    def parse_response(self, response):
         if response.status_code >= 300:
-            # TODO: handle error
-            pass
+            raise ErrorFactory.from_response(ErrorFactory, response)
         else:
             return response.json()
 

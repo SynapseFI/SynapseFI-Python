@@ -51,7 +51,7 @@ class Users():
         return response
 
     def refresh(self, user_id, payload, **kwargs):
-        path = '/oauth/{0}'.format(self.client.user_id)
+        path = '/oauth/' + self.client.user_id
         response = self.client.post(path, payload)
         if 'oauth_key' in response:
             self.client.update_headers(oauth_key=response['oauth_key'])

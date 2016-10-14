@@ -106,14 +106,17 @@ class ErrorFactory():
         504: GatewayTimeoutError
     }
 
+    @classmethod
     def from_response(cls, response):
+        import pdb; pdb.set_trace()
         code = response.status_code
         klass = cls.ERRORS.get(code, SynapsePayError)
         body = response.json()
         message, error_code = cls.parse_error(body)
         return klass(message=message, code=error_code, response=response)
 
-    def parse_error(body):
+    @classmethod
+    def parse_error(cls, body):
         if type(body) is dict and type(body['error']) is dict:
             return [body['error']['en'], body['error_code']]
         else:

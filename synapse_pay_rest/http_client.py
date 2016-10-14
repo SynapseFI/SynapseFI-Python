@@ -68,7 +68,7 @@ class HttpClient():
 
     def parse_response(self, response):
         if response.status_code >= 300:
-            raise ErrorFactory.from_response(ErrorFactory, response)
+            raise ErrorFactory.from_response(response)
         else:
             return response.json()
 

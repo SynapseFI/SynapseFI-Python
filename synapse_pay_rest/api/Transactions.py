@@ -1,4 +1,4 @@
-from .helper_functions import *
+from synapse_pay_rest.http_client import HttpClient
 
 
 class Trans():
@@ -23,11 +23,11 @@ class Trans():
         return response
 
     def update(self, user_id, node_id, trans_id, payload, **kwargs):
-        """ Updates a transaction by giving it a comment.
+        """ Updates a transaction with a comment.
 
-            :param user_id                The id of the user whose transaction is going to be deleted.
-            :param node_id                The id of the node that initiated the transaction to be deleted.
-            :param trans_id                The id the transaction to be deleted.
+            :param user_id               The id of the user whose transaction is going to be deleted.
+            :param node_id               The id of the node that initiated the transaction to be deleted.
+            :param trans_id              The id the transaction to be deleted.
             :param transaction_object    The object returned when the transaction was created.
 
             :return response     The JSON response
@@ -37,8 +37,7 @@ class Trans():
         return response
 
     def delete(self, user_id, node_id, trans_id, **kwargs):
-        """ Deletes a specific transaction. See http://api.synapsepay.com/docs/attach-document
-            for more information.
+        """ Cancels a specific transaction.
 
             :param user_id                The id of the user whose transaction is going to be deleted.
             :param node_id                The id of the node that initiated the transaction to be deleted.

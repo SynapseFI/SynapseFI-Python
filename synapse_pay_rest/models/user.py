@@ -1,5 +1,6 @@
 from synapse_pay_rest.client import Client
 
+
 class User():
     """Represents a User record with methods for constructing user instances.
 

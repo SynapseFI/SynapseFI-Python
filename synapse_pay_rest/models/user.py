@@ -102,8 +102,10 @@ class User():
         response = self.client.users.update(self.id, payload)
         return User.init_from_response(self.client, response)
 
-    def update_cip_tag(self, cip_tag):
-        pass
+    def change_cip_tag(self, new_cip):
+        payload = self.payload_for_update(cip_tag=new_cip)
+        response = self.client.users.update(self.id, payload)
+        return User.init_from_response(self.client, response)
 
     def payload_for_update(self, **kwargs):
         payload = {

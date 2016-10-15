@@ -12,5 +12,5 @@ test_client = Client(
     fingerprint=FINGERPRINT,
     ip_address=IP_ADDRESS,
     development_mode=True,
-    logging=True
+    logging=False
 )

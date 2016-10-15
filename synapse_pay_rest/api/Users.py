@@ -25,8 +25,6 @@ class Users():
         """
         path = self.create_user_path()
         response = self.client.post(path, payload)
-        if '_id' in response:
-            self.client.user_id = response['_id']
         return response
 
     def get(self, user_id=None, **kwargs):
@@ -36,18 +34,14 @@ class Users():
             params['query'] = kwargs.get('query')
         if 'page' in kwargs:
             params['page'] = kwargs.get('page')
-        if 'page_count' in kwargs:
+        if 'per_page' in kwargs:
             params['per_page'] = kwargs.get('per_page')
         response = self.client.get(path, params)
-        if '_id' in response:
-            self.client.user_id = response['_id']
         return response
 
     def update(self, user_id, payload, **kwargs):
         path = self.create_user_path(user_id)
         response = self.client.patch(path, payload)
-        if '_id' in response:
-            self.client.user_id = response['_id']
         return response
 
     def refresh(self, user_id, payload, **kwargs):

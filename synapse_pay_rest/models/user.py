@@ -4,29 +4,29 @@ class User():
 
     """
 
-    @classmethod
-    def create(cls, client, email, phone_number, legal_name, **kwargs):
+    @staticmethod
+    def create(client, email, phone_number, legal_name, **kwargs):
         """Create a user record in API and corresponding User instance.
 
-        kwargs: password, readonly, note, supp_id, is_business
+        kwargs: password, read_only, note, supp_id, is_business
         """
-        payload = cls.payload_for_create(email, phone_number, legal_name,
+        payload = User.payload_for_create(email, phone_number, legal_name,
                                          **kwargs)
         response = client.users.create(payload)
-        return cls.init_from_response(client, response)
+        return User.init_from_response(client, response)
 
-    @classmethod
-    def by_id(cls, client, id):
+    @staticmethod
+    def by_id(client, id):
         response = client.users.get(id)
-        return cls.init_from_response(client, response)
+        return User.init_from_response(client, response)
 
-    @classmethod
-    def all(cls, client, **kwargs):
+    @staticmethod
+    def all(client, **kwargs):
         response = client.users.get(**kwargs)
-        return cls.init_multiple_from_response(client, response['users'])
+        return User.init_multiple_from_response(client, response['users'])
 
-    @classmethod
-    def payload_for_create(cls, email, phone_number, legal_name, **kwargs):
+    @staticmethod
+    def payload_for_create(email, phone_number, legal_name, **kwargs):
         payload = {
           'logins': [{'email': email}],
           'phone_numbers': [phone_number],
@@ -40,9 +40,9 @@ class User():
         }
         return payload
 
-    @classmethod
-    def init_from_response(cls, client, response):
-        return cls(
+    @staticmethod
+    def init_from_response(client, response):
+        return User(
           client=client,
           id=response['_id'],
           refresh_token=response['refresh_token'],
@@ -56,12 +56,10 @@ class User():
           cip_tag=response.get('extra').get('cip_tag')
         )
 
-    @classmethod
-    def init_multiple_from_response(cls, client, response):
-        users = []
-        for user_data in response:
-            user = cls.init_from_response(client, user_data)
-            users.append(user)
+    @staticmethod
+    def init_multiple_from_response(client, response):
+        users = [User.init_from_response(client, user_data)
+                 for user_data in response]
         return users
 
     def __init__(self, **kwargs):
@@ -69,25 +67,58 @@ class User():
             setattr(self, arg, value)
 
     def authenticate(self):
+        self.client.users.refresh(self.id, self.payload_for_refresh)
+        return self
+
+    def payload_for_refresh(self):
+        return {'refresh_token': self.refresh_token}
+
+    def add_base_document(self):
         pass
 
-    def update(self):
-        pass
+    def add_legal_name(self, new_name):
+        payload = self.payload_for_update(legal_name=new_name)
+        response = self.client.users.update(self.id, payload)
+        return User.init_from_response(self.client, response)
 
-    def create_base_document(self):
-        pass
+    def add_login(self, email, password=None, read_only=None):
+        payload = self.payload_for_update(email=email, password=password, read_only=read_only)
+        response = self.client.users.update(self.id, payload)
+        return User.init_from_response(self.client, response)
 
-    def add_login(self):
-        pass
-
-    def remove_login(self):
-        pass
+    def remove_login(self, email):
+        payload = self.payload_for_update(remove_login=email)
+        response = self.client.users.update(self.id, payload)
+        return User.init_from_response(self.client, response)
 
     def add_phone_number(self):
         pass
 
     def remove_phone_number(self):
         pass
+
+    def update_cip_tag(self):
+        pass
+
+    def payload_for_update(self, **kwargs):
+        payload = {
+            'refresh_token': self.refresh_token,
+            'update': {}
+        }
+        # TODO: Can simplify this when the API accepts null values w/o barfing
+        if 'email' in kwargs:
+            payload['update']['login'] = {'email': kwargs['email']}
+            options = ['password', 'read_only']
+            for option in options:
+                if option in kwargs:
+                    payload['update']['login'][option] = kwargs[option]
+        if 'remove_login' in kwargs:
+            payload['update']['remove_login'] = {'email': kwargs['remove_login']}
+        if 'remove_phone_number' in kwargs:
+            payload['update']['remove_phone_number'] = kwargs['remove_phone_number']
+        if 'legal_name' in kwargs:
+            payload['update']['legal_name'] = kwargs['legal_name']
+        return payload
 
     def nodes(self):
         pass

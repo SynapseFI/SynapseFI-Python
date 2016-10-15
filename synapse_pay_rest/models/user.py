@@ -82,7 +82,8 @@ class User():
         return User.init_from_response(self.client, response)
 
     def add_login(self, email, password=None, read_only=None):
-        payload = self.payload_for_update(email=email, password=password, read_only=read_only)
+        payload = self.payload_for_update(email=email, password=password,
+                                          read_only=read_only)
         response = self.client.users.update(self.id, payload)
         return User.init_from_response(self.client, response)
 
@@ -91,13 +92,17 @@ class User():
         response = self.client.users.update(self.id, payload)
         return User.init_from_response(self.client, response)
 
-    def add_phone_number(self):
-        pass
+    def add_phone_number(self, phone_number):
+        payload = self.payload_for_update(phone_number=phone_number)
+        response = self.client.users.update(self.id, payload)
+        return User.init_from_response(self.client, response)
 
-    def remove_phone_number(self):
-        pass
+    def remove_phone_number(self, phone_number):
+        payload = self.payload_for_update(remove_phone_number=phone_number)
+        response = self.client.users.update(self.id, payload)
+        return User.init_from_response(self.client, response)
 
-    def update_cip_tag(self):
+    def update_cip_tag(self, cip_tag):
         pass
 
     def payload_for_update(self, **kwargs):
@@ -114,10 +119,11 @@ class User():
                     payload['update']['login'][option] = kwargs[option]
         if 'remove_login' in kwargs:
             payload['update']['remove_login'] = {'email': kwargs['remove_login']}
-        if 'remove_phone_number' in kwargs:
-            payload['update']['remove_phone_number'] = kwargs['remove_phone_number']
-        if 'legal_name' in kwargs:
-            payload['update']['legal_name'] = kwargs['legal_name']
+        options = ['legal_name', 'phone_number', 'remove_phone_number',
+                   'cip_tag']
+        for option in options:
+            if option in kwargs:
+                payload['update'][option] = kwargs[option]
         return payload
 
     def nodes(self):

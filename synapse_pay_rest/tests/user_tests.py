@@ -40,14 +40,25 @@ class UserTestCases(unittest.TestCase):
     #     user = user.add_legal_name(new_name)
     #     self.assertIn(new_name, user.legal_names)
 
-    def test_add_and_remove_login(self):
+    # def test_add_and_remove_login(self):
+    #     user = User.create(self.client, **user_create_args)
+    #     email = 'foo@foo.com'
+    #     # add login
+    #     user = user.add_login(email, password='letmein', read_only=True)
+    #     self.assertEqual(2, len(user.logins))
+    #     self.assertEqual(email, user.logins[-1]['email'])
+    #     self.assertEqual('READ', user.logins[-1]['scope'])
+    #     # remove login
+    #     user = user.remove_login(email)
+    #     self.assertEqual(1, len(user.logins))
+
+    def test_add_and_remove_phone_number(self):
         user = User.create(self.client, **user_create_args)
-        email = 'foo@foo.com'
-        # add login
-        user = user.add_login(email, password='letmein', read_only=True)
-        self.assertEqual(2, len(user.logins))
-        self.assertEqual(email, user.logins[-1]['email'])
-        self.assertEqual('READ', user.logins[-1]['scope'])
-        # remove login
-        user = user.remove_login(email)
-        self.assertEqual(1, len(user.logins))
+        phone_number = '4155555555'
+        # add phone number
+        user = user.add_phone_number(phone_number)
+        self.assertEqual(2, len(user.phone_numbers))
+        self.assertEqual(phone_number, user.phone_numbers[-1])
+        # remove phone number
+        user = user.remove_phone_number(phone_number)
+        self.assertNotIn(phone_number, user.phone_numbers)

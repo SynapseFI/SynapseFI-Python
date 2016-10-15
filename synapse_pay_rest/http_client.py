@@ -17,7 +17,6 @@ class HttpClient():
 
         self.base_url = kwargs['base_url']
         self.logging = kwargs.get('logging', False)
-        self.user_id = kwargs.get('user_id')
 
     def update_headers(self, **kwargs):
         """ Updates the supplied properties on self and in the header dictionary.

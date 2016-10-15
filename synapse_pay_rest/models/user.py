@@ -1,3 +1,4 @@
+from synapse_pay_rest.client import Client
 
 class User():
     """Represents a User record with methods for constructing user instances.
@@ -11,7 +12,7 @@ class User():
         kwargs: password, read_only, note, supp_id, is_business
         """
         payload = User.payload_for_create(email, phone_number, legal_name,
-                                         **kwargs)
+                                          **kwargs)
         response = client.users.create(payload)
         return User.init_from_response(client, response)
 

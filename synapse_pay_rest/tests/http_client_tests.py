@@ -1,5 +1,6 @@
 import unittest
-from .test_helpers import *
+from synapse_pay_rest.http_client import HttpClient
+from synapse_pay_rest.tests.fixtures.client import *
 
 
 class HttpClientTestCases(unittest.TestCase):

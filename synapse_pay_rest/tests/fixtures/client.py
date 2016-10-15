@@ -1,5 +1,5 @@
 import os
-from synapse_pay_rest.tests.test_helpers import *
+from synapse_pay_rest.client import Client
 
 CLIENT_ID = os.environ['CLIENT_ID']
 CLIENT_SECRET = os.environ['CLIENT_SECRET']

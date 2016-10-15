@@ -1,4 +1,6 @@
-from .test_helpers import *
+import unittest
+from synapse_pay_rest.errors import *
+from synapse_pay_rest.tests.fixtures.client import *
 
 
 class ErrorsTestCases(unittest.TestCase):

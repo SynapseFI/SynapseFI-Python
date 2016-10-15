@@ -1,5 +1,3 @@
-from synapse_pay_rest.tests.test_helpers import *
-
 TO_NODE_ID = '57ec57be86c27345b3f8a159'
 
 trans_create_payload = {

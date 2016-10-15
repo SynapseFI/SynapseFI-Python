@@ -1,4 +1,7 @@
-from .test_helpers import *
+import unittest
+from synapse_pay_rest.tests.fixtures.client import *
+from synapse_pay_rest.tests.fixtures.user import *
+from synapse_pay_rest.models.user import User
 
 
 class UserTestCases(unittest.TestCase):

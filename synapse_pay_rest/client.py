@@ -1,7 +1,8 @@
-from synapse_pay_rest.http_client import HttpClient
-from synapse_pay_rest.api.users import Users
-from synapse_pay_rest.api.transactions import Trans
-from synapse_pay_rest.api.nodes import Nodes
+from .errors import *
+from .http_client import HttpClient
+from .api.users import Users
+from .api.trans import Trans
+from .api.nodes import Nodes
 
 
 class Client():
@@ -17,4 +18,4 @@ class Client():
                                       **kwargs)
         self.users = Users(self.http_client)
         self.nodes = Nodes(self.http_client)
-        self.transactions = Trans(self.http_client)
+        self.trans = Trans(self.http_client)

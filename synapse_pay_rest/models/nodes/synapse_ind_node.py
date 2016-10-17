@@ -7,17 +7,6 @@ class SynapseIndNode(SynapseNode):
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
-        payload = {
-            'type': 'SYNAPSE-IND',
-            'info': {
-                'nickname': nickname,
-            }
-        }
-        options = ['supp_id', 'gateway_restricted']
-        extra = {}
-        for option in options:
-            if option in kwargs:
-                extra[option] = kwargs[option]
-        if extra:
-            payload['extra'] = extra
+        payload = super().payload_for_create('SYNAPSE-IND', nickname,
+                                             **kwargs)
         return payload

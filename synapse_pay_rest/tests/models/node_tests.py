@@ -127,7 +127,6 @@ class NodeTestCases(unittest.TestCase):
         }
         node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-IND Node',
                                      **kwargs)
-        pdb.set_trace()
         self.assertIsInstance(node, SynapseIndNode)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
@@ -137,11 +136,35 @@ class NodeTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_synapse_np_node(self):
-    #     pass
+    def test_create_synapse_np_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-NP Node',
+                                     **kwargs)
+        self.assertIsInstance(node, SynapseIndNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_create_synapse_us_node(self):
-    #     pass
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'balance', 'currency', 'name_on_account']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_create_synapse_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-US Node',
+                                     **kwargs)
+        self.assertIsInstance(node, SynapseIndNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'balance', 'currency', 'name_on_account']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
     # def test_create_wire_int_node(self):
     #     pass

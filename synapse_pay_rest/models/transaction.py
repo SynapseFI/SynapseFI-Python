@@ -7,32 +7,32 @@ class Transaction():
 
     """
 
-    @staticmethod
-    def create():
+    @classmethod
+    def create(node):
+        pass
+
+    @classmethod
+    def by_id(node):
+        pass
+
+    @classmethod
+    def all(node):
         pass
 
     @staticmethod
-    def by_id():
+    def init_from_response(node, response):
         pass
 
     @staticmethod
-    def all():
-        pass
-
-    @staticmethod
-    def init_from_response(user, response):
-        pass
-
-    @staticmethod
-    def init_multiple_from_response(user, response):
-        nodes = [Node.init_from_response(client, node_data)
+    def init_multiple_from_response(node, response):
+        nodes = [Node.init_from_response(node, node_data)
                  for node_data in response]
         return nodes
 
     def __init__(self):
         pass
 
-    def add_comment(self):
+    def add_comment(self, comment):
         pass
 
     def cancel(self):

@@ -1,11 +1,21 @@
 from .user import User
-from .nodes import *
+from .nodes.ach_us_node import AchUsNode
+from .nodes.eft_ind_node import EftIndNode
+from .nodes.eft_np_node import EftNpNode
+from .nodes.iou_node import IouNode
+from .nodes.reserve_us_node import ReserveUsNode
+from .nodes.synapse_ind_node import SynapseIndNode
+from .nodes.synapse_np_node import SynapseNpNode
+from .nodes.synapse_us_node import SynapseUsNode
+from .nodes.wire_int_node import WireIntNode
+from .nodes.wire_us_node import WireUsNode
 
 
 class Node():
-    """Represents a Node record with methods for constructing node instances.
-
+    """ Factory for producing the various node types, which descend from
+    BaseNode.
     """
+
     NODE_TYPES_TO_CLASSES = {
       'ACH-US': AchUsNode,
       'EFT-NP': EftNpNode,
@@ -19,16 +29,16 @@ class Node():
       'WIRE-US': WireUsNode
     }
 
-    @staticmethod
-    def create():
+    @classmethod
+    def create(user):
         pass
 
-    @staticmethod
-    def by_id():
+    @classmethod
+    def by_id(user):
         pass
 
-    @staticmethod
-    def all():
+    @classmethod
+    def all(user):
         pass
 
     @staticmethod
@@ -37,12 +47,6 @@ class Node():
 
     @staticmethod
     def init_multiple_from_response(user, response):
-        nodes = [Node.init_from_response(client, node_data)
+        nodes = [Node.init_from_response(user, node_data)
                  for node_data in response]
         return nodes
-
-    def __init__(self):
-        pass
-
-    def deactivate(self):
-        pass

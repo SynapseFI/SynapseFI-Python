@@ -6,26 +6,26 @@ class User():
 
     """
 
-    @staticmethod
-    def create(client, email, phone_number, legal_name, **kwargs):
+    @classmethod
+    def create(cls, client, email, phone_number, legal_name, **kwargs):
         """Create a user record in API and corresponding User instance.
 
         kwargs: password, read_only, note, supp_id, is_business
         """
-        payload = User.payload_for_create(email, phone_number, legal_name,
+        payload = cls.payload_for_create(email, phone_number, legal_name,
                                           **kwargs)
         response = client.users.create(payload)
-        return User.init_from_response(client, response)
+        return cls.init_from_response(client, response)
 
-    @staticmethod
-    def by_id(client, id):
+    @classmethod
+    def by_id(cls, client, id):
         response = client.users.get(id)
-        return User.init_from_response(client, response)
+        return cls.init_from_response(client, response)
 
-    @staticmethod
-    def all(client, **kwargs):
+    @classmethod
+    def all(cls, client, **kwargs):
         response = client.users.get(**kwargs)
-        return User.init_multiple_from_response(client, response['users'])
+        return cls.init_multiple_from_response(client, response['users'])
 
     @staticmethod
     def payload_for_create(email, phone_number, legal_name, **kwargs):
@@ -69,7 +69,7 @@ class User():
             setattr(self, arg, value)
 
     def authenticate(self):
-        self.client.users.refresh(self.id, self.payload_for_refresh)
+        response = self.client.users.refresh(self.id, self.payload_for_refresh())
         return self
 
     def payload_for_refresh(self):

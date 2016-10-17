@@ -40,6 +40,7 @@ class NodeTestCases(unittest.TestCase):
     #         'supp_id': 'ABC123'
     #     }
     #     node = AchUsNode.create(self.user, 'Python Test ACH-US via Acct/Rt', **kwargs)
+    #     self.assertIsInstance(node, AchUsNode)
     #     for prop in kwargs:
     #         self.assertIsNotNone(getattr(node, prop))
 
@@ -64,6 +65,7 @@ class NodeTestCases(unittest.TestCase):
           'supp_id': 'ABC123'
         }
         node = EftIndNode.create(self.user, 'Python Test EFT-IND', **kwargs)
+        self.assertIsInstance(node, EftIndNode)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -72,8 +74,21 @@ class NodeTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_eft_np_node(self):
-    #     pass
+    def test_create_eft_np_node(self):
+        kwargs = {
+          'bank_name': 'Siddhartha Bank',
+          'account_number': '2345654323456754323',
+          'supp_id': 'ABC123'
+        }
+        node = EftNpNode.create(self.user, 'Python Test EFT-NP', **kwargs)
+        self.assertIsInstance(node, EftNpNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
     # def test_create_iou_node(self):
     #     pass

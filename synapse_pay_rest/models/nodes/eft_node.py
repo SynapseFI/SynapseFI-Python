@@ -5,8 +5,8 @@ class EftNode(BaseNode):
     """Ancestor of EFT node subclasses.
     """
 
-    @staticmethod
-    def payload_for_create(type, nickname, account_number, **kwargs):
+    @classmethod
+    def payload_for_create(cls, type, nickname, account_number, **kwargs):
         payload = {
             'type': type,
             'info': {

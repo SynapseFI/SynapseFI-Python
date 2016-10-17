@@ -35,7 +35,7 @@ class BaseNode():
           'ifsc': response['info'].get('ifsc')
         }
 
-        # options
+        # correspondent info (optional)
         if response['info'].get('correspondent_info'):
             info = response['info']['correspondent_info']
             args['correspondent_swift'] = info.get('swift')
@@ -44,11 +44,13 @@ class BaseNode():
             args['correspondent_address'] = info.get('address')
             args['correspondent_swift'] = info.get('swift')
 
+        # balance info (optional)
         if response['info'].get('balance'):
             info = response['info']['balance']
             args['balance'] = info.get('amount')
             args['currency'] = info.get('currency')
 
+        # extra info (optional)
         if response.get('extra'):
             info = response['extra']
             args['supp_id'] = info.get('supp_id')

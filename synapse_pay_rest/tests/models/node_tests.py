@@ -31,28 +31,67 @@ class NodeTestCases(unittest.TestCase):
     # def test_deactivate(self):
     #     pass
 
-    # def test_verify_node_mfa(self):
-    #     pass
+    # def test_create_ach_us_via_account_and_routing(self):
+    #     kwargs = {
+    #         'account_number': '2345654323456754323',
+    #         'routing_number': '051000017',
+    #         'account_type': 'PERSONAL',
+    #         'account_class': 'CHECKING',
+    #         'supp_id': 'ABC123'
+    #     }
+    #     node = AchUsNode.create(self.user, 'Python Test ACH-US via Acct/Rt', **kwargs)
+    #     for prop in kwargs:
+    #         self.assertIsNotNone(getattr(node, prop))
+
+    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+    #                    'bank_long_name', 'name_on_account', 'permission']
+    #     for prop in other_props:
+    #         self.assertIsNotNone(getattr(node, prop))
 
     # def test_verify_node_microdeposits(self):
     #     pass
 
-    def test_create_ach_us_via_account_and_routing(self):
+    # def test_create_ach_us_via_bank_login(self):
+    #     pass
+
+    # def test_verify_node_mfa(self):
+    #     pass
+
+    def test_create_eft_ind_node(self):
         kwargs = {
-            'account_number': '2345654323456754323',
-            'routing_number': '051000017',
-            'account_type': 'PERSONAL',
-            'account_class': 'CHECKING',
-            'supp_id': 'ABC123'
+          'ifsc': 'BKID0005046',
+          'account_number': '2345654323456754323',
+          'supp_id': 'ABC123'
         }
-        node = AchUsNode.create(self.user, 'Python Test Ach-US via Acct/Rt', **kwargs)
-        pdb.set_trace()
+        node = EftIndNode.create(self.user, 'Python Test EFT-IND', **kwargs)
         for prop in kwargs:
-            print(prop)
-            print(node)
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'bank_long_name', 'name_on_account', 'permission']
+                       'permission']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
+
+    # def test_create_eft_np_node(self):
+    #     pass
+
+    # def test_create_iou_node(self):
+    #     pass
+
+    # def test_create_reserve_us_node(self):
+    #     pass
+
+    # def test_create_synapse_ind_node(self):
+    #     pass
+
+    # def test_create_synapse_np_node(self):
+    #     pass
+
+    # def test_create_create_synapse_us_node(self):
+    #     pass
+
+    # def test_create_wire_int_node(self):
+    #     pass
+
+    # def test_create_wire_us_node(self):
+    #     pass

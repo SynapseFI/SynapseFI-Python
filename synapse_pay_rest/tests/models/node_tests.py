@@ -106,23 +106,36 @@ class NodeTestCases(unittest.TestCase):
     #     for prop in other_props:
     #         self.assertIsNotNone(getattr(node, prop))
 
-    def test_create_reserve_us_node(self):
+    # def test_create_reserve_us_node(self):
+    #     kwargs = {
+    #         'supp_id': 'ABC123'
+    #     }
+    #     node = ReserveUsNode.create(self.user, 'Python Test RESERVE-US Node',
+    #                           **kwargs)
+    #     self.assertIsInstance(node, ReserveUsNode)
+    #     for prop in kwargs:
+    #         self.assertIsNotNone(getattr(node, prop))
+
+    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+    #                    'permission', 'balance', 'currency']
+    #     for prop in other_props:
+    #         self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_synapse_ind_node(self):
         kwargs = {
             'supp_id': 'ABC123'
         }
-        node = ReserveUsNode.create(self.user, 'Python Test RESERVE-US Node',
-                              **kwargs)
-        self.assertIsInstance(node, ReserveUsNode)
+        node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-IND Node',
+                                     **kwargs)
+        pdb.set_trace()
+        self.assertIsInstance(node, SynapseIndNode)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission', 'balance', 'currency']
+                       'permission', 'balance', 'currency', 'name_on_account']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
-
-    # def test_create_synapse_ind_node(self):
-    #     pass
 
     # def test_create_synapse_np_node(self):
     #     pass

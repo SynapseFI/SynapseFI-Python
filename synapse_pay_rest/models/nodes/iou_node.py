@@ -2,7 +2,7 @@ from .base_node import BaseNode
 
 
 class IouNode(BaseNode):
-    """Represents an EFT-IND node
+    """Represents an IOU node
     """
 
     @classmethod

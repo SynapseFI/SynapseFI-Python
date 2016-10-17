@@ -91,23 +91,35 @@ class NodeTestCases(unittest.TestCase):
     #     for prop in other_props:
     #         self.assertIsNotNone(getattr(node, prop))
 
-    def test_create_iou_node(self):
+    # def test_create_iou_node(self):
+    #     kwargs = {
+    #         'currency': 'USD',
+    #         'supp_id': 'ABC123'
+    #     }
+    #     node = IouNode.create(self.user, 'Python Test IOU Node', **kwargs)
+    #     self.assertIsInstance(node, IouNode)
+    #     for prop in kwargs:
+    #         self.assertIsNotNone(getattr(node, prop))
+
+    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+    #                    'permission']
+    #     for prop in other_props:
+    #         self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_reserve_us_node(self):
         kwargs = {
-            'currency': 'USD',
             'supp_id': 'ABC123'
         }
-        node = IouNode.create(self.user, 'Python Test IOU Node', **kwargs)
-        self.assertIsInstance(node, IouNode)
+        node = ReserveUsNode.create(self.user, 'Python Test RESERVE-US Node',
+                              **kwargs)
+        self.assertIsInstance(node, ReserveUsNode)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission']
+                       'permission', 'balance', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
-
-    # def test_create_reserve_us_node(self):
-    #     pass
 
     # def test_create_synapse_ind_node(self):
     #     pass

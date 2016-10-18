@@ -105,6 +105,3 @@ class UserTestCases(unittest.TestCase):
                       'virtual_documents']
         for prop in properties:
             self.assertIsNotNone(getattr(base_document, prop))
-
-    # def test_edit_base_document(self):
-    #     pass

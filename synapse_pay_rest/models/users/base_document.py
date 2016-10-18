@@ -58,6 +58,7 @@ class BaseDocument():
             address_postal_code=kwargs['address_postal_code'],
             address_country_code=kwargs['address_country_code']
         )
+        user.authenticate()
         response = user.client.users.update(user.id, payload)
         user = user.from_response(user.client, response)
         base_document = user.base_documents[-1]
@@ -88,4 +89,36 @@ class BaseDocument():
                 'address_country_code': address_country_code
             }]
         }
+        return payload
+
+    def update(self, **kwargs):
+        payload = self.payload_for_update(**kwargs)
+        self.user.authenticate()
+        response = self.user.client.users.update(self.user.id, payload)
+        user = self.user.from_response(self.user.client, response)
+        base_doc = [base_doc for base_doc in user.base_documents
+                    if base_doc.id == self.id][0]
+        return base_doc
+
+    def payload_for_update(self, **kwargs):
+        payload = {
+            'documents': [{
+                'id': self.id
+            }]
+        }
+        for kwarg in kwargs:
+            if kwarg == 'physical_documents':
+                physical_docs = [physical_doc.dict() for physical_doc
+                                 in kwargs['physical_documents']]
+                payload['documents'][0]['physical_docs'] = physical_docs
+            elif kwarg == 'social_documents':
+                social_docs = [social_doc.dict() for social_doc
+                               in kwargs['social_documents']]
+                payload['documents'][0]['social_docs'] = social_docs
+            elif kwarg == 'virtual_documents':
+                virtual_docs = [virtual_doc.dict() for virtual_doc
+                                in kwargs['virtual_documents']]
+                payload['documents'][0]['virtual_docs'] = virtual_docs
+            else:
+                payload['documents'][0][kwarg] = kwargs[kwarg]
         return payload

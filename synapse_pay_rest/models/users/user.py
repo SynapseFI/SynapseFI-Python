@@ -102,11 +102,9 @@ class User():
         return payload
 
     def add_base_document(self, **kwargs):
-        self.authenticate()
         return BaseDocument.create(self, **kwargs)
 
     def edit_base_document(self, **kwargs):
-        self.authenticate()
         return BaseDocument.update(self, **kwargs)
 
     def add_legal_name(self, new_name):

@@ -5,7 +5,6 @@ from synapse_pay_rest.tests.fixtures.user import *
 from synapse_pay_rest.tests.fixtures.node import *
 from synapse_pay_rest.tests.fixtures.trans import *
 from synapse_pay_rest.models.user import User
-# from synapse_pay_rest.models.node import Node
 from synapse_pay_rest.models.nodes.ach_us_node import AchUsNode
 from synapse_pay_rest.models.transaction import Transaction
 

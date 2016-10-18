@@ -76,6 +76,8 @@ class Transaction():
 
     @classmethod
     def create(cls, node, to_type, to_id, amount, currency, ip, **kwargs):
+        # TODO allow multiple fees
+        # TODO idempotency key
         payload = cls.payload_for_create(to_type, to_id, amount, currency, ip,
                                          **kwargs)
         node.user.authenticate()
@@ -84,19 +86,29 @@ class Transaction():
         return cls.init_from_response(node, response)
 
     @classmethod
-    def by_id(cls, node):
-        pass
+    def by_id(cls, node, id):
+        response = node.user.client.trans.get(node.user.id, node.id, id)
+        return cls.init_from_response(node, response)
 
     @classmethod
-    def all(cls, node):
-        pass
+    def all(cls, node, **kwargs):
+        response = node.user.client.trans.get(node.user.id, node.id)
+        return cls.init_multiple_from_response(node, response['trans'])
 
     def __init__(self, **kwargs):
         for arg, value in kwargs.items():
             setattr(self, arg, value)
 
     def add_comment(self, comment):
-        pass
+        payload = {'comment': comment}
+        response = self.node.user.client.trans.update(self.node.user.id,
+                                                      self.node.id,
+                                                      self.id,
+                                                      payload)
+        return self.init_from_response(self.node, response['trans'])
 
     def cancel(self):
-        pass
+        response = self.node.user.client.trans.delete(self.node.user.id,
+                                                      self.node.id,
+                                                      self.id)
+        return self.init_from_response(self.node, response)

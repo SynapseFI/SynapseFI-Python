@@ -36,6 +36,7 @@ class NodeTestCases(unittest.TestCase):
         nodes = Node.all(self.user)
         self.assertEqual(2, len(nodes))
         self.assertIsInstance(nodes[0], AchUsNode)
+        # TODO query params
 
     def test_deactivate(self):
         nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',

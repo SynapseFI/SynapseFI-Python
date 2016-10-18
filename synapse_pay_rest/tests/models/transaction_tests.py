@@ -1,4 +1,5 @@
 import unittest
+import pdb
 from synapse_pay_rest.tests.fixtures.client import *
 from synapse_pay_rest.tests.fixtures.user import *
 from synapse_pay_rest.tests.fixtures.node import *
@@ -39,14 +40,51 @@ class TransactionTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(transaction, prop))
 
-    # def test_by_id(self):
-    #     pass
+    def test_by_id(self):
+        transaction_id = Transaction.create(self.from_node,
+                                            self.to_node.type,
+                                            self.to_node.id,
+                                            1.00,
+                                            'USD',
+                                            '127.0.0.1',
+                                            supp_id='ABC123').id
+        transaction = Transaction.by_id(self.from_node, transaction_id)
+        self.assertIsInstance(transaction, Transaction)
+        self.assertEqual(transaction_id, transaction.id)
 
-    # def test_all(self):
-    #     pass
+    def test_all(self):
+        Transaction.create(self.from_node, self.to_node.type, self.to_node.id,
+                           1.00, 'USD', '127.0.0.1', supp_id='ABC123')
+        Transaction.create(self.from_node, self.to_node.type, self.to_node.id,
+                           1.00, 'USD', '127.0.0.1', supp_id='DEF456')
+        Transaction.create(self.from_node, self.to_node.type, self.to_node.id,
+                           1.00, 'USD', '127.0.0.1', supp_id='GHI789')
+        Transaction.create(self.from_node, self.to_node.type, self.to_node.id,
+                           1.00, 'USD', '127.0.0.1', supp_id='KLM000')
+        transactions = Transaction.all(self.from_node)
+        self.assertEqual(4, len(transactions))
+        self.assertIsInstance(transactions[0], Transaction)
+        # TODO query params
 
-    # def test_add_comment(self):
-    #     pass
+    def test_add_comment(self):
+        transaction = Transaction.create(self.from_node,
+                                         self.to_node.type,
+                                         self.to_node.id,
+                                         1.00,
+                                         'USD',
+                                         '127.0.0.1',
+                                         supp_id='ABC123')
+        comment = 'mocoso'
+        transaction = transaction.add_comment(comment)
+        self.assertIn(comment, transaction.recent_status['note'])
 
-    # def test_cancel(self):
-    #     pass
+    def test_cancel(self):
+        transaction = Transaction.create(self.from_node,
+                                         self.to_node.type,
+                                         self.to_node.id,
+                                         1.00,
+                                         'USD',
+                                         '127.0.0.1',
+                                         supp_id='ABC123')
+        transaction = transaction.cancel()
+        self.assertEqual('CANCELED', transaction.timeline[-1]['status'])

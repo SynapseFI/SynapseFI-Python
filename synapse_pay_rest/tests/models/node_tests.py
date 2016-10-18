@@ -23,13 +23,31 @@ class NodeTestCases(unittest.TestCase):
         self.user = User.create(self.client, **user_create_args)
 
     def test_by_id(self):
-        pass
+        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+                                                'synapse_nomfa', 'test1234')
+        node_id = nodes[0].id
+        node = Node.by_id(self.user, node_id)
+        self.assertIsInstance(node, AchUsNode)
+        self.assertEqual(node_id, node.id)
 
     def test_all(self):
-        pass
+        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+                                                'synapse_nomfa', 'test1234')
+        nodes = Node.all(self.user)
+        self.assertEqual(2, len(nodes))
+        self.assertIsInstance(nodes[0], AchUsNode)
 
     def test_deactivate(self):
-        pass
+        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+                                                'synapse_nomfa', 'test1234')
+        nodes = Node.all(self.user)
+        self.assertEqual(2, len(nodes))
+        nodes[0].deactivate()
+        nodes = Node.all(self.user)
+        self.assertEqual(1, len(nodes))
+        nodes[0].deactivate()
+        nodes = Node.all(self.user)
+        self.assertEqual(0, len(nodes))
 
     def test_create_ach_us_via_account_and_routing(self):
         kwargs = {
@@ -54,15 +72,8 @@ class NodeTestCases(unittest.TestCase):
         pass
 
     def test_create_ach_us_via_bank_login_without_mfa(self):
-        kwargs = {
-            'bank_name': 'bofa',
-            'username': 'synapse_nomfa',
-            'password': 'test1234'
-        }
-        nodes = AchUsNode.create_via_bank_login(self.user,
-                                                'bofa',
-                                                'synapse_nomfa',
-                                                'test1234')
+        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+                                                'synapse_nomfa', 'test1234')
         self.assertIsInstance(nodes, list)
 
         node = nodes[0]

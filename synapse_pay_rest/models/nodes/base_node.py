@@ -124,4 +124,5 @@ class BaseNode():
             setattr(self, arg, value)
 
     def deactivate(self):
-        pass
+        self.user.authenticate()
+        self.user.client.nodes.delete(self.user.id, self.id)

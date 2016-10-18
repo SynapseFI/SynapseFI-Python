@@ -22,14 +22,14 @@ class NodeTestCases(unittest.TestCase):
         self.client = test_client
         self.user = User.create(self.client, **user_create_args)
 
-    # def test_by_id(self):
-    #     pass
+    def test_by_id(self):
+        pass
 
-    # def test_all(self):
-    #     pass
+    def test_all(self):
+        pass
 
-    # def test_deactivate(self):
-    #     pass
+    def test_deactivate(self):
+        pass
 
     def test_create_ach_us_via_account_and_routing(self):
         kwargs = {
@@ -50,14 +50,32 @@ class NodeTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
-    # def test_verify_node_microdeposits(self):
-    #     pass
+    def test_verify_node_microdeposits(self):
+        pass
 
-    # def test_create_ach_us_via_bank_login(self):
-    #     pass
+    def test_create_ach_us_via_bank_login_without_mfa(self):
+        kwargs = {
+            'bank_name': 'bofa',
+            'username': 'synapse_nomfa',
+            'password': 'test1234'
+        }
+        nodes = AchUsNode.create_via_bank_login(self.user,
+                                                'bofa',
+                                                'synapse_nomfa',
+                                                'test1234')
+        self.assertIsInstance(nodes, list)
 
-    # def test_verify_node_mfa(self):
-    #     pass
+        node = nodes[0]
+        self.assertIsInstance(node, AchUsNode)
+        other_props = ['user', 'id', 'type', 'is_active', 'bank_long_name',
+                       'name_on_account', 'permission', 'bank_name', 'balance',
+                       'currency', 'routing_number', 'account_number',
+                       'account_class', 'account_type']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_ach_us_via_bank_login_with_mfa(self):
+        pass
 
     def test_create_eft_ind_node(self):
         kwargs = {

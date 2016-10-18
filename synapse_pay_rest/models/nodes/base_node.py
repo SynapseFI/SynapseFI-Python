@@ -13,17 +13,15 @@ class BaseNode():
         return cls.init_from_response(user, response['nodes'][0])
 
     @classmethod
-    def payload_for_create(cls, type, nickname, **kwargs):
+    def payload_for_create(cls, type, **kwargs):
         # these are present for all nodes
         payload = {
             'type': type,
-            'info': {
-                'nickname': nickname,
-            }
+            'info': {}
         }
 
-        # below this point are only present for certain nodes or optional
-        options = ['swift', 'name_on_account', 'bank_name', 'address', 'ifsc']
+        options = ['swift', 'name_on_account', 'bank_name', 'address', 'ifsc',
+                   'nickname', 'bank_name']
         for option in options:
             if option in kwargs:
                 payload['info'][option] = kwargs[option]
@@ -48,6 +46,10 @@ class BaseNode():
             payload['info']['type'] = kwargs['account_type']
         if 'account_class' in kwargs:
             payload['info']['class'] = kwargs['account_class']
+        if 'username' in kwargs:
+            payload['info']['bank_id'] = kwargs['username']
+        if 'password' in kwargs:
+            payload['info']['bank_pw'] = kwargs['password']
 
         balance_options = ['currency']
         balance = {}
@@ -111,9 +113,9 @@ class BaseNode():
 
         return cls(**args)
 
-    @staticmethod
-    def init_multiple_from_response(user, response):
-        nodes = [BaseNode.init_from_response(user, node_data)
+    @classmethod
+    def init_multiple_from_response(cls, user, response):
+        nodes = [cls.init_from_response(user, node_data)
                  for node_data in response]
         return nodes
 

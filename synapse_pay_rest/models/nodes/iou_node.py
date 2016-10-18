@@ -7,6 +7,7 @@ class IouNode(BaseNode):
 
     @classmethod
     def payload_for_create(cls, nickname, currency, **kwargs):
-        payload = super().payload_for_create('IOU', nickname,
+        payload = super().payload_for_create('IOU',
+                                             nickname=nickname,
                                              currency=currency, **kwargs)
         return payload

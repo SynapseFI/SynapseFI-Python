@@ -7,7 +7,8 @@ class EftNpNode(BaseNode):
 
     @classmethod
     def payload_for_create(cls, nickname, bank_name, account_number, **kwargs):
-        payload = super().payload_for_create('EFT-NP', nickname,
+        payload = super().payload_for_create('EFT-NP',
+                                             nickname=nickname,
                                              account_number=account_number,
                                              bank_name=bank_name, **kwargs)
         return payload

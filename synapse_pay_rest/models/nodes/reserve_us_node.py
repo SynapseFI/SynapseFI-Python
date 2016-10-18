@@ -7,5 +7,7 @@ class ReserveUsNode(BaseNode):
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
-        payload = super().payload_for_create('RESERVE-US', nickname, **kwargs)
+        payload = super().payload_for_create('RESERVE-US',
+                                             nickname=nickname,
+                                             **kwargs)
         return payload

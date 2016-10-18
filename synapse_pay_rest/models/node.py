@@ -30,10 +30,6 @@ class Node():
     }
 
     @classmethod
-    def create(user):
-        pass
-
-    @classmethod
     def by_id(user):
         pass
 

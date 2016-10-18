@@ -10,7 +10,7 @@ from synapse_pay_rest.models.transaction import Transaction
 
 class TransactionTestCases(unittest.TestCase):
     def setUp(self):
-        client = test_client
+        self.client = test_client
         self.user = User.create(self.client, **user_create_args)
 
     def test_create(self):

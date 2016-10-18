@@ -7,6 +7,7 @@ class SynapseIndNode(BaseNode):
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
-        payload = super().payload_for_create('SYNAPSE-IND', nickname,
+        payload = super().payload_for_create('SYNAPSE-IND',
+                                             nickname=nickname,
                                              **kwargs)
         return payload

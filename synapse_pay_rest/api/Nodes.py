@@ -19,7 +19,7 @@ class Nodes():
 
     def get(self, user_id, node_id=None, **kwargs):
         path = self.create_node_path(user_id, node_id)
-        response = self.client.get(path)
+        response = self.client.get(path, **kwargs)
         return response
 
     def update(self, user_id, node_id, payload, **kwargs):

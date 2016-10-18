@@ -92,7 +92,7 @@ class Transaction():
 
     @classmethod
     def all(cls, node, **kwargs):
-        response = node.user.client.trans.get(node.user.id, node.id)
+        response = node.user.client.trans.get(node.user.id, node.id, **kwargs)
         return cls.init_multiple_from_response(node, response['trans'])
 
     def __init__(self, **kwargs):

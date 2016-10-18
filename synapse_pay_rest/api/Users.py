@@ -12,7 +12,7 @@ class Users():
         else:
             return path
 
-    def create(self, payload, **kwargs):
+    def create(self, payload):
         """ Creates a SynapsePay user and updates the client with the new oauth
             key.
 
@@ -27,16 +27,9 @@ class Users():
         response = self.client.post(path, payload)
         return response
 
-    def get(self, user_id=None, **kwargs):
+    def get(self, user_id=None, **params):
         path = self.create_user_path(user_id)
-        params = {}
-        if 'query' in kwargs:
-            params['query'] = kwargs.get('query')
-        if 'page' in kwargs:
-            params['page'] = kwargs.get('page')
-        if 'per_page' in kwargs:
-            params['per_page'] = kwargs.get('per_page')
-        response = self.client.get(path, params)
+        response = self.client.get(path, **params)
         return response
 
     def update(self, user_id, payload, **kwargs):

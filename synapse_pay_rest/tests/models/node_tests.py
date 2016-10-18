@@ -36,7 +36,16 @@ class NodeTestCases(unittest.TestCase):
         nodes = Node.all(self.user)
         self.assertEqual(2, len(nodes))
         self.assertIsInstance(nodes[0], AchUsNode)
-        # TODO query params
+        # with params
+        per_page = 1
+        page1 = Node.all(self.user, page=1, per_page=per_page)
+        page2 = Node.all(self.user, page=2, per_page=per_page)
+        self.assertNotEqual(page1[0].id, page2[0].id)
+        self.assertEqual(per_page, len(page1))
+        ach_nodes = Node.all(self.user, type='ACH-US')
+        self.assertEqual(2, len(ach_nodes))
+        synapse_nodes = Node.all(self.user, type='SYNAPSE-US')
+        self.assertEqual(0, len(synapse_nodes))
 
     def test_deactivate(self):
         nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',

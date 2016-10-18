@@ -19,7 +19,7 @@ class Trans():
 
     def get(self, user_id, node_id, trans_id=None, **kwargs):
         path = self.create_trans_path(user_id, node_id, trans_id)
-        response = self.client.get(path)
+        response = self.client.get(path, **kwargs)
         return response
 
     def update(self, user_id, node_id, trans_id, payload, **kwargs):
@@ -32,7 +32,7 @@ class Trans():
 
             :return response     The JSON response
         """
-        path = self.create_trans_path(user_id, node_id, trans_id)
+        path = self.create_trans_path(user_id, node_id, trans_id, **kwargs)
         response = self.client.patch(path, payload)
         return response
 

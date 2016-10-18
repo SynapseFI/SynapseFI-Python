@@ -43,9 +43,14 @@ class HttpClient():
         self.session = requests.Session()
         self.session.headers.update(self.headers)
 
-    def get(self, url, params=None):
+    def get(self, url, **params):
         self.log_information(self.logging)
-        response = self.session.get(self.base_url + url, params=params)
+        valid_params = ['query', 'page', 'per_page', 'type']
+        parameters = {}
+        for param in valid_params:
+            if param in params:
+                parameters[param] = params[param]
+        response = self.session.get(self.base_url + url, params=parameters)
         return self.parse_response(response)
 
     def post(self, url, payload):

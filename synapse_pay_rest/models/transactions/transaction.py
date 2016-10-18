@@ -1,9 +1,8 @@
-from .user import User
-from .node import Node
 
 
 class Transaction():
-    """Represents a Node record with methods for constructing node instances.
+    """Represents a transaction record with methods for constructing Transaction
+    instances.
 
     """
 

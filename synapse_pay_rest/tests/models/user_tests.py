@@ -2,7 +2,7 @@ import unittest
 import pdb
 from synapse_pay_rest.tests.fixtures.client import *
 from synapse_pay_rest.tests.fixtures.user import *
-from synapse_pay_rest.models.user import User
+from synapse_pay_rest.models import User
 
 
 class UserTestCases(unittest.TestCase):

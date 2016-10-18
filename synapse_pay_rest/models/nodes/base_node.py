@@ -1,4 +1,4 @@
-from synapse_pay_rest.models.user import User
+from synapse_pay_rest.models.users import User
 
 
 class BaseNode():

@@ -1,4 +1,5 @@
 from synapse_pay_rest.client import Client
+from .base_document import BaseDocument
 
 
 class User():
@@ -12,7 +13,7 @@ class User():
 
     @classmethod
     def from_response(cls, client, response):
-        return cls(
+        user = cls(
           client=client,
           id=response['_id'],
           refresh_token=response['refresh_token'],
@@ -25,6 +26,9 @@ class User():
           is_business=response.get('extra').get('is_business'),
           cip_tag=response.get('extra').get('cip_tag')
         )
+        user.base_documents = BaseDocument.multiple_from_response(user,
+                                                                  response['documents'])
+        return user
 
     @classmethod
     def multiple_from_response(cls, client, response):
@@ -97,8 +101,13 @@ class User():
                 payload['update'][option] = kwargs[option]
         return payload
 
-    def add_base_document(self):
-        pass
+    def add_base_document(self, **kwargs):
+        self.authenticate()
+        return BaseDocument.create(self, **kwargs)
+
+    def edit_base_document(self, **kwargs):
+        self.authenticate()
+        return BaseDocument.update(self, **kwargs)
 
     def add_legal_name(self, new_name):
         payload = self.payload_for_update(legal_name=new_name)

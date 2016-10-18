@@ -13,6 +13,60 @@ class BaseNode():
         return cls.init_from_response(user, response['nodes'][0])
 
     @classmethod
+    def payload_for_create(cls, type, nickname, **kwargs):
+        # these are present for all nodes
+        payload = {
+            'type': type,
+            'info': {
+                'nickname': nickname,
+            }
+        }
+
+        # below this point are only present for certain nodes or optional
+        options = ['swift', 'name_on_account', 'bank_name', 'address', 'ifsc']
+        for option in options:
+            if option in kwargs:
+                payload['info'][option] = kwargs[option]
+
+        # these have to be renamed in a custom manner
+        correspondent_info = {}
+        if 'correspondent_routing_number' in kwargs:
+            correspondent_info['routing_num'] = kwargs['correspondent_routing_number']
+        if 'correspondent_bank_name' in kwargs:
+            correspondent_info['bank_name'] = kwargs['correspondent_bank_name']
+        if 'correspondent_address' in kwargs:
+            correspondent_info['address'] = kwargs['correspondent_address']
+        if 'correspondent_swift' in kwargs:
+            correspondent_info['swift'] = kwargs['correspondent_swift']
+        if correspondent_info:
+            payload['info']['correspondent_info'] = correspondent_info
+        if 'account_number' in kwargs:
+            payload['info']['account_num'] = kwargs['account_number']
+        if 'routing_number' in kwargs:
+            payload['info']['routing_num'] = kwargs['routing_number']
+        if 'account_type' in kwargs:
+            payload['info']['type'] = kwargs['account_type']
+        if 'account_class' in kwargs:
+            payload['info']['class'] = kwargs['account_class']
+
+        balance_options = ['currency']
+        balance = {}
+        for option in balance_options:
+            if option in kwargs:
+                balance[option] = kwargs[option]
+        if balance:
+            payload['info']['balance'] = balance
+
+        extra_options = ['supp_id', 'gateway_restricted']
+        extra = {}
+        for option in extra_options:
+            if option in kwargs:
+                extra[option] = kwargs[option]
+        if extra:
+            payload['extra'] = extra
+        return payload
+
+    @classmethod
     def init_from_response(cls, user, response):
         args = {
           'user': user,

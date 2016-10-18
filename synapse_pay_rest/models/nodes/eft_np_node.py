@@ -1,13 +1,13 @@
-from .eft_node import EftNode
+from .base_node import BaseNode
 
 
-class EftNpNode(EftNode):
+class EftNpNode(BaseNode):
     """Represents an EFT-NP node.
     """
 
     @classmethod
     def payload_for_create(cls, nickname, bank_name, account_number, **kwargs):
         payload = super().payload_for_create('EFT-NP', nickname,
-                                             account_number, **kwargs)
-        payload['info']['bank_name'] = bank_name
+                                             account_number=account_number,
+                                             bank_name=bank_name, **kwargs)
         return payload

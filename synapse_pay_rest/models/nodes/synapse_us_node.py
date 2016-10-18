@@ -1,7 +1,7 @@
-from .synapse_node import SynapseNode
+from .base_node import BaseNode
 
 
-class SynapseUsNode(SynapseNode):
+class SynapseUsNode(BaseNode):
     """Represents a SYNAPSE-US node
     """
 

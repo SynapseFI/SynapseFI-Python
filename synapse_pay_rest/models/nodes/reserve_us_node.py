@@ -7,17 +7,5 @@ class ReserveUsNode(BaseNode):
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
-        payload = {
-            'type': 'RESERVE-US',
-            'info': {
-                'nickname': nickname,
-            }
-        }
-        options = ['supp_id', 'gateway_restricted']
-        extra = {}
-        for option in options:
-            if option in kwargs:
-                extra[option] = kwargs[option]
-        if extra:
-            payload['extra'] = extra
+        payload = super().payload_for_create('RESERVE-US', nickname, **kwargs)
         return payload

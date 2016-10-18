@@ -6,8 +6,12 @@ class User():
 
     """
 
+    def __init__(self, **kwargs):
+        for arg, value in kwargs.items():
+            setattr(self, arg, value)
+
     @classmethod
-    def init_from_response(cls, client, response):
+    def from_response(cls, client, response):
         return cls(
           client=client,
           id=response['_id'],
@@ -23,8 +27,8 @@ class User():
         )
 
     @classmethod
-    def init_multiple_from_response(cls, client, response):
-        users = [cls.init_from_response(client, user_data)
+    def multiple_from_response(cls, client, response):
+        users = [cls.from_response(client, user_data)
                  for user_data in response]
         return users
 
@@ -44,7 +48,8 @@ class User():
         return payload
 
     @classmethod
-    def create(cls, client, email, phone_number, legal_name, **kwargs):
+    def create(cls, client=None, email=None, phone_number=None,
+               legal_name=None, **kwargs):
         """Create a user record in API and corresponding User instance.
 
         kwargs: password, read_only, note, supp_id, is_business
@@ -52,21 +57,17 @@ class User():
         payload = cls.payload_for_create(email, phone_number, legal_name,
                                          **kwargs)
         response = client.users.create(payload)
-        return cls.init_from_response(client, response)
+        return cls.from_response(client, response)
 
     @classmethod
-    def by_id(cls, client, id):
+    def by_id(cls, client=None, id=None):
         response = client.users.get(id)
-        return cls.init_from_response(client, response)
+        return cls.from_response(client, response)
 
     @classmethod
-    def all(cls, client, **kwargs):
+    def all(cls, client=None, **kwargs):
         response = client.users.get(**kwargs)
-        return cls.init_multiple_from_response(client, response['users'])
-
-    def __init__(self, **kwargs):
-        for arg, value in kwargs.items():
-            setattr(self, arg, value)
+        return cls.multiple_from_response(client, response['users'])
 
     def payload_for_refresh(self):
         return {'refresh_token': self.refresh_token}
@@ -102,30 +103,30 @@ class User():
     def add_legal_name(self, new_name):
         payload = self.payload_for_update(legal_name=new_name)
         response = self.client.users.update(self.id, payload)
-        return User.init_from_response(self.client, response)
+        return User.from_response(self.client, response)
 
     def add_login(self, email, password=None, read_only=None):
         payload = self.payload_for_update(email=email, password=password,
                                           read_only=read_only)
         response = self.client.users.update(self.id, payload)
-        return User.init_from_response(self.client, response)
+        return User.from_response(self.client, response)
 
     def remove_login(self, email):
         payload = self.payload_for_update(remove_login=email)
         response = self.client.users.update(self.id, payload)
-        return User.init_from_response(self.client, response)
+        return User.from_response(self.client, response)
 
     def add_phone_number(self, phone_number):
         payload = self.payload_for_update(phone_number=phone_number)
         response = self.client.users.update(self.id, payload)
-        return User.init_from_response(self.client, response)
+        return User.from_response(self.client, response)
 
     def remove_phone_number(self, phone_number):
         payload = self.payload_for_update(remove_phone_number=phone_number)
         response = self.client.users.update(self.id, payload)
-        return User.init_from_response(self.client, response)
+        return User.from_response(self.client, response)
 
     def change_cip_tag(self, new_cip):
         payload = self.payload_for_update(cip_tag=new_cip)
         response = self.client.users.update(self.id, payload)
-        return User.init_from_response(self.client, response)
+        return User.from_response(self.client, response)

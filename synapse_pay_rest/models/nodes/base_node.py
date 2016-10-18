@@ -5,8 +5,12 @@ class BaseNode():
     """ Ancestor of the various node types.
     """
 
+    def __init__(self, **kwargs):
+        for arg, value in kwargs.items():
+            setattr(self, arg, value)
+
     @classmethod
-    def init_from_response(cls, user, response):
+    def from_response(cls, user, response):
         args = {
           'user': user,
           'type': response.get('type'),
@@ -51,8 +55,8 @@ class BaseNode():
         return cls(**args)
 
     @classmethod
-    def init_multiple_from_response(cls, user, response):
-        nodes = [cls.init_from_response(user, node_data)
+    def multiple_from_response(cls, user, response):
+        nodes = [cls.from_response(user, node_data)
                  for node_data in response]
         return nodes
 
@@ -113,15 +117,11 @@ class BaseNode():
         return payload
 
     @classmethod
-    def create(cls, user, nickname, **kwargs):
+    def create(cls, user=None, nickname=None, **kwargs):
         payload = cls.payload_for_create(nickname, **kwargs)
         user.authenticate()
         response = user.client.nodes.create(user.id, payload)
-        return cls.init_from_response(user, response['nodes'][0])
-
-    def __init__(self, **kwargs):
-        for arg, value in kwargs.items():
-            setattr(self, arg, value)
+        return cls.from_response(user, response['nodes'][0])
 
     def deactivate(self):
         self.user.authenticate()

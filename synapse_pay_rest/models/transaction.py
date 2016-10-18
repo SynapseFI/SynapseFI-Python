@@ -7,8 +7,12 @@ class Transaction():
 
     """
 
+    def __init__(self, **kwargs):
+        for arg, value in kwargs.items():
+            setattr(self, arg, value)
+
     @classmethod
-    def init_from_response(cls, node, response):
+    def from_response(cls, node, response):
         return cls(
             node=node,
             id=response['_id'],
@@ -36,8 +40,8 @@ class Transaction():
         )
 
     @classmethod
-    def init_multiple_from_response(cls, node, response):
-        nodes = [cls.init_from_response(node, trans_data)
+    def multiple_from_response(cls, node, response):
+        nodes = [cls.from_response(node, trans_data)
                  for trans_data in response]
         return nodes
 
@@ -75,7 +79,8 @@ class Transaction():
         return payload
 
     @classmethod
-    def create(cls, node, to_type, to_id, amount, currency, ip, **kwargs):
+    def create(cls, node=None, to_type=None, to_id=None, amount=None,
+               currency=None, ip=None, **kwargs):
         # TODO allow multiple fees
         # TODO idempotency key
         payload = cls.payload_for_create(to_type, to_id, amount, currency, ip,
@@ -83,21 +88,17 @@ class Transaction():
         node.user.authenticate()
         response = node.user.client.trans.create(node.user.id, node.id,
                                                  payload)
-        return cls.init_from_response(node, response)
+        return cls.from_response(node, response)
 
     @classmethod
-    def by_id(cls, node, id):
+    def by_id(cls, node=None, id=None):
         response = node.user.client.trans.get(node.user.id, node.id, id)
-        return cls.init_from_response(node, response)
+        return cls.from_response(node, response)
 
     @classmethod
-    def all(cls, node, **kwargs):
+    def all(cls, node=None, **kwargs):
         response = node.user.client.trans.get(node.user.id, node.id, **kwargs)
-        return cls.init_multiple_from_response(node, response['trans'])
-
-    def __init__(self, **kwargs):
-        for arg, value in kwargs.items():
-            setattr(self, arg, value)
+        return cls.multiple_from_response(node, response['trans'])
 
     def add_comment(self, comment):
         payload = {'comment': comment}
@@ -105,10 +106,10 @@ class Transaction():
                                                       self.node.id,
                                                       self.id,
                                                       payload)
-        return self.init_from_response(self.node, response['trans'])
+        return self.from_response(self.node, response['trans'])
 
     def cancel(self):
         response = self.node.user.client.trans.delete(self.node.user.id,
                                                       self.node.id,
                                                       self.id)
-        return self.init_from_response(self.node, response)
+        return self.from_response(self.node, response)

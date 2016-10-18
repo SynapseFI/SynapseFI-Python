@@ -30,7 +30,7 @@ class Node():
     }
 
     @classmethod
-    def init_from_response(cls, user, response):
+    def from_response(cls, user, response):
         args = {
           'user': user,
           'type': response.get('type'),
@@ -76,17 +76,17 @@ class Node():
         return klass(**args)
 
     @classmethod
-    def init_multiple_from_response(cls, user, response):
-        nodes = [cls.init_from_response(user, node_data)
+    def multiple_from_response(cls, user, response):
+        nodes = [cls.from_response(user, node_data)
                  for node_data in response]
         return nodes
 
     @classmethod
-    def by_id(cls, user, id):
+    def by_id(cls, user=None, id=None):
         response = user.client.nodes.get(user.id, id)
-        return cls.init_from_response(user, response)
+        return cls.from_response(user, response)
 
     @classmethod
-    def all(cls, user, **kwargs):
+    def all(cls, user=None, **kwargs):
         response = user.client.nodes.get(user.id, **kwargs)
-        return cls.init_multiple_from_response(user, response['nodes'])
+        return cls.multiple_from_response(user, response['nodes'])

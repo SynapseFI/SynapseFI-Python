@@ -6,14 +6,15 @@ class AchUsNode(BaseNode):
     """
 
     @classmethod
-    def create_via_bank_login(cls, user, bank_name, username, password):
+    def create_via_bank_login(cls, user=None, bank_name=None, username=None,
+                              password=None):
         payload = super().payload_for_create('ACH-US',
                                              bank_name=bank_name,
                                              username=username,
                                              password=password)
         user.authenticate()
         response = user.client.nodes.create(user.id, payload)
-        return cls.init_multiple_from_response(user, response['nodes'])
+        return cls.multiple_from_response(user, response['nodes'])
 
     @classmethod
     def payload_for_create(cls, nickname, account_number, routing_number,

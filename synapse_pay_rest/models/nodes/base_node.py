@@ -2,8 +2,7 @@ from synapse_pay_rest.models.user import User
 
 
 class BaseNode():
-    """ Ancestor of the various node types, which are instantiated via the Node
-    (factory) class.
+    """ Ancestor of the various node types.
     """
 
     @classmethod

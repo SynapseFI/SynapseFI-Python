@@ -31,24 +31,24 @@ class NodeTestCases(unittest.TestCase):
     # def test_deactivate(self):
     #     pass
 
-    # def test_create_ach_us_via_account_and_routing(self):
-    #     kwargs = {
-    #         'account_number': '2345654323456754323',
-    #         'routing_number': '051000017',
-    #         'account_type': 'PERSONAL',
-    #         'account_class': 'CHECKING',
-    #         'supp_id': 'ABC123'
-    #     }
-    #     node = AchUsNode.create(self.user, 'Python Test ACH-US via Acct/Rt',
-    #                             **kwargs)
-    #     self.assertIsInstance(node, AchUsNode)
-    #     for prop in kwargs:
-    #         self.assertIsNotNone(getattr(node, prop))
+    def test_create_ach_us_via_account_and_routing(self):
+        kwargs = {
+            'account_number': '2345654323456754323',
+            'routing_number': '051000017',
+            'account_type': 'PERSONAL',
+            'account_class': 'CHECKING',
+            'supp_id': 'ABC123'
+        }
+        node = AchUsNode.create(self.user, 'Python Test ACH-US via Acct/Rt',
+                                **kwargs)
+        self.assertIsInstance(node, AchUsNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-    #                    'bank_long_name', 'name_on_account', 'permission']
-    #     for prop in other_props:
-    #         self.assertIsNotNone(getattr(node, prop))
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'bank_long_name', 'name_on_account', 'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
     # def test_verify_node_microdeposits(self):
     #     pass
@@ -59,67 +59,67 @@ class NodeTestCases(unittest.TestCase):
     # def test_verify_node_mfa(self):
     #     pass
 
-    # def test_create_eft_ind_node(self):
-    #     kwargs = {
-    #       'ifsc': 'BKID0005046',
-    #       'account_number': '2345654323456754323',
-    #       'supp_id': 'ABC123'
-    #     }
-    #     node = EftIndNode.create(self.user, 'Python Test EFT-IND', **kwargs)
-    #     self.assertIsInstance(node, EftIndNode)
-    #     for prop in kwargs:
-    #         self.assertIsNotNone(getattr(node, prop))
+    def test_create_eft_ind_node(self):
+        kwargs = {
+          'ifsc': 'BKID0005046',
+          'account_number': '2345654323456754323',
+          'supp_id': 'ABC123'
+        }
+        node = EftIndNode.create(self.user, 'Python Test EFT-IND', **kwargs)
+        self.assertIsInstance(node, EftIndNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-    #                    'permission']
-    #     for prop in other_props:
-    #         self.assertIsNotNone(getattr(node, prop))
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_eft_np_node(self):
-    #     kwargs = {
-    #       'bank_name': 'Siddhartha Bank',
-    #       'account_number': '2345654323456754323',
-    #       'supp_id': 'ABC123'
-    #     }
-    #     node = EftNpNode.create(self.user, 'Python Test EFT-NP', **kwargs)
-    #     self.assertIsInstance(node, EftNpNode)
-    #     for prop in kwargs:
-    #         self.assertIsNotNone(getattr(node, prop))
+    def test_create_eft_np_node(self):
+        kwargs = {
+          'bank_name': 'Siddhartha Bank',
+          'account_number': '2345654323456754323',
+          'supp_id': 'ABC123'
+        }
+        node = EftNpNode.create(self.user, 'Python Test EFT-NP', **kwargs)
+        self.assertIsInstance(node, EftNpNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-    #                    'permission']
-    #     for prop in other_props:
-    #         self.assertIsNotNone(getattr(node, prop))
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_iou_node(self):
-    #     kwargs = {
-    #         'currency': 'USD',
-    #         'supp_id': 'ABC123'
-    #     }
-    #     node = IouNode.create(self.user, 'Python Test IOU Node', **kwargs)
-    #     self.assertIsInstance(node, IouNode)
-    #     for prop in kwargs:
-    #         self.assertIsNotNone(getattr(node, prop))
+    def test_create_iou_node(self):
+        kwargs = {
+            'currency': 'USD',
+            'supp_id': 'ABC123'
+        }
+        node = IouNode.create(self.user, 'Python Test IOU Node', **kwargs)
+        self.assertIsInstance(node, IouNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-    #                    'permission']
-    #     for prop in other_props:
-    #         self.assertIsNotNone(getattr(node, prop))
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_reserve_us_node(self):
-    #     kwargs = {
-    #         'supp_id': 'ABC123'
-    #     }
-    #     node = ReserveUsNode.create(self.user, 'Python Test RESERVE-US Node',
-    #                           **kwargs)
-    #     self.assertIsInstance(node, ReserveUsNode)
-    #     for prop in kwargs:
-    #         self.assertIsNotNone(getattr(node, prop))
+    def test_create_reserve_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = ReserveUsNode.create(self.user, 'Python Test RESERVE-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, ReserveUsNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    #     other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-    #                    'permission', 'balance', 'currency']
-    #     for prop in other_props:
-    #         self.assertIsNotNone(getattr(node, prop))
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'balance', 'currency']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
 
     def test_create_synapse_ind_node(self):
         kwargs = {
@@ -140,9 +140,9 @@ class NodeTestCases(unittest.TestCase):
         kwargs = {
             'supp_id': 'ABC123'
         }
-        node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-NP Node',
-                                     **kwargs)
-        self.assertIsInstance(node, SynapseIndNode)
+        node = SynapseNpNode.create(self.user, 'Python Test SYNAPSE-NP Node',
+                                    **kwargs)
+        self.assertIsInstance(node, SynapseNpNode)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -155,9 +155,9 @@ class NodeTestCases(unittest.TestCase):
         kwargs = {
             'supp_id': 'ABC123'
         }
-        node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-US Node',
-                                     **kwargs)
-        self.assertIsInstance(node, SynapseIndNode)
+        node = SynapseUsNode.create(self.user, 'Python Test SYNAPSE-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, SynapseUsNode)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -166,8 +166,50 @@ class NodeTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_wire_int_node(self):
-    #     pass
+    def test_create_wire_int_node(self):
+        kwargs = {
+            'bank_name': 'Bank of America',
+            'account_number': '888888888',
+            'routing_number': '051000017',
+            'name_on_account': 'Medusa Pythonlady',
+            'address': '123 Hiss Hiss',
+            'correspondent_routing_number': '051000017',
+            'correspondent_bank_name': 'Bank of America',
+            'correspondent_address': '415 Donut Hiss at Me',
+            'swift': 'TSIGFR22',
+            'correspondent_swift': 'TSIGFR22',
+            'supp_id': 'ABC123'
+        }
+        node = WireIntNode.create(self.user, 'Python Test WIRE-INT Node',
+                                  **kwargs)
+        self.assertIsInstance(node, WireIntNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
 
-    # def test_create_wire_us_node(self):
-    #     pass
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_wire_us_node(self):
+        kwargs = {
+            'bank_name': 'Bank of America',
+            'account_number': '888888888',
+            'routing_number': '051000017',
+            'name_on_account': 'Medusa Pythonlady',
+            'address': '123 Hiss Hiss',
+            'correspondent_routing_number': '051000017',
+            'correspondent_bank_name': 'Bank of America',
+            'correspondent_address': '415 Donut Hiss at Me',
+            'supp_id': 'ABC123'
+        }
+        node = WireUsNode.create(self.user, 'Python Test WIRE-US Node',
+                                 **kwargs)
+        self.assertIsInstance(node, WireUsNode)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))

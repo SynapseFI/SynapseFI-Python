@@ -30,16 +30,6 @@ class Node():
     }
 
     @classmethod
-    def by_id(cls, user, id):
-        response = user.client.nodes.get(user.id, id)
-        return cls.init_from_response(user, response)
-
-    @classmethod
-    def all(cls, user, **kwargs):
-        response = user.client.nodes.get(user.id, **kwargs)
-        return cls.init_multiple_from_response(user, response['nodes'])
-
-    @classmethod
     def init_from_response(cls, user, response):
         args = {
           'user': user,
@@ -85,8 +75,18 @@ class Node():
         klass = cls.NODE_TYPES_TO_CLASSES[response['type']]
         return klass(**args)
 
-    @staticmethod
-    def init_multiple_from_response(user, response):
-        nodes = [Node.init_from_response(user, node_data)
+    @classmethod
+    def init_multiple_from_response(cls, user, response):
+        nodes = [cls.init_from_response(user, node_data)
                  for node_data in response]
         return nodes
+
+    @classmethod
+    def by_id(cls, user, id):
+        response = user.client.nodes.get(user.id, id)
+        return cls.init_from_response(user, response)
+
+    @classmethod
+    def all(cls, user, **kwargs):
+        response = user.client.nodes.get(user.id, **kwargs)
+        return cls.init_multiple_from_response(user, response['nodes'])

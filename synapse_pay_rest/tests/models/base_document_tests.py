@@ -39,38 +39,35 @@ class BaseDocumentTestCases(unittest.TestCase):
     def test_add_physical_documents(self):
         type = 'GOVT_ID'
         value = 'data:text/csv;base64,SUQs=='
-        physical_doc = self.base_document.add_physical_document(type=type,
-                                                                value=value)
-        self.assertIsInstance(physical_doc, PhysicalDocument)
-        self.assertEqual(physical_doc.type, type)
-        self.assertEqual(self.base_document.id, physical_doc.base_document.id)
+        doc = self.base_document.add_document(type=type, value=value)
+        self.assertIsInstance(doc, PhysicalDocument)
+        self.assertEqual(doc.type, type)
+        self.assertEqual(self.base_document.id, doc.base_document.id)
 
         properties = ['type', 'id', 'status', 'last_updated']
         for prop in properties:
-            self.assertIsNotNone(getattr(physical_doc, prop))
+            self.assertIsNotNone(getattr(doc, prop))
 
     def test_add_social_documents(self):
         type = 'FACEBOOK'
         value = 'facebook.com/barnabus'
-        social_doc = self.base_document.add_social_document(type=type,
-                                                            value=value)
-        self.assertIsInstance(social_doc, SocialDocument)
-        self.assertEqual(social_doc.type, type)
-        self.assertEqual(self.base_document.id, social_doc.base_document.id)
+        doc = self.base_document.add_document(type=type, value=value)
+        self.assertIsInstance(doc, SocialDocument)
+        self.assertEqual(doc.type, type)
+        self.assertEqual(self.base_document.id, doc.base_document.id)
 
         properties = ['type', 'id', 'status', 'last_updated']
         for prop in properties:
-            self.assertIsNotNone(getattr(social_doc, prop))
+            self.assertIsNotNone(getattr(doc, prop))
 
     def test_add_virtual_documents(self):
         type = 'SSN'
         value = '2222'
-        virtual_doc = self.base_document.add_virtual_document(type=type,
-                                                              value=value)
-        self.assertIsInstance(virtual_doc, VirtualDocument)
-        self.assertEqual(virtual_doc.type, type)
-        self.assertEqual(self.base_document.id, virtual_doc.base_document.id)
+        doc = self.base_document.add_document(type=type, value=value)
+        self.assertIsInstance(doc, VirtualDocument)
+        self.assertEqual(doc.type, type)
+        self.assertEqual(self.base_document.id, doc.base_document.id)
 
         properties = ['type', 'id', 'status', 'last_updated']
         for prop in properties:
-            self.assertIsNotNone(getattr(virtual_doc, prop))
+            self.assertIsNotNone(getattr(doc, prop))

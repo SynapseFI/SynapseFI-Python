@@ -120,22 +120,14 @@ class BaseDocument():
                 payload['documents'][0][kwarg] = kwargs[kwarg]
         return payload
 
-    def add_physical_document(self, **kwargs):
-        return PhysicalDocument.create(base_document=self, type=kwargs['type'],
-                                       value=kwargs['value'])
+    def add_physical_document(self, type=None, **kwargs):
+        return PhysicalDocument.create(base_document=self, type=type,
+                                       **kwargs)
 
-    def add_social_document(self, **kwargs):
-        return SocialDocument.create(base_document=self, type=kwargs['type'],
+    def add_social_document(self, type=None, **kwargs):
+        return SocialDocument.create(base_document=self, type=type,
                                      value=kwargs['value'])
-        # base_doc = self.update(social_documents=[doc])
-        # doc = [doc for doc in base_doc.social_documents
-        #        if doc.type == kwargs['type']]
-        # return doc[-1]
 
-    def add_virtual_document(self, **kwargs):
-        return VirtualDocument.create(base_document=self, type=kwargs['type'],
+    def add_virtual_document(self, type=None, **kwargs):
+        return VirtualDocument.create(base_document=self, type=type,
                                       value=kwargs['value'])
-        # base_doc = self.update(virtual_documents=[doc])
-        # doc = [doc for doc in base_doc.virtual_documents
-        #        if doc.type == kwargs['type']]
-        # return doc[-1]

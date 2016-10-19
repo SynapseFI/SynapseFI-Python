@@ -38,9 +38,7 @@ class UserTestCases(unittest.TestCase):
         page2 = User.all(self.client, query=query, page=2, per_page=per_page)
         self.assertNotEqual(page1[0].id, page2[0].id)
         self.assertEqual(per_page, len(page1))
-        for user in page1:
-            assert query in user.legal_names or query in user.logins
-        # TODO should test that query is substring of legal names or emails
+        # TODO test that query is substring of legal names or emails
 
     def test_add_legal_name(self):
         user = User.create(self.client, **user_create_args)

@@ -1,5 +1,4 @@
 import requests
-import traceback
 import logging
 import json
 from synapse_pay_rest.errors import *

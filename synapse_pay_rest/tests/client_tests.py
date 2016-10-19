@@ -9,6 +9,7 @@ from synapse_pay_rest.tests.fixtures.client import *
 
 class ClientTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = Client(
             client_id=CLIENT_ID,
             client_secret=CLIENT_SECRET,

@@ -5,6 +5,7 @@ from synapse_pay_rest.tests.fixtures.client import *
 
 class ErrorsTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
 
     def test_404_error(self):

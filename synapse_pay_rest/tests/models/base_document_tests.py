@@ -11,6 +11,7 @@ from synapse_pay_rest.models import VirtualDocument
 
 class BaseDocumentTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
         self.user = User.create(self.client, **user_create_args)
         args = {
@@ -39,7 +40,7 @@ class BaseDocumentTestCases(unittest.TestCase):
     def test_add_physical_documents(self):
         type = 'GOVT_ID'
         value = 'data:text/csv;base64,SUQs=='
-        doc = self.base_document.add_document(type=type, value=value)
+        doc = self.base_document.add_physical_document(type=type, value=value)
         self.assertIsInstance(doc, PhysicalDocument)
         self.assertEqual(doc.type, type)
         self.assertEqual(self.base_document.id, doc.base_document.id)
@@ -51,7 +52,7 @@ class BaseDocumentTestCases(unittest.TestCase):
     def test_add_social_documents(self):
         type = 'FACEBOOK'
         value = 'facebook.com/barnabus'
-        doc = self.base_document.add_document(type=type, value=value)
+        doc = self.base_document.add_social_document(type=type, value=value)
         self.assertIsInstance(doc, SocialDocument)
         self.assertEqual(doc.type, type)
         self.assertEqual(self.base_document.id, doc.base_document.id)
@@ -63,7 +64,7 @@ class BaseDocumentTestCases(unittest.TestCase):
     def test_add_virtual_documents(self):
         type = 'SSN'
         value = '2222'
-        doc = self.base_document.add_document(type=type, value=value)
+        doc = self.base_document.add_virtual_document(type=type, value=value)
         self.assertIsInstance(doc, VirtualDocument)
         self.assertEqual(doc.type, type)
         self.assertEqual(self.base_document.id, doc.base_document.id)

@@ -7,10 +7,12 @@ from synapse_pay_rest.models import BaseDocument
 from synapse_pay_rest.models import PhysicalDocument
 from synapse_pay_rest.models import SocialDocument
 from synapse_pay_rest.models import VirtualDocument
+from synapse_pay_rest.models import Question
 
 
 class DocumentTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
         self.user = User.create(self.client, **user_create_args)
         args = {
@@ -58,11 +60,38 @@ class DocumentTestCases(unittest.TestCase):
         doc = self.base_document.add_physical_document(type=type, url=url)
         self.assertIsInstance(doc, PhysicalDocument)
 
-    # def test_virtual_document_with_valid_ssn(self):
-    #     pass
+    def test_virtual_document_with_valid_ssn(self):
+        type = 'SSN'
+        value = '2222'
+        doc = self.base_document.add_virtual_document(type=type, value=value)
+        self.assertIsInstance(doc, VirtualDocument)
+        self.assertEqual(doc.type, type)
+        self.assertEqual(self.base_document.id, doc.base_document.id)
+        self.assertEqual('SUBMITTED|VALID', doc.status)
 
-    # def test_virtual_document_with_invalid_ssn(self):
-    #     pass
+    def test_virtual_document_with_invalid_ssn(self):
+        type = 'SSN'
+        value = '1111'
+        doc = self.base_document.add_virtual_document(type=type, value=value)
+        self.assertIsInstance(doc, VirtualDocument)
+        self.assertEqual(doc.type, type)
+        self.assertEqual(self.base_document.id, doc.base_document.id)
+        self.assertEqual('SUBMITTED|INVALID', doc.status)
 
-    # def test_virtual_document_with_ssn_mfa(self):
-    #     pass
+    def test_virtual_document_with_ssn_mfa(self):
+        type = 'SSN'
+        value = '3333'
+        doc = self.base_document.add_virtual_document(type=type, value=value)
+        self.assertIsInstance(doc, VirtualDocument)
+        self.assertEqual(doc.type, type)
+        self.assertEqual(self.base_document.id, doc.base_document.id)
+        self.assertEqual('SUBMITTED|MFA_PENDING', doc.status)
+        self.assertIsNotNone(doc.question_set)
+        self.assertIsInstance(doc.question_set[0], Question)
+
+        # answer the MFA questions
+        for question in doc.question_set:
+            question.choice = 1
+        doc = doc.submit_kba()
+        self.assertIsInstance(doc, VirtualDocument)
+        self.assertEqual('SUBMITTED|VALID', doc.status)

@@ -8,6 +8,7 @@ from synapse_pay_rest.models import BaseDocument
 
 class UserTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
 
     def test_create(self):

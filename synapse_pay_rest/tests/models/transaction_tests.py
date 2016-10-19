@@ -11,6 +11,7 @@ from synapse_pay_rest.models import Transaction
 
 class TransactionTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
         self.user = User.create(self.client, **user_create_args)
         self.nodes = AchUsNode.create_via_bank_login(self.user,

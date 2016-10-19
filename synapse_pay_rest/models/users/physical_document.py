@@ -40,7 +40,8 @@ class PhysicalDocument(Document):
         with open(file_path, 'rb') as file_object:
             byte_stream = file_object.read()
             mime_type = mimetypes.guess_type(file_object.name)[0]
-            return PhysicalDocument.byte_stream_to_base64(byte_stream, mime_type)
+            return PhysicalDocument.byte_stream_to_base64(byte_stream,
+                                                          mime_type)
 
     @staticmethod
     def url_to_base64(url):

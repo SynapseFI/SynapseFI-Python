@@ -5,6 +5,7 @@ from synapse_pay_rest.tests.fixtures.client import *
 
 class HttpClientTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.http_client = HttpClient(
             client_id=CLIENT_ID,
             client_secret=CLIENT_SECRET,

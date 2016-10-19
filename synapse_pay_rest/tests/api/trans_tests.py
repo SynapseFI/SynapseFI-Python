@@ -7,6 +7,7 @@ from synapse_pay_rest.tests.fixtures.trans import *
 
 class TransTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
         self.user = self.client.users.create(users_create_payload)
         refresh_payload = {'refresh_token': self.user['refresh_token']}

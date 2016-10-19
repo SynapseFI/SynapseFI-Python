@@ -27,3 +27,8 @@ class AchUsNode(BaseNode):
                                              account_class=account_class,
                                              **kwargs)
         return payload
+
+    def verify_microdeposits(self, amount1, amount2):
+        payload = {'micro': [amount1, amount2]}
+        response = self.user.client.nodes.update(self.user.id, self.id, payload)
+        return self.from_response(self.user, response)

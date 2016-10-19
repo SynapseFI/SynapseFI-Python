@@ -5,6 +5,7 @@ from synapse_pay_rest.tests.fixtures.user import *
 
 class UsersTestCases(unittest.TestCase):
     def setUp(self):
+        print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
 
     def test_create_a_new_user(self):

@@ -17,6 +17,7 @@ class NodeTestCases(unittest.TestCase):
                                                 'synapse_nomfa', 'test1234')
         node_id = nodes[0].id
         node = Node.by_id(self.user, node_id)
+        self.assertEqual(self.user.id, node.user.id)
         self.assertIsInstance(node, AchUsNode)
         self.assertEqual(node_id, node.id)
 
@@ -26,6 +27,7 @@ class NodeTestCases(unittest.TestCase):
         nodes = Node.all(self.user)
         self.assertEqual(2, len(nodes))
         self.assertIsInstance(nodes[0], AchUsNode)
+        self.assertEqual(self.user.id, nodes[0].user.id)
         # with params
         per_page = 1
         page1 = Node.all(self.user, page=1, per_page=per_page)
@@ -60,6 +62,7 @@ class NodeTestCases(unittest.TestCase):
         node = AchUsNode.create(self.user, 'Python Test ACH-US via Acct/Rt',
                                 **kwargs)
         self.assertIsInstance(node, AchUsNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -78,6 +81,7 @@ class NodeTestCases(unittest.TestCase):
 
         node = nodes[0]
         self.assertIsInstance(node, AchUsNode)
+        self.assertEqual(self.user.id, node.user.id)
         other_props = ['user', 'id', 'type', 'is_active', 'bank_long_name',
                        'name_on_account', 'permission', 'bank_name', 'balance',
                        'currency', 'routing_number', 'account_number',
@@ -96,6 +100,7 @@ class NodeTestCases(unittest.TestCase):
         }
         node = EftIndNode.create(self.user, 'Python Test EFT-IND', **kwargs)
         self.assertIsInstance(node, EftIndNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -112,6 +117,7 @@ class NodeTestCases(unittest.TestCase):
         }
         node = EftNpNode.create(self.user, 'Python Test EFT-NP', **kwargs)
         self.assertIsInstance(node, EftNpNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -127,6 +133,7 @@ class NodeTestCases(unittest.TestCase):
         }
         node = IouNode.create(self.user, 'Python Test IOU Node', **kwargs)
         self.assertIsInstance(node, IouNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -142,6 +149,7 @@ class NodeTestCases(unittest.TestCase):
         node = ReserveUsNode.create(self.user, 'Python Test RESERVE-US Node',
                                     **kwargs)
         self.assertIsInstance(node, ReserveUsNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -157,6 +165,7 @@ class NodeTestCases(unittest.TestCase):
         node = SynapseIndNode.create(self.user, 'Python Test SYNAPSE-IND Node',
                                      **kwargs)
         self.assertIsInstance(node, SynapseIndNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -172,6 +181,7 @@ class NodeTestCases(unittest.TestCase):
         node = SynapseNpNode.create(self.user, 'Python Test SYNAPSE-NP Node',
                                     **kwargs)
         self.assertIsInstance(node, SynapseNpNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -187,6 +197,7 @@ class NodeTestCases(unittest.TestCase):
         node = SynapseUsNode.create(self.user, 'Python Test SYNAPSE-US Node',
                                     **kwargs)
         self.assertIsInstance(node, SynapseUsNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -212,6 +223,7 @@ class NodeTestCases(unittest.TestCase):
         node = WireIntNode.create(self.user, 'Python Test WIRE-INT Node',
                                   **kwargs)
         self.assertIsInstance(node, WireIntNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -235,6 +247,7 @@ class NodeTestCases(unittest.TestCase):
         node = WireUsNode.create(self.user, 'Python Test WIRE-US Node',
                                  **kwargs)
         self.assertIsInstance(node, WireUsNode)
+        self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))
 

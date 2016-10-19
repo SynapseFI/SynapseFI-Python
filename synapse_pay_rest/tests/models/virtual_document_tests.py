@@ -4,8 +4,6 @@ from synapse_pay_rest.tests.fixtures.client import *
 from synapse_pay_rest.tests.fixtures.user import *
 from synapse_pay_rest.models import User
 from synapse_pay_rest.models import BaseDocument
-from synapse_pay_rest.models import PhysicalDocument
-from synapse_pay_rest.models import SocialDocument
 from synapse_pay_rest.models import VirtualDocument
 
 

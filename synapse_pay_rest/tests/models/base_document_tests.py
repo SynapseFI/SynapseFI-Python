@@ -43,6 +43,7 @@ class BaseDocumentTestCases(unittest.TestCase):
                                                                 value=value)
         self.assertIsInstance(physical_doc, PhysicalDocument)
         self.assertEqual(physical_doc.type, type)
+        self.assertEqual(self.base_document.id, physical_doc.base_document.id)
 
         properties = ['type', 'id', 'status', 'last_updated']
         for prop in properties:
@@ -55,6 +56,7 @@ class BaseDocumentTestCases(unittest.TestCase):
                                                             value=value)
         self.assertIsInstance(social_doc, SocialDocument)
         self.assertEqual(social_doc.type, type)
+        self.assertEqual(self.base_document.id, social_doc.base_document.id)
 
         properties = ['type', 'id', 'status', 'last_updated']
         for prop in properties:
@@ -67,6 +69,7 @@ class BaseDocumentTestCases(unittest.TestCase):
                                                               value=value)
         self.assertIsInstance(virtual_doc, VirtualDocument)
         self.assertEqual(virtual_doc.type, type)
+        self.assertEqual(self.base_document.id, virtual_doc.base_document.id)
 
         properties = ['type', 'id', 'status', 'last_updated']
         for prop in properties:

@@ -29,6 +29,7 @@ class TransactionTestCases(unittest.TestCase):
                                          '127.0.0.1',
                                          supp_id='ABC123')
         self.assertIsInstance(transaction, Transaction)
+        self.assertEqual(self.from_node.id, transaction.node.id)
 
         other_props = ['node', 'amount', 'client_id', 'client_name',
                        'created_on', 'ip', 'latlon', 'note', 'process_on',
@@ -47,6 +48,7 @@ class TransactionTestCases(unittest.TestCase):
                                             '127.0.0.1',
                                             supp_id='ABC123').id
         transaction = Transaction.by_id(self.from_node, transaction_id)
+        self.assertEqual(self.from_node.id, transaction.node.id)
         self.assertIsInstance(transaction, Transaction)
         self.assertEqual(transaction_id, transaction.id)
 
@@ -62,6 +64,7 @@ class TransactionTestCases(unittest.TestCase):
         transactions = Transaction.all(self.from_node)
         self.assertEqual(4, len(transactions))
         self.assertIsInstance(transactions[0], Transaction)
+        self.assertEqual(self.from_node.id, transactions[0].node.id)
         # with params
         per_page = 2
         page1 = Transaction.all(self.from_node, page=1, per_page=per_page)

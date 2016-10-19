@@ -11,13 +11,13 @@ class PhysicalDocument(Document):
 
     @classmethod
     def create(cls, base_document=None, value=None, type=None, file_path=None,
-               url=None, byte_stream=None):
+               url=None, byte_stream=None, mime_type=None):
         if file_path:
             value = cls.file_to_base64(file_path)
         elif url:
             value = cls.url_to_base64(url)
         elif byte_stream:
-            value = cls.byte_stream_to_bas64(byte_stream)
+            value = cls.byte_stream_to_base64(byte_stream, mime_type)
         payload = cls.payload_for_create(type, value)
         base_doc = base_document.update(physical_documents=[payload])
         physical_doc = [doc for doc in base_doc.physical_documents
@@ -25,26 +25,26 @@ class PhysicalDocument(Document):
         return physical_doc
 
     @staticmethod
+    def byte_stream_to_base64(byte_stream, mime_type):
+        encoded_string = str(base64.b64encode(byte_stream))
+        mime_padding = 'data:{0};base64,'.format(mime_type)
+        base64_string = mime_padding + encoded_string
+        return base64_string
+
+    @staticmethod
     def file_to_base64(file_path):
         """ Converts a file object into a correctly padded base64 representation
             for the SynapsePay API.  Mimetype padding is done by file
             extension not by content(for now).
         """
-        with open(file_path, 'wb') as file_object:
-            encoded_string = base64.b64encode(file_object.read())
+        with open(file_path, 'rb') as file_object:
+            byte_stream = file_object.read()
             mime_type = mimetypes.guess_type(file_object.name)[0]
-            mime_padding = 'data:' + mime_type + ';base64,'
-            base64_string = mime_padding + encoded_string
-            return base64_string
+            return PhysicalDocument.byte_stream_to_base64(byte_stream, mime_type)
 
     @staticmethod
     def url_to_base64(url):
         response = requests.get(url)
         mime_type = mimetypes.guess_type(url)[0]
-        uri = ("data:" + mime_type + ";" + "base64," +
-               base64.b64encode(response.content).decode('ascii'))
-        return uri
-
-    @staticmethod
-    def byte_stream_to_bas64(byte_stream):
-        pass
+        byte_stream = base64.b64encode(response.content)
+        return PhysicalDocument.byte_stream_to_base64(byte_stream, mime_type)

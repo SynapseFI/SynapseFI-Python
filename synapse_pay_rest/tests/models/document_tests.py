@@ -32,9 +32,22 @@ class DocumentTestCases(unittest.TestCase):
         }
         self.base_document = self.user.add_base_document(**args)
 
+    def test_physical_document_with_bytestream(self):
+        type = 'GOVT_ID'
+        file_path = ('/Users/Synapsepay/Documents/libraries/'
+                     'SynapsePayRest-Python/synapse_pay_rest/'
+                     'tests/fixtures/test.png')
+        byte_stream = open(file_path, 'rb').read()
+        doc = self.base_document.add_physical_document(type=type,
+                                                       byte_stream=byte_stream,
+                                                       mime_type='img/png')
+        self.assertIsInstance(doc, PhysicalDocument)
+
     def test_physical_document_with_file_path(self):
         type = 'GOVT_ID'
-        file_path = '/Users/Synapsepay/Documents/libraries/SynapsePayRest-Python/synapse_pay_rest/tests/fixtures/test.png'
+        file_path = ('/Users/Synapsepay/Documents/libraries/'
+                     'SynapsePayRest-Python/synapse_pay_rest/'
+                     'tests/fixtures/test.png')
         doc = self.base_document.add_physical_document(type=type,
                                                        file_path=file_path)
         self.assertIsInstance(doc, PhysicalDocument)
@@ -44,13 +57,6 @@ class DocumentTestCases(unittest.TestCase):
         url = 'https://cdn.synapsepay.com/static_assets/logo@2x.png'
         doc = self.base_document.add_physical_document(type=type, url=url)
         self.assertIsInstance(doc, PhysicalDocument)
-
-    # def test_physical_document_with_bytestream(self):
-    #     type = 'GOVT_ID'
-    #     byte_stream = open('../fixtures/test.png', 'rb').read()
-    #     doc = self.base_document.add_physical_document(type=type,
-    #                                                    byte_stream=byte_stream)
-    #     assertIsInstance(doc, PhysicalDocument)
 
     # def test_virtual_document_with_valid_ssn(self):
     #     pass

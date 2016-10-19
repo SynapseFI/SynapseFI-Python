@@ -32,8 +32,7 @@ class User():
 
     @classmethod
     def multiple_from_response(cls, client, response):
-        users = [cls.from_response(client, user_data)
-                 for user_data in response]
+        users = [cls.from_response(client, user_data) for user_data in response]
         return users
 
     @staticmethod

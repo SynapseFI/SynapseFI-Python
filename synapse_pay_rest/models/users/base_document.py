@@ -108,17 +108,34 @@ class BaseDocument():
         }
         for kwarg in kwargs:
             if kwarg == 'physical_documents':
-                physical_docs = [physical_doc.dict() for physical_doc
-                                 in kwargs['physical_documents']]
+                physical_docs = kwargs['physical_documents']
                 payload['documents'][0]['physical_docs'] = physical_docs
             elif kwarg == 'social_documents':
-                social_docs = [social_doc.dict() for social_doc
-                               in kwargs['social_documents']]
+                social_docs = kwargs['social_documents']
                 payload['documents'][0]['social_docs'] = social_docs
             elif kwarg == 'virtual_documents':
-                virtual_docs = [virtual_doc.dict() for virtual_doc
-                                in kwargs['virtual_documents']]
+                virtual_docs = kwargs['virtual_documents']
                 payload['documents'][0]['virtual_docs'] = virtual_docs
             else:
                 payload['documents'][0][kwarg] = kwargs[kwarg]
         return payload
+
+    def add_physical_document(self, **kwargs):
+        return PhysicalDocument.create(base_document=self, type=kwargs['type'],
+                                       value=kwargs['value'])
+
+    def add_social_document(self, **kwargs):
+        return SocialDocument.create(base_document=self, type=kwargs['type'],
+                                     value=kwargs['value'])
+        # base_doc = self.update(social_documents=[doc])
+        # doc = [doc for doc in base_doc.social_documents
+        #        if doc.type == kwargs['type']]
+        # return doc[-1]
+
+    def add_virtual_document(self, **kwargs):
+        return VirtualDocument.create(base_document=self, type=kwargs['type'],
+                                      value=kwargs['value'])
+        # base_doc = self.update(virtual_documents=[doc])
+        # doc = [doc for doc in base_doc.virtual_documents
+        #        if doc.type == kwargs['type']]
+        # return doc[-1]

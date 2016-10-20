@@ -3,7 +3,11 @@ from .base_document import BaseDocument
 
 
 class User():
-    """Abstraction of a user record with methods for constructing User instances.
+    """Object representation of a user record.
+
+    Contains various constructors (instances from existing API records or de
+    novo) as well as methods for modifying user records and uploading CIP
+    base documents.
     """
 
     def __init__(self, **kwargs):
@@ -12,7 +16,7 @@ class User():
 
     @classmethod
     def from_response(cls, client, response):
-        """Construct a user from a response dict."""
+        """Construct a User from a response dict."""
         user = cls(
           client=client,
           id=response['_id'],
@@ -32,7 +36,7 @@ class User():
 
     @classmethod
     def multiple_from_response(cls, client, response):
-        """Construct multiple users from a response dict."""
+        """Construct multiple Users from a response dict."""
         users = [cls.from_response(client, user_data) for user_data in response]
         return users
 
@@ -93,7 +97,7 @@ class User():
 
     @classmethod
     def all(cls, client=None, **kwargs):
-        """Retrieve all user records (limited by pagination).
+        """Retrieve all user records (limited by pagination) as Users.
 
         Args:
             client (Client): an instance of the API Client
@@ -233,10 +237,10 @@ class User():
         return User.from_response(self.client, response)
 
     def change_cip_tag(self, new_cip):
-        """Change the User's cip_tag.
+        """Update the User's cip_tag.
 
         Args:
-            new_cip (int): the cip tag you want to change the user to
+            new_cip (int): the cip tag you want to change to
 
         Returns:
             User: a new instance representing the same API record

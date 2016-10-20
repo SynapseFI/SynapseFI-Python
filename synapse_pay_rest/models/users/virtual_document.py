@@ -3,11 +3,24 @@ from .question import Question
 
 
 class VirtualDocument(Document):
-    """
+    """Object representation of a supporting virtual document.
+
+    Virtual documents are normally ID numbers that help verify the user's
+    identity.
+    https://docs.synapsepay.com/docs/user-resources#section-virtual-document-types
     """
 
     @classmethod
-    def create(cls, base_document=None, type=None, value=None):
+    def create(cls, base_document, type=None, value=None):
+        """Add a VirtualDocument to the BaseDocument.
+
+        Args:
+            type (str): https://docs.synapsepay.com/docs/user-resources#section-virtual-document-types
+            value (str): SSN or TIN, for example
+
+        Returns:
+            VirtualDocument: a new VirtualDocument instance
+        """
         payload = cls.payload_for_create(type, value)
         base_doc = base_document.update(virtual_documents=[payload])
         virtual_doc = [doc for doc in base_doc.virtual_documents
@@ -16,6 +29,7 @@ class VirtualDocument(Document):
 
     @classmethod
     def from_response(cls, response):
+        """Construct a VirtualDocument from a response dict."""
         doc = super().from_response(response)
         if response.get('meta') and response['meta'].get('question_set'):
             question_data = response['meta']['question_set']['questions']
@@ -24,6 +38,15 @@ class VirtualDocument(Document):
         return doc
 
     def submit_kba(self):
+        """Verify the VirtualDocument's MFA questions.
+
+        If the VirtualDocument requires MFA, it will have a question_set
+        property. This method takes the user's answers to those questions and
+        submits them.
+
+        Returns:
+            VirtualDocument: a new instance representing the updated document
+        """
         user = self.base_document.user
         response = user.client.users.update(user.id, self.payload_for_kba())
         user = user.from_response(user.client, response)
@@ -34,6 +57,7 @@ class VirtualDocument(Document):
         return virtual_doc
 
     def payload_for_kba(self):
+        """Build the API 'answer KBA' payload from property values."""
         answers = [{'question_id': question.id, 'answer_id': question.choice}
                    for question in self.question_set]
         payload = {

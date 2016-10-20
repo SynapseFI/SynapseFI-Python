@@ -4,7 +4,14 @@ from .virtual_document import VirtualDocument
 
 
 class BaseDocument():
-    """
+    """Object representation of a user's CIP base document.
+
+    Contains various constructors (instances from existing API records or de
+    novo) as well as methods for modifying base documents and attaching
+    physical/social/virtual documents. Please check your organization's
+    specific CIP agreement to learn the exact requirements for the exact number
+    and types of documents that are required, which may also vary by user type
+    (business/personal) or spending limit (10,000/day vs 1,000,000/day).
     """
 
     def __init__(self, **kwargs):
@@ -13,6 +20,7 @@ class BaseDocument():
 
     @classmethod
     def from_response(cls, user, response):
+        """Construct a BaseDocument from a response dict."""
         physical_docs = PhysicalDocument.multiple_from_response(response['physical_docs'])
         social_docs = SocialDocument.multiple_from_response(response['social_docs'])
         virtual_docs = VirtualDocument.multiple_from_response(response['virtual_docs'])
@@ -35,12 +43,35 @@ class BaseDocument():
 
     @classmethod
     def multiple_from_response(cls, user, response):
+        """Construct multiple BaseDocuments from a response dict."""
         base_docs = [cls.from_response(user, base_doc_data)
                      for base_doc_data in response]
         return base_docs
 
     @classmethod
     def create(cls, user, **kwargs):
+        """Add a BaseDocument to the User.
+
+        Args:
+            email (str): user's email
+            phone_number (str): user's phone number
+            ip (str): user's IP address
+            name (str): user's name
+            alias (str): user's alias or DBA (use name if no alias)
+            entity_type (str): https://docs.synapsepay.com/docs/user-resources#section-supported-entity-types
+            entity_scope (str): https://docs.synapsepay.com/docs/user-resources#section-supported-entity-scope
+            day (int): day of birth
+            month (int): month of birth
+            year (int): year of birth
+            address_street (str): street address (as '123 Maple Street')
+            address_city (str): address city
+            address_subdivision (str): state, province, or other division
+            address_postal_code (str): postal code
+            address_country_code (str): country code (as 'US')
+
+        Returns:
+            BaseDocument: a new BaseDocument instance
+        """
         payload = cls.payload_for_create(
             email=kwargs['email'],
             phone_number=kwargs['phone_number'],
@@ -70,6 +101,7 @@ class BaseDocument():
                            birth_year, address_street, address_city,
                            address_subdivision, address_postal_code,
                            address_country_code):
+        """Build the API 'add documents' payload from property values."""
         payload = {
             'documents': [{
                 'email': email,
@@ -92,6 +124,28 @@ class BaseDocument():
         return payload
 
     def update(self, **kwargs):
+        """Change the value of the supplied fields in the BaseDocument.
+
+        Args:
+            email (str): user's email
+            phone_number (str): user's phone number
+            ip (str): user's IP address
+            name (str): user's name
+            alias (str): user's alias or DBA (use name if no alias)
+            entity_type (str): https://docs.synapsepay.com/docs/user-resources#section-supported-entity-types
+            entity_scope (str): https://docs.synapsepay.com/docs/user-resources#section-supported-entity-scope
+            day (int): day of birth
+            month (int): month of birth
+            year (int): year of birth
+            address_street (str): street address (as '123 Maple Street')
+            address_city (str): address city
+            address_subdivision (str): state, province, or other division
+            address_postal_code (str): postal code
+            address_country_code (str): country code (as 'US')
+
+        Returns:
+            BaseDocument: a new instance representing the same API record
+        """
         payload = self.payload_for_update(**kwargs)
         self.user.authenticate()
         response = self.user.client.users.update(self.user.id, payload)
@@ -101,6 +155,7 @@ class BaseDocument():
         return base_doc
 
     def payload_for_update(self, **kwargs):
+        """Build the API 'edit existing docs' payload from property values."""
         payload = {
             'documents': [{
                 'id': self.id
@@ -121,13 +176,43 @@ class BaseDocument():
         return payload
 
     def add_physical_document(self, type=None, **kwargs):
+        """Add a PhysicalDocument to the BaseDocument.
+
+        Args:
+            type (str): https://docs.synapsepay.com/docs/user-resources#section-physical-document-types
+            value (str): (opt) padded Base64 encoded image string
+            file_path (str): path to image file (instead of value)
+            url (str): url to image file (instead of value)
+            byte_stream (str): byte array (instead of value)
+
+        Returns:
+            PhysicalDocument: a new PhysicalDocument instance
+        """
         return PhysicalDocument.create(base_document=self, type=type,
                                        **kwargs)
 
-    def add_social_document(self, type=None, **kwargs):
-        return SocialDocument.create(base_document=self, type=type,
-                                     value=kwargs['value'])
+    def add_social_document(self, type=None, value=None):
+        """Add a SocialDocument to the BaseDocument.
 
-    def add_virtual_document(self, type=None, **kwargs):
+        Args:
+            type (str): https://docs.synapsepay.com/docs/user-resources#section-social-document-types
+            value (str): url to social media profile, for example
+
+        Returns:
+            SocialDocument: a new SocialDocument instance
+        """
+        return SocialDocument.create(base_document=self, type=type,
+                                     value=value)
+
+    def add_virtual_document(self, type=None, value=None):
+        """Add a VirtualDocument to the BaseDocument.
+
+        Args:
+            type (str): https://docs.synapsepay.com/docs/user-resources#section-virtual-document-types
+            value (str): SSN or TIN, for example
+
+        Returns:
+            VirtualDocument: a new VirtualDocument instance
+        """
         return VirtualDocument.create(base_document=self, type=type,
-                                      value=kwargs['value'])
+                                      value=value)

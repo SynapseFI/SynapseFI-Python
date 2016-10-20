@@ -19,7 +19,7 @@ class ClientTestCases(unittest.TestCase):
             logging=True
         )
 
-    def test_attrs_are_set(self):
+    def test_properties(self):
         self.assertIsInstance(self.client.http_client, HttpClient)
         self.assertIsInstance(self.client.users, Users)
         self.assertIsInstance(self.client.nodes, Nodes)

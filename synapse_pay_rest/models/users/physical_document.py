@@ -1,6 +1,5 @@
 import base64
 import mimetypes
-import io
 import requests
 from .document import Document
 

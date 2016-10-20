@@ -1,5 +1,4 @@
 from .base_node import BaseNode
-# from .unverified_node import UnverifiedNode
 
 
 class AchUsNode(BaseNode):
@@ -56,6 +55,7 @@ class AchUsNode(BaseNode):
             self.mfa_verified = True
             return self.multiple_from_response(self.user, response['nodes'])
         elif response['error_code'] == '10':
+            # incorrect answer or additional mfa answer required
             self.mfa_access_token = response['mfa']['access_token']
             self.mfa_message = response['mfa']['message']
             return self

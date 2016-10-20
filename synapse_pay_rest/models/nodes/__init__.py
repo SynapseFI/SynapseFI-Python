@@ -1,3 +1,10 @@
+"""This module contains models for objects tied to the /nodes endpoint.
+
+Includes a node factory class (Node) and classes for the various types of
+nodes.
+"""
+
+
 from .ach_us_node import AchUsNode
 from .eft_ind_node import EftIndNode
 from .eft_np_node import EftNpNode

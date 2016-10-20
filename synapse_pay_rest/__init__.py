@@ -5,7 +5,7 @@ users, linking nodes (accounts), and creating transactions between users. Read
 more at https://docs.synapsepay.com
 """
 
-from .version import Version
+from .version import VERSION
 from .client import Client
 from .api import Users, Nodes, Trans
 from .models import User, Node, Transaction

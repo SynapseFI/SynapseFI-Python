@@ -162,8 +162,7 @@ class Users():
                 base64_string = mime_padding + encoded_string
                 return base64_string
         except Exception:
-            try:
-                response = requests.get(file_path)
-                mime_type = mimetypes.guess_type(file_path)[0]
-                uri = ("data:" + mime_type + ";" + "base64," + base64.b64encode(response.content).decode('ascii'))
-                return uri
+            response = requests.get(file_path)
+            mime_type = mimetypes.guess_type(file_path)[0]
+            uri = ("data:" + mime_type + ";" + "base64," + base64.b64encode(response.content).decode('ascii'))
+            return uri

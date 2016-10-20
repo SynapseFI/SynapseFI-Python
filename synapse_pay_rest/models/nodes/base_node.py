@@ -2,7 +2,10 @@ from synapse_pay_rest.models.users import User
 
 
 class BaseNode():
-    """ Ancestor of the various node types.
+    """Ancestor of the various node types.
+
+    Stores common functionality of child classes, but should not be
+    instantiated.
     """
 
     def __init__(self, **kwargs):
@@ -11,6 +14,7 @@ class BaseNode():
 
     @classmethod
     def from_response(cls, user, response):
+        """Construct a BaseNode from a response dict."""
         args = {
           'user': user,
           'type': response.get('type'),
@@ -56,13 +60,14 @@ class BaseNode():
 
     @classmethod
     def multiple_from_response(cls, user, response):
+        """Construct multiple BaseNodes from a response dict."""
         nodes = [cls.from_response(user, node_data)
                  for node_data in response]
         return nodes
 
     @classmethod
     def payload_for_create(cls, type, **kwargs):
-        # these are present for all nodes
+        """Construct the 'add node' payload from property values."""
         payload = {
             'type': type,
             'info': {}
@@ -118,11 +123,23 @@ class BaseNode():
 
     @classmethod
     def create(cls, user=None, nickname=None, **kwargs):
+        """Create a node record in API and corresponding BaseNode instance.
+
+        See subclasses for more information about type-specific args.
+        """
         payload = cls.payload_for_create(nickname, **kwargs)
         user.authenticate()
         response = user.client.nodes.create(user.id, payload)
         return cls.from_response(user, response['nodes'][0])
 
     def deactivate(self):
+        """Deactivate and deindex the node.
+
+        The node will not appear in results and will not be available to create
+        new transactions. This does not cancel transactions already underway.
+
+        Returns:
+            None
+        """
         self.user.authenticate()
         self.user.client.nodes.delete(self.user.id, self.id)

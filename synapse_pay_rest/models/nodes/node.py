@@ -12,8 +12,10 @@ from .wire_us_node import WireUsNode
 
 
 class Node():
-    """ Factory for producing the various node types, which descend from
-    BaseNode.
+    """Factory for producing the various node types.
+
+    The actual node subclasses descend from BaseNode, but the factory is named
+    Node to be consistent with User and Transaction.
     """
 
     NODE_TYPES_TO_CLASSES = {
@@ -31,6 +33,7 @@ class Node():
 
     @classmethod
     def from_response(cls, user, response):
+        """Construct a BaseNode subclass instance from a response dict."""
         args = {
           'user': user,
           'type': response.get('type'),
@@ -77,16 +80,40 @@ class Node():
 
     @classmethod
     def multiple_from_response(cls, user, response):
+        """Construct multiple BaseNode subclass instances from a response dict.
+        """
         nodes = [cls.from_response(user, node_data)
                  for node_data in response]
         return nodes
 
     @classmethod
     def by_id(cls, user=None, id=None):
+        """Retrieve a node record by id and create a BaseNode instance from it.
+
+        Args:
+            user (User): the  User that the node belongs to
+            id (str): id of the node to retrieve
+
+        Returns:
+            BaseNode: a BaseNode instance corresponding to the record
+        """
+        user.authenticate()
         response = user.client.nodes.get(user.id, id)
         return cls.from_response(user, response)
 
     @classmethod
     def all(cls, user=None, **kwargs):
+        """Retrieve all node records (limited by pagination) as BaseNodes.
+
+        Args:
+            user (User): the  User that the node belongs to
+            per_page (int, str): (opt) number of records to retrieve
+            page (int, str): (opt) page number to retrieve
+            type (str): (opt) node type to filter by (as 'ACH-US')
+
+        Returns:
+            list: containing 0 or more BaseNode instances
+        """
+        user.authenticate()
         response = user.client.nodes.get(user.id, **kwargs)
         return cls.multiple_from_response(user, response['nodes'])

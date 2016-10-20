@@ -1,4 +1,4 @@
-"""This module holds the wrappers for the main API endpoints.
+"""This module contains wrappers for the main API endpoints.
 
 The classes here can be used to make calls directly to the API, bypassing
 the model system (User, BaseDocument, Node, etc.).

@@ -1,10 +1,12 @@
 import requests
 import logging
 import json
-from synapse_pay_rest.errors import *
+from .errors import ErrorFactory
 
 
 class HttpClient():
+    """Handles HTTP requests (including headers) and API errors.
+    """
     def __init__(self, **kwargs):
         self.update_headers(
             client_id=kwargs['client_id'],
@@ -18,13 +20,7 @@ class HttpClient():
         self.logging = kwargs.get('logging', False)
 
     def update_headers(self, **kwargs):
-        """ Updates the supplied properties on self and in the header dictionary.
-
-        Args:
-            **kwargs: Description
-
-        Returns:
-            TYPE: Description
+        """Update the supplied properties on self and in the header dictionary.
         """
         header_options = ['client_id', 'client_secret', 'fingerprint',
                           'ip_address', 'oauth_key']
@@ -43,6 +39,7 @@ class HttpClient():
         self.session.headers.update(self.headers)
 
     def get(self, url, **params):
+        """Send a GET request to the API."""
         self.log_information(self.logging)
         valid_params = ['query', 'page', 'per_page', 'type']
         parameters = {}
@@ -53,29 +50,34 @@ class HttpClient():
         return self.parse_response(response)
 
     def post(self, url, payload):
+        """Send a POST request to the API."""
         self.log_information(self.logging)
         data = json.dumps(payload)
         response = self.session.post(self.base_url + url, data=data)
         return self.parse_response(response)
 
     def patch(self, url, payload):
+        """Send a PATCH request to the API."""
         self.log_information(self.logging)
         data = json.dumps(payload)
         response = self.session.patch(self.base_url + url, data=data)
         return self.parse_response(response)
 
     def delete(self, url):
+        """Send a DELETE request to the API."""
         self.log_information(self.logging)
         response = self.session.delete(self.base_url + url)
         return self.parse_response(response)
 
     def parse_response(self, response):
+        """Convert successful response to dict or raise error."""
         if response.status_code >= 300:
             raise ErrorFactory.from_response(response)
         else:
             return response.json()
 
     def log_information(self, should_log):
+        """Log requests to stdout."""
         if should_log:
             try:
                 import http.client as http_client

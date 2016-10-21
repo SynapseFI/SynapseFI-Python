@@ -1,36 +1,30 @@
-# Basic wrapper around the the requests library.
-from synapse_pay_rest.http_client import HttpClient
-# Assign all the api classes
-from synapse_pay_rest.api.Users import Users
-from synapse_pay_rest.api.Trans import Trans
-from synapse_pay_rest.api.Nodes import Nodes
+from .http_client import HttpClient
+from .api.users import Users
+from .api.trans import Trans
+from .api.nodes import Nodes
 
 
 class Client():
-    '''
-		Initialize the client to make SynapsePay v3 API calls.
+    """Handles configuration and requests to the SynapsePay API.
+    """
 
-		:param options	{
-							'client':{
-								'client_id':YOUR_CLIENT_ID,
-								'client_secret':YOUR_CLIENT_SECRET
-							},
-							'user':{
-								'fingerprint':USER_FINGERPRINT,
-							},
-							'oauth':{
-								'oauth_key':USER_OAUTH_KEY,
-								'refresh_token':USER_REFRESH_TOKEN
-							}
-						}
-	'''
+    def __init__(self, **kwargs):
+        """Create a new API client.
 
-    def __init__(self, options, user_id=None):
-        base_url = 'https://synapsepay.com/api/3/users'
-        if options.get('development_mode', False):
-            base_url = 'https://sandbox.synapsepay.com/api/3/users'
+        Args:
+            client_id (str): your API client id
+            client_secret (str): your API client secret
+            fignerprint (str): the user's fingerprint
+            ip_address (str): the user's IP address
+            development_mode (bool): if True, requests sent to
+            production endpoints (else sandbox)
+            logging (bool): if True, requests logged to stdout
+        """
+        base_url = 'https://synapsepay.com/api/3'
+        if kwargs.get('development_mode'):
+            base_url = 'https://sandbox.synapsepay.com/api/3'
 
-        self.client = HttpClient(options, user_id)
-        self.Users = Users(self.client)
-        self.Nodes = Nodes(self.client)
-        self.Trans = Trans(self.client)
+        self.http_client = HttpClient(base_url=base_url, **kwargs)
+        self.users = Users(self.http_client)
+        self.nodes = Nodes(self.http_client)
+        self.trans = Trans(self.http_client)

@@ -1,151 +1,93 @@
 import requests
-import traceback
 import logging
 import json
-
-
-def log_information(should_log):
-    if should_log:
-        try:
-            import http.client as http_client
-        except ImportError:
-            # Python 2
-            import httplib as http_client
-        http_client.HTTPConnection.debuglevel = 1
-
-        logging.basicConfig()
-        logging.getLogger().setLevel(logging.DEBUG)
-        requests_log = logging.getLogger("requests.packages.urllib3")
-        requests_log.setLevel(logging.DEBUG)
-        requests_log.propagate = True
-
-
-NO_CLUE_ERROR = {
-    "error": {
-        "en": "An error has occured in this library."
-    },
-    "success": False
-}
-
-BASE_URL = 'https://synapsepay.com/api/3'
+from .errors import ErrorFactory
 
 
 class HttpClient():
-    def __init__(self, options, user_id=None):
-        global BASE_URL
-        self.session = requests.Session()
-        if 'oauth_key' in options:
-            initial_fingerprint = options['oauth_key'] + '|' + options['fingerprint']
-        else:
-            initial_fingerprint = '|' + options['fingerprint']
-        gateway = options['client_id'] + '|' + options['client_secret']
-        if 'development_mode' in options:
-            if options['development_mode']:
-                BASE_URL = 'https://sandbox.synapsepay.com/api/3'
-        lang = 'en'
-        if 'lang' in options:
-            lang = options['lang']
+    """Handles HTTP requests (including headers) and API errors.
+    """
+    def __init__(self, **kwargs):
+        self.update_headers(
+            client_id=kwargs['client_id'],
+            client_secret=kwargs['client_secret'],
+            fingerprint=kwargs['fingerprint'],
+            ip_address=kwargs['ip_address'],
+            oauth_key=''
+        )
+
+        self.base_url = kwargs['base_url']
+        self.logging = kwargs.get('logging', False)
+
+    def update_headers(self, **kwargs):
+        """Update the supplied properties on self and in the header dictionary.
+        """
+        header_options = ['client_id', 'client_secret', 'fingerprint',
+                          'ip_address', 'oauth_key']
+        for prop in header_options:
+            if kwargs.get(prop) is not None:
+                setattr(self, prop, kwargs.get(prop))
 
         self.headers = {
             'Content-Type': 'application/json',
-            'X-SP-GATEWAY': gateway,
-            'X-SP-USER': initial_fingerprint,
-            'X-SP-USER-IP': options['ip_address'],
-            'X-SP-LANG': lang
+            'X-SP-LANG': 'en',
+            'X-SP-GATEWAY': self.client_id + '|' + self.client_secret,
+            'X-SP-USER': self.oauth_key + '|' + self.fingerprint,
+            'X-SP-USER-IP': self.ip_address
         }
-
+        self.session = requests.Session()
         self.session.headers.update(self.headers)
 
-        self.RESPONSE_HANDLERS = {
-            200: self.success_handler,
-            202: self.success_handler,
-            400: self.bad_request_handler,
-            401: self.unauthorized_handler,
-            402: self.request_failed_handler,
-            404: self.not_found_handler,
-            409: self.incorrect_values_handler,
-            500: self.server_error_handler
-        }
-
-        self.user_id = user_id
-
-    def success_handler(self, r):
-        return r.json()
-
-    def bad_request_handler(self, r):
-        return r.json()
-
-    def unauthorized_handler(self, r):
-        return r.json()
-
-    def request_failed_handler(self, r):
-        return {
-            "error": {
-                "en": "An error has occured in this library."
-            },
-            "success": False
-        }
-
-    def not_found_handler(self, r):
-        return {
-            "error": {
-                "en": "The url is not found."
-            },
-            "success": False
-        }
-
-    def incorrect_values_handler(self, r):
-        return r.json()
-
-    def server_error_handler(self, r):
-        try:
-            return r.json()
-        except:
-            return {
-                "error": {
-                    "en": "Unknown sever error has occurred."
-                },
-                "success": False
-            }
-
-    def delete(self, url):
-        log_information(False)
-        r = self.session.delete(BASE_URL + url)
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            return NO_CLUE_ERROR
-
-    def get(self, url, params=None):
-        log_information(False)
-        r = self.session.get(BASE_URL + url, params=params)
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            print(str(e))
-            return NO_CLUE_ERROR
+    def get(self, url, **params):
+        """Send a GET request to the API."""
+        self.log_information(self.logging)
+        valid_params = ['query', 'page', 'per_page', 'type']
+        parameters = {}
+        for param in valid_params:
+            if param in params:
+                parameters[param] = params[param]
+        response = self.session.get(self.base_url + url, params=parameters)
+        return self.parse_response(response)
 
     def post(self, url, payload):
-        log_information(False)
-        r = self.session.post(BASE_URL + url, data=json.dumps(payload))
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            print(str(e))
-            return NO_CLUE_ERROR
+        """Send a POST request to the API."""
+        self.log_information(self.logging)
+        data = json.dumps(payload)
+        response = self.session.post(self.base_url + url, data=data)
+        return self.parse_response(response)
 
     def patch(self, url, payload):
-        log_information(False)
-        r = self.session.patch(BASE_URL + url, data=json.dumps(payload))
-        try:
-            return self.RESPONSE_HANDLERS[r.status_code](r)
-        except Exception as e:
-            print(str(e))
-            return NO_CLUE_ERROR
+        """Send a PATCH request to the API."""
+        self.log_information(self.logging)
+        data = json.dumps(payload)
+        response = self.session.patch(self.base_url + url, data=data)
+        return self.parse_response(response)
 
-    def update_oauth(self, oauth_key):
-        self.headers['X-SP-USER'] = oauth_key + '|' + self.headers['X-SP-USER'].split('|')[1]
-        self.session.headers.update(self.headers)
+    def delete(self, url):
+        """Send a DELETE request to the API."""
+        self.log_information(self.logging)
+        response = self.session.delete(self.base_url + url)
+        return self.parse_response(response)
 
-    def set_user_id(self, user_id):
-        self.user_id = user_id
+    def parse_response(self, response):
+        """Convert successful response to dict or raise error."""
+        if response.status_code >= 300:
+            raise ErrorFactory.from_response(response)
+        else:
+            return response.json()
+
+    def log_information(self, should_log):
+        """Log requests to stdout."""
+        if should_log:
+            try:
+                import http.client as http_client
+            except ImportError:
+                # Python 2
+                import httplib as http_client
+            http_client.HTTPConnection.debuglevel = 1
+
+            logging.basicConfig()
+            logging.getLogger().setLevel(logging.DEBUG)
+            requests_log = logging.getLogger("requests.packages.urllib3")
+            requests_log.setLevel(logging.DEBUG)
+            requests_log.propagate = True

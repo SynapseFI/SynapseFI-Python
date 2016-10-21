@@ -132,7 +132,7 @@ class User():
             payload['update']['login'] = {'email': kwargs['email']}
             options = ['password', 'read_only']
             for option in options:
-                if option in kwargs:
+                if kwargs.get(option):
                     payload['update']['login'][option] = kwargs[option]
         if 'remove_login' in kwargs:
             payload['update']['remove_login'] = {'email': kwargs['remove_login']}

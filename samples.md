@@ -1,274 +1,341 @@
-
 ## Initialization
 
 ```python
+import os
 from synapse_pay_rest import Client
 
+required = {
+    'client_id': os.environ['CLIENT_ID'], # your client id
+    'client_secret': os.environ['CLIENT_SECRET'], # your client secret
+    'fingerprint': os.environ['FINGERPRINT'], # user's fingerprint
+    'ip_address': '127.0.0.1', # user's IP
+}
+
 options = {
-    'oauth_key':USER_OAUTH KEY, # Optional
-    'fingerprint':USER_FINGERPRINT,
-    'client_id': YOUR_CLIENT_ID,
-    'client_secret': YOUR_CLIENT_SECRET,
-    'ip_address': USER_IP_ADDRESS,
-    'development_mode': True #True will ping sandbox.synapsepay.com while False will ping synapsepay.com
+    'development_mode': True, # default False (sandbox environment)
+    'logging': False # logs to stdout if True
 }
 
-USER_ID = ID_OF_USER # Optional
-
-client = Client(options, USER_ID)
-
+client = Client(**required, **options)
 ```
 
-## User API Calls
+## User Methods
+
+#### Retrieve All Users
 
 ```python
+from synapse_pay_rest import User
 
-# Get All Users
-
-users_response = client.Users.get()
-
-
-# Create a User
-
-create_payload = {
-    "logins": [
-        {
-            "email": "pythonTest@synapsepay.com",
-            "password": "test1234",
-            "read_only":False
-        }
-    ],
-    "phone_numbers": [
-        "901.111.1111"
-    ],
-    "legal_names": [
-        "PYTHON TEST USER"
-    ],
-    "extra": {
-        "note": "Interesting user",
-        "supp_id": "122eddfgbeafrfvbbb",
-        "is_business": False
-    }
+options = {
+    'page': 1,
+    'per_page': 20,
+    'query': 'Steven' # name/email substring
 }
 
-create_response = client.Users.create(payload=create_payload)
+users = User.all(client, **options)
+```
 
+#### Retrieve User by ID
 
-# Get User
+```python
+user = User.by_id(client, '57e97ab786c2737f4ccd4dc1')
+```
 
-user_response = client.Users.get(user_id=USER_ID)
+#### Create a User
 
-# Update User
-
-update_payload = {
-    "refresh_token": "REFRESH_TOKEN",
-    "update":{
-        "login": {
-            "email": "test2python@email.com",
-            "password": "test1234",
-            "read_only": True
-        },
-        "phone_number": "9019411111",
-        "legal_name": "Some new name"
-    }
+```python
+required = {
+    'email': 'hello@synapsepay.com',
+    'phone_number': '555-555-5555',
+    'legal_name': 'Hello McHello'
 }
 
-update_response = client.Users.update(payload=update_payload)
-
-
-# Add Document
-
-ssn_payload = {
-        "doc":{
-        "birth_day":4,
-        "birth_month":2,
-        "birth_year":1940,
-        "name_first":"John",
-        "name_last":"doe",
-        "address_street1":"1 Infinite Loop",
-        "address_postal_code":"95014",
-        "address_country_code":"US",
-        "document_value":"3333",
-        "document_type":"SSN"
-    }
+options = {
+    'note': ':)',
+    'supp_id': '123abc',
+    'is_business': True,
+    'cip_tag': 1
 }
 
-ssn_response = client.Users.add_doc(payload=ssn_payload)
+user = User.create(client, **required, **options)
+```
 
+#### Update a User's Personal Info
+```python
+user = user.add_legal_name('Sam Iam')
+user = user.add_login('sam@iam.com')
+user = user.remove_login('sam@iam.com')
+user = user.add_phone_number('415-555-5555')
+user = user.remove_phone_number('415-555-5555')
+user = user.change_cip_tag(1)
+```
 
-# Answer KBA Questions
+## Adding Documents to Users
 
-kba_payload = {
-    "doc":{
-        "question_set_id":"557520ad343463000300005a",
-        "answers":[
-            { "question_id": 1, "answer_id": 1 },
-            { "question_id": 2, "answer_id": 1 },
-            { "question_id": 3, "answer_id": 1 },
-            { "question_id": 4, "answer_id": 1 },
-            { "question_id": 5, "answer_id": 1 }
-        ]
-    }
+#### Add a CIP Base Document to a User
+```python
+options = {
+    'email': 'scoobie@doo.com',
+    'phone_number': '707-555-5555',
+    'ip': '127.0.0.1',
+    'name': 'Doctor BaseDoc',
+    'aka': 'Basey',
+    'entity_type': 'F',
+    'entity_scope': 'Arts & Entertainment',
+    'birth_day': 28,
+    'birth_month': 2,
+    'birth_year': 1990,
+    'address_street': '42 Base Blvd',
+    'address_city': 'San Francisco',
+    'address_subdivision': 'CA',
+    'address_postal_code': '94114',
+    'address_country_code': 'US'
 }
 
-kba_response = client.Users.answer_kba(payload=kba_payload)
+base_document = user.add_base_document(**options)
+user = base_document.user
+```
 
+#### Update an Existing CIP Base Document
 
-# Attach a File
-
-file_response = client.Users.attach_file(file='https://s3.amazonaws.com/synapse_django/static_assets/marketing/images/synapse_dark.png')
-
-
-# Get Oauth Key
-
-oauth_payload = {
-    "refresh_token": USER_REFRESH_TOKEN
+```python
+options = {
+    'email': 'boop@doo.com',
+    'phone_number': '415-555-5555',
+    'ip': '127.0.0.2',
+    'name': 'Doctor Boop',
+    'aka': 'Boopsie',
+    'entity_type': 'M',
+    'entity_scope': 'Education',
+    'birth_day': 21,
+    'birth_month': 3,
+    'birth_year': 1986,
+    'address_street': '42 Boop Blvd',
+    'address_city': 'Frisco',
+    'address_subdivision': 'TX',
+    'address_postal_code': '75034',
+    'address_country_code': 'UK'
 }
 
-oauth_response = client.Users.refresh(payload=oauth_payload)
+base_document = base_document.update(**options)
+```
 
+#### Add a Physical Document to a CIP Base Document
+
+##### using a padded base64 string
+```python
+value = 'data:image/png;base64,SUQs=='
+physical_document = base_document.add_physical_document(type='GOVT_ID',
+                                                        value=value)
+base_document = physical_document.base_document
+```
+
+##### using a file path
+```python
+file_path = 'path/to/file.png'
+physical_document = base_document.add_physical_document(type='GOVT_ID',
+                                                        file_path=file_path)
+base_document = physical_document.base_document
+```
+
+##### using a URL
+```python
+url = 'https://cdn.synapsepay.com/static_assets/logo@2x.png'
+physical_document = base_document.add_physical_document(type='GOVT_ID',
+                                                        url=url)
+base_document = physical_document.base_document
+```
+
+##### using a byte stream
+```python
+byte_stream = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00...'
+physical_document = base_document.add_physical_document(type='GOVT_ID',
+                                                        byte_stream=byte_stream)
+base_document = physical_document.base_document
+```
+
+#### Add a Social Document to a CIP Base Document
+
+```python
+value = 'facebook.com/sankaet'
+social_document = base_document.add_social_document(type= 'FACEBOOK',
+                                                    value=value)
+base_document = social_document.base_document
+```
+
+#### Add a Virtual Document to a CIP Base Document
+
+```python
+virtual_document = base_document.add_virtual_document(type='SSN', value='3333')
+
+base_document = virtual_document.base_document
+```
+
+##### Answer KBA Questions for Virtual Document
+If a Virtual Document is returned with status **SUBMITTED|MFA_PENDING**, you will need to have the user answer some questions:
+
+```python
+# check for any virtual docs with SUBMITTED|MFA_PENDING status
+pending_doc = [doc for doc in base_document.virtual_documents 
+               if doc.status == 'SUBMITTED|MFA_PENDING'][0]
+
+for question in pending_doc.question_set:
+    print(question.question)
+    # => "Which one of the following zip codes is associated with you?"
+    print(question.answers)
+    # => {1=>"49230", 2=>"49209", 3=>"49268", 4=>"49532", 5=>"None Of The Above"}
+    question.choice = 1 # this should be based on user input
+
+# submit after finished answering all questions in question_set
+pending_doc = pending_doc.submit_kba()
+
+# assign the variable to the updated base doc if needed
+base_document = pending_doc.base_document
 ```
 
 
-## Node API Calls
+## Node Methods
+
+#### Retrieve All Nodes of a User
 
 ```python
+from synapse_pay_rest import Node
 
-
-# Get All Nodes
-
-nodes_response = client.Nodes.get()
-
-
-# Add SYNAPSE-US Node
-
-synapse_node_payload = {
-    "type":"SYNAPSE-US",
-    "info":{
-        "nickname":"My Synapse Wallet"
-    },
-    "extra":{
-        "supp_id":"123sa"
-    }
+options = {
+    'page': 1,
+    'per_page': 20,
+    'type': 'ACH-US'
 }
 
-synapse_node_response = client.Nodes.add(payload=synapse_node_payload)
-
-
-# Add ACH-US node through account login
-
-login_payload = {
-    "type":"ACH-US",
-    "info":{
-        "bank_id":"synapse_good",
-        "bank_pw":"test1234",
-        "bank_name":"fake"
-    }
-}
-
-login_response = client.Nodes.add(payload=login_payload)
-
-
-# Verify ACH-US Node via MFA
-
-mfa_payload = {
-    "access_token":ACCESS_TOKEN_IN_LOGIN_RESPONSE,
-    "mfa_answer":"test_answer"
-}
-
-mfa_response = client.Nodes.verify(payload=mfa_payload)
-
-
-# Add ACH-US Node through Account and Routing Number Details
-
-acct_rout_payload = {
-    "type":"ACH-US",
-    "info":{
-        "nickname":"Python Library Savings Account",
-        "name_on_account":"Python Library",
-        "account_num":"72347235423",
-        "routing_num":"051000017",
-        "type":"PERSONAL",
-        "class":"CHECKING"
-    },
-    "extra":{
-        "supp_id":"123sa"
-    }
-}
-
-acct_rout_response = client.Nodes.add(payload=acct_rout_payload)
-
-
-# Verify ACH-US Node via Micro-Deposits
-
-micro_payload = {
-    "micro":[0.1,0.1]
-}
-
-micro_response = client.Nodes.verify(node_id=NODE_ID, payload=micro_payload)
-
-
-# Delete a Node
-
-delete_response = client.Nodes.delete(node_id=NODE_ID)
-
+nodes = Node.all(user, **options)
 ```
 
-## Transaction API Calls
+#### Retrieve User's Node by Node ID
 
 ```python
+node = Node.by_id(user, '57ec57be86c27345b3f8a159')
+```
 
+#### Create ACH-US Node(s) via Bank Login
 
-# Get All Trans
+from synapse_pay_rest.models.nodes import AchUsNode
 
-transactions_response = client.Trans.get(node_id=NODE_ID)
-
-
-#Create a Transaction
-
-trans_payload = {
-    "to":{
-        "type":"SYNAPSE-US",
-        "id":"560adb4e86c27331bb5ac86e"
-    },
-    "amount":{
-        "amount":1.10,
-        "currency":"USD"
-    },
-    "extra":{
-        "supp_id":"1283764wqwsdd34wd13212",
-        "note":"Deposit to bank account",
-        "process_on":1,
-        "ip":"192.168.0.1"
-    },
-    "fees":[{
-        "fee":1.00,
-        "note":"Facilitator Fee",
-        "to":{
-            "id":"55d9287486c27365fe3776fb"
-        }
-    }]
+Returns a list of nodes unless the bank requires MFA.
+```python
+required = {
+    'bank_name': 'bofa',
+    'username': 'synapse_good',
+    'password': 'test1234'
 }
 
-create_response = client.Trans.create(node_id=NODE_ID, payload=trans_payload)
+ach_us = AchUsNode.create_via_bank_login(user, **required)
 
+ach_us.mfa_verified
+# => False (requires MFA)
+```
 
-# Get a Transaction
+##### Verify Bank Login MFA
 
-transaction_response = client.Trans.get(node_id=NODE_ID, trans_id=TRANS_ID)
+If the bank requires MFA, you will need to resolve the MFA question(s):
+```python
 
+ach_us.mfa_message
+# => "Enter the code we texted to your phone number."
 
-# Update Transaction
+nodes = ach_us.answer_mfa('test_answer')
+# => returns list of nodes if successful
+# => returns self if incorrect answer or if there is a new MFA question
 
-update_payload = {
-    "comment": "hi"
+ach_us.mfa_verified
+# => True
+```
+
+#### Create ACH-US Node via Account/Routing Number
+
+```python
+required = {
+    'nickname': 'Primary Joint Checking',
+    'account_number': '2222222222',
+    'routing_number': '051000017',
+    'account_type': 'PERSONAL',
+    'account_class': 'CHECKING'
 }
 
-update_response = client.Trans.update(node_id=NODE_ID, trans_id=TRANS_ID, payload=update_payload)
+node = AchUsNode.create(user, **required)
+```
+
+##### Verify Microdeposits
+
+ACH-US nodes added by account/routing must be verified with microdeposits:
+
+```python
+required = {
+    'amount1': 0.1,
+    'amount2': 0.1
+}
+
+node = node.verify_microdeposits(**required)
+```
+
+#### Deactivate a Node
+
+```python
+node.deactivate()
+```
 
 
-# Delete Transaction
+## Transaction Methods
 
-delete_trans_response = client.Trans.delete(node_id=NODE_ID, trans_id=TRANS_ID)
+#### Retrieve All Transactions Sent from a Node
 
+```python
+from synapse_pay_rest import Transaction
+
+options = {
+    'page': 1,
+    'per_page': 20
+}
+
+transactions = Transaction.all(node, **options)
+```
+
+#### Retrieve Node's Transaction by Transaction ID
+
+```python
+transaction = Transaction.by_id(node, '57fc1a6886c2732e64a94c25')
+```
+
+#### Create a Transaction from a Node
+
+```python
+required = {
+    'to_type': 'ACH-US',
+    'to_id': '57f4241d86c27331523e2f26',
+    'amount': 5.50,
+    'currency': 'USD',
+    'ip': '127.0.0.1'
+}
+
+options = {
+    'process_in': 1, # delay until processing (in days)
+    'note': 'hi synapse', # a note to synapse
+    'supp_id': 'ABC123',
+    'fee_amount': 1.50,
+    'fee_note': 'App Fee',
+    'fee_to_id': '57ec5a2f86c27352af734011'
+}
+
+transaction = Transaction.create(node, **required, **options)
+```
+
+#### Add a Comment to a Transaction's Status
+
+```python
+transaction = transaction.add_comment('this is my best transaction')
+```
+
+#### Cancel a Transaction
+
+```python
+transaction = transaction.cancel()
 ```

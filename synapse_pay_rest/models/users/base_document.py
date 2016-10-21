@@ -151,7 +151,13 @@ class BaseDocument():
         response = self.user.client.users.update(self.user.id, payload)
         user = self.user.from_response(self.user.client, response)
         base_doc = [base_doc for base_doc in user.base_documents
-                    if base_doc.id == self.id][0]
+                    if base_doc.id == self.id]
+        if base_doc:
+            # id match found
+            base_doc = base_doc[0]
+        else:
+            # id not found so assume the most recent one is correct
+            base_doc = user.base_documents[-1]
         return base_doc
 
     def payload_for_update(self, **kwargs):

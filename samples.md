@@ -70,6 +70,7 @@ user = user.remove_phone_number('415-555-5555')
 user = user.change_cip_tag(1)
 ```
 
+
 ## Adding Documents to Users
 
 #### Add a CIP Base Document to a User

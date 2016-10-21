@@ -19,6 +19,7 @@ options = {
 client = Client(**required, **options)
 ```
 
+
 ## User Methods
 
 #### Retrieve All Users
@@ -69,6 +70,7 @@ user = user.add_phone_number('415-555-5555')
 user = user.remove_phone_number('415-555-5555')
 user = user.change_cip_tag(1)
 ```
+
 
 ## Adding Documents to Users
 
@@ -141,8 +143,7 @@ base_document = physical_document.base_document
 ##### using a URL
 ```python
 url = 'https://cdn.synapsepay.com/static_assets/logo@2x.png'
-physical_document = base_document.add_physical_document(type='GOVT_ID',
-                                                        url=url)
+physical_document = base_document.add_physical_document(type='GOVT_ID', url=url)
 base_document = physical_document.base_document
 ```
 
@@ -218,10 +219,11 @@ node = Node.by_id(user, '57ec57be86c27345b3f8a159')
 
 #### Create ACH-US Node(s) via Bank Login
 
-from synapse_pay_rest.models.nodes import AchUsNode
 
 Returns a list of nodes unless the bank requires MFA.
 ```python
+from synapse_pay_rest.models.nodes import AchUsNode
+
 required = {
     'bank_name': 'bofa',
     'username': 'synapse_good',

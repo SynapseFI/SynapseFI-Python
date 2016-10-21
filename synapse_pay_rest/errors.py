@@ -112,7 +112,7 @@ class ErrorFactory():
     @classmethod
     def from_response(cls, response):
         """Return the corresponding error from a response."""
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         code = response.status_code
         klass = cls.ERRORS.get(code, SynapsePayError)
         body = response.json()

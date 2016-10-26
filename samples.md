@@ -12,7 +12,7 @@ required = {
 }
 
 options = {
-    'development_mode': True, # default False (sandbox environment)
+    'development_mode': True, # default False
     'logging': False # logs to stdout if True
 }
 

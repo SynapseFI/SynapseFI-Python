@@ -14,7 +14,7 @@ class Client():
         Args:
             client_id (str): your API client id
             client_secret (str): your API client secret
-            fignerprint (str): the user's fingerprint
+            fingerprint (str): the user's fingerprint
             ip_address (str): the user's IP address
             development_mode (bool): if True, requests sent to
             production endpoints (else sandbox)

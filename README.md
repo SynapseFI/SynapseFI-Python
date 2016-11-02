@@ -15,6 +15,18 @@ pip install synapse_pay_rest_native
 # synapse_pay_rest after installation.
 ```
 
+## Development
+1. Clone the repo from GitHub.
+2. Install requirements:
+```bash
+pip install -r requirements.txt
+```
+
+Running the test suite:
+```bash
+python -m unittest synapse_pay_rest.tests
+```
+
 ## License
 
 The MIT License (MIT)

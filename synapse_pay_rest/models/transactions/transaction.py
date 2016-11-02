@@ -12,6 +12,7 @@ class Transaction():
 
     @classmethod
     def from_response(cls, node, response):
+        """Construct a Transaction from a response dict."""
         return cls(
             node=node,
             id=response['_id'],
@@ -40,12 +41,14 @@ class Transaction():
 
     @classmethod
     def multiple_from_response(cls, node, response):
-        nodes = [cls.from_response(node, trans_data)
-                 for trans_data in response]
-        return nodes
+        """Construct multiple Transactions from a response dict."""
+        transactions = [cls.from_response(node, trans_data)
+                        for trans_data in response]
+        return transactions
 
     @staticmethod
     def payload_for_create(to_type, to_id, amount, currency, ip, **kwargs):
+        """Build the API 'create transaction' payload from property values."""
         payload = {
             'to': {
                 'type': to_type,
@@ -80,8 +83,29 @@ class Transaction():
     @classmethod
     def create(cls, node=None, to_type=None, to_id=None, amount=None,
                currency=None, ip=None, **kwargs):
-        # TODO allow multiple fees
-        # TODO idempotency key
+        """Create a trans record in API and corresponding Transaction instance.
+
+        Args:
+            node (BaseNode): the node from which to send funds
+            to_type (str): type of the 'to' node (e.g. 'ACH-US')
+            to_id (id): id of the 'to' node
+            amount (float): amount of currency
+            currency (str): type of currency (e.g. 'USD')
+            ip (str): ip of the sender
+            process_in (int): delay in days until processing (default 1)
+            note (str): a note to synapse
+            supp_id (str): a supplementary id
+            fee_amount (float): an additional fee to include
+            fee_note (str): a note to go with the fee
+            fee_to_id (str): the node id from which to take the fee
+
+        Todo:
+            - allow multiple fees
+            - idempotency key
+
+        Returns:
+            Transaction: a new Transaction instance
+        """
         payload = cls.payload_for_create(to_type, to_id, amount, currency, ip,
                                          **kwargs)
         node.user.authenticate()
@@ -91,15 +115,42 @@ class Transaction():
 
     @classmethod
     def by_id(cls, node=None, id=None):
+        """Retrieve a trans record by id and create a Transaction instance from it.
+
+        Args:
+            node (BaseNode): the node from which to send funds
+            id (str): id of the transaction to retrieve
+
+        Returns:
+            Transaction: a Transaction instance corresponding to the record
+        """
         response = node.user.client.trans.get(node.user.id, node.id, id)
         return cls.from_response(node, response)
 
     @classmethod
     def all(cls, node=None, **kwargs):
+        """Retrieve all trans records (limited by pagination) as Transactions.
+
+        Args:
+            node (BaseNode): the node from which to send funds
+            per_page (int, str): (opt) number of records to retrieve
+            page (int, str): (opt) page number to retrieve
+
+        Returns:
+            list: containing 0 or more Transaction instances
+        """
         response = node.user.client.trans.get(node.user.id, node.id, **kwargs)
         return cls.multiple_from_response(node, response['trans'])
 
     def add_comment(self, comment):
+        """Add a comment to the transaction's recent_status.
+
+        Args:
+            comment (str): text of the comment
+
+        Returns:
+            Transaction: a new instance representing the same record updated
+        """
         payload = {'comment': comment}
         response = self.node.user.client.trans.update(self.node.user.id,
                                                       self.node.id,
@@ -108,6 +159,11 @@ class Transaction():
         return self.from_response(self.node, response['trans'])
 
     def cancel(self):
+        """Cancel the transaction (will show in status).
+
+        Returns:
+            Transaction: a new instance representing the same record updated
+        """
         response = self.node.user.client.trans.delete(self.node.user.id,
                                                       self.node.id,
                                                       self.id)

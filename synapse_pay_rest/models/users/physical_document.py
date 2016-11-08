@@ -46,10 +46,10 @@ class PhysicalDocument(Document):
     def byte_stream_to_base64(byte_stream, mime_type):
         """Convert a byte stream / array to a properly padded base64 string.
         """
-        encoded_string = str(base64.b64encode(byte_stream))
+        base64_string = base64.b64encode(byte_stream).decode("utf-8")
         mime_padding = 'data:{0};base64,'.format(mime_type)
-        base64_string = mime_padding + encoded_string
-        return base64_string
+        padded_base64 = mime_padding + base64_string
+        return padded_base64
 
     @staticmethod
     def file_to_base64(file_path):

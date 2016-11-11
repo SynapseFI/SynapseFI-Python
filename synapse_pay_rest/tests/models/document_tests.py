@@ -20,7 +20,7 @@ class DocumentTestCases(unittest.TestCase):
             'phone_number': '707-555-5555',
             'ip': '127.0.0.1',
             'name': 'Doctor BaseDoc',
-            'aka': 'Basey',
+            'alias': 'Basey',
             'entity_type': 'F',
             'entity_scope': 'Arts & Entertainment',
             'birth_day': 28,

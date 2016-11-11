@@ -81,7 +81,7 @@ options = {
     'phone_number': '707-555-5555',
     'ip': '127.0.0.1',
     'name': 'Doctor BaseDoc',
-    'aka': 'Basey',
+    'alias': 'Basey',
     'entity_type': 'F',
     'entity_scope': 'Arts & Entertainment',
     'birth_day': 28,
@@ -106,7 +106,7 @@ options = {
     'phone_number': '415-555-5555',
     'ip': '127.0.0.2',
     'name': 'Doctor Boop',
-    'aka': 'Boopsie',
+    'alias': 'Boopsie',
     'entity_type': 'M',
     'entity_scope': 'Education',
     'birth_day': 21,
@@ -151,6 +151,7 @@ base_document = physical_document.base_document
 ```python
 byte_stream = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00...'
 physical_document = base_document.add_physical_document(type='GOVT_ID',
+                                                        mime_type='image/jpeg',
                                                         byte_stream=byte_stream)
 base_document = physical_document.base_document
 ```

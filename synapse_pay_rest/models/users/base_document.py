@@ -77,7 +77,7 @@ class BaseDocument():
             phone_number=kwargs['phone_number'],
             ip=kwargs['ip'],
             name=kwargs['name'],
-            aka=kwargs['aka'],
+            alias=kwargs['alias'],
             entity_type=kwargs['entity_type'],
             entity_scope=kwargs['entity_scope'],
             birth_day=kwargs['birth_day'],
@@ -96,7 +96,7 @@ class BaseDocument():
         return base_document
 
     @staticmethod
-    def payload_for_create(email, phone_number, ip, name, aka,
+    def payload_for_create(email, phone_number, ip, name, alias,
                            entity_type, entity_scope, birth_day, birth_month,
                            birth_year, address_street, address_city,
                            address_subdivision, address_postal_code,
@@ -108,7 +108,7 @@ class BaseDocument():
                 'phone_number': phone_number,
                 'ip': ip,
                 'name': name,
-                'alias': aka,
+                'alias': alias,
                 'entity_type': entity_type,
                 'entity_scope': entity_scope,
                 'day': birth_day,

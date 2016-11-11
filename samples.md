@@ -151,6 +151,7 @@ base_document = physical_document.base_document
 ```python
 byte_stream = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00...'
 physical_document = base_document.add_physical_document(type='GOVT_ID',
+                                                        mime_type='image/jpeg',
                                                         byte_stream=byte_stream)
 base_document = physical_document.base_document
 ```

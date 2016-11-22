@@ -17,8 +17,11 @@ class Client():
             fingerprint (str): the user's fingerprint
             ip_address (str): the user's IP address
             development_mode (bool): if True, requests sent to
-            production endpoints (else sandbox)
+            sandbox endpoints (else production)
             logging (bool): if True, requests logged to stdout
+            
+        Todo:
+            Allow logging to file
         """
         base_url = 'https://synapsepay.com/api/3'
         if kwargs.get('development_mode'):

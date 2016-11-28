@@ -114,6 +114,7 @@ class NodeTestCases(unittest.TestCase):
         self.assertEqual(self.user.id, nodes[0].user.id)
 
     def test_create_eft_ind_node(self):
+        pass  # DEPRECATED
         kwargs = {
           'ifsc': 'BKID0005046',
           'account_number': '2345654323456754323',
@@ -180,6 +181,7 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
     def test_create_synapse_ind_node(self):
+        pass  # DEPRECATED
         kwargs = {
             'supp_id': 'ABC123'
         }
@@ -211,13 +213,31 @@ class NodeTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
-    def test_create_create_synapse_us_node(self):
+    def test_create_synapse_us_node(self):
         kwargs = {
             'supp_id': 'ABC123'
         }
         node = SynapseUsNode.create(self.user, 'Python Test SYNAPSE-US Node',
                                     **kwargs)
         self.assertIsInstance(node, SynapseUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'balance', 'currency', 'name_on_account']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_triumph_subaccount_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = TriumphSubaccountUsNode.create(
+                self.user,
+                'Python Test TRIUMPH-SUBACCOUNT-US Node',
+                **kwargs)
+        self.assertIsInstance(node, TriumphSubaccountUsNode)
         self.assertEqual(self.user.id, node.user.id)
         for prop in kwargs:
             self.assertIsNotNone(getattr(node, prop))

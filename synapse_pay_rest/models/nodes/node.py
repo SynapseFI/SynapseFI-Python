@@ -7,6 +7,7 @@ from .reserve_us_node import ReserveUsNode
 from .synapse_ind_node import SynapseIndNode
 from .synapse_np_node import SynapseNpNode
 from .synapse_us_node import SynapseUsNode
+from .triumph_subaccount_us_node import TriumphSubaccountUsNode
 from .wire_int_node import WireIntNode
 from .wire_us_node import WireUsNode
 
@@ -27,6 +28,7 @@ class Node():
       'SYNAPSE-IND': SynapseIndNode,
       'SYNAPSE-NP': SynapseNpNode,
       'SYNAPSE-US': SynapseUsNode,
+      'TRIUMPH-SUBACCOUNT-US': TriumphSubaccountUsNode,
       'WIRE-INT': WireIntNode,
       'WIRE-US': WireUsNode
     }

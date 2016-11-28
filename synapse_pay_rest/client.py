@@ -16,10 +16,10 @@ class Client():
             client_secret (str): your API client secret
             fingerprint (str): the user's fingerprint
             ip_address (str): the user's IP address
-            development_mode (bool): if True, requests sent to
-            sandbox endpoints (else production)
+            development_mode (bool): if True, requests sent to sandbox
+            endpoints (else production)
             logging (bool): if True, requests logged to stdout
-            
+
         Todo:
             Allow logging to file
         """

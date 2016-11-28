@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 Running the test suite:
 ```bash
-python -m unittest synapse_pay_rest.tests
+python -W ignore -m unittest synapse_pay_rest.tests
 ```
 
 ## License

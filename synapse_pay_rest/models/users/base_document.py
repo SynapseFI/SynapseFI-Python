@@ -18,6 +18,15 @@ class BaseDocument():
         for arg, value in kwargs.items():
             setattr(self, arg, value)
 
+    def __repr__(self):
+        user = '{0}(id={1})'.format(self.user.__class__, self.user.id)
+        clean_dict = self.__dict__.copy()
+        clean_dict['user'] = user
+        clean_dict['physical_documents'] = len(self.physical_documents)
+        clean_dict['social_documents'] = len(self.social_documents)
+        clean_dict['virtual_documents'] = len(self.virtual_documents)
+        return '{0}({1})'.format(self.__class__, clean_dict)
+
     @classmethod
     def from_response(cls, user, response):
         """Construct a BaseDocument from a response dict."""

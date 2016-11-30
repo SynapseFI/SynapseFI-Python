@@ -13,6 +13,7 @@ from .reserve_us_node import ReserveUsNode
 from .synapse_ind_node import SynapseIndNode
 from .synapse_np_node import SynapseNpNode
 from .synapse_us_node import SynapseUsNode
+from .triumph_subaccount_us_node import TriumphSubaccountUsNode
 from .wire_int_node import WireIntNode
 from .wire_us_node import WireUsNode
 from .node import Node

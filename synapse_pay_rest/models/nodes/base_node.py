@@ -1,6 +1,3 @@
-from synapse_pay_rest.models.users import User
-
-
 class BaseNode():
     """Ancestor of the various node types.
 
@@ -11,6 +8,12 @@ class BaseNode():
     def __init__(self, **kwargs):
         for arg, value in kwargs.items():
             setattr(self, arg, value)
+
+    def __repr__(self):
+        user = '{0}(id={1})'.format(self.user.__class__, self.user.id)
+        clean_dict = self.__dict__.copy()
+        clean_dict['user'] = user
+        return '{0}({1})'.format(self.__class__, clean_dict)
 
     @classmethod
     def from_response(cls, user, response):

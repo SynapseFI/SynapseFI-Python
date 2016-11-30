@@ -23,11 +23,14 @@ class Client():
         Todo:
             Allow logging to file
         """
-        base_url = 'https://synapsepay.com/api/3'
+        self.base_url = 'https://synapsepay.com/api/3'
         if kwargs.get('development_mode'):
-            base_url = 'https://sandbox.synapsepay.com/api/3'
+            self.base_url = 'https://sandbox.synapsepay.com/api/3'
 
-        self.http_client = HttpClient(base_url=base_url, **kwargs)
+        self.http_client = HttpClient(base_url=self.base_url, **kwargs)
         self.users = Users(self.http_client)
         self.nodes = Nodes(self.http_client)
         self.trans = Trans(self.http_client)
+
+    def __repr__(self):
+        return '{0}(base_url={1})'.format(self.__class__, self.base_url)

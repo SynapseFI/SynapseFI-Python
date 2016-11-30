@@ -1,5 +1,3 @@
-
-
 class Transaction():
     """Represents a transaction record with methods for constructing Transaction
     instances.
@@ -9,6 +7,12 @@ class Transaction():
     def __init__(self, **kwargs):
         for arg, value in kwargs.items():
             setattr(self, arg, value)
+
+    def __repr__(self):
+        node = '{0}(id={1})'.format(self.node.__class__, self.node.id)
+        clean_dict = self.__dict__.copy()
+        clean_dict['node'] = node
+        return '{0}({1})'.format(self.__class__, clean_dict)
 
     @classmethod
     def from_response(cls, node, response):

@@ -1,5 +1,3 @@
-
-
 class Document():
     """Ancestor of PhysicalDocument, SocialDocument, and VirtualDocument.
 
@@ -10,6 +8,13 @@ class Document():
     def __init__(self, **kwargs):
         for arg, value in kwargs.items():
             setattr(self, arg, value)
+
+    def __repr__(self):
+        base_document = '{0}(id={1})'.format(self.base_document.__class__,
+                                             self.base_document.id)
+        clean_dict = self.__dict__.copy()
+        clean_dict['base_document'] = base_document
+        return '{0}({1})'.format(self.__class__, clean_dict)
 
     @classmethod
     def payload_for_create(cls, type, value):

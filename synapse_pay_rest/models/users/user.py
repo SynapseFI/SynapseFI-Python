@@ -14,6 +14,12 @@ class User():
         for arg, value in kwargs.items():
             setattr(self, arg, value)
 
+    def __repr__(self):
+        bdocs = len(self.base_documents)
+        clean_dict = self.__dict__.copy()
+        clean_dict['base_documents'] = bdocs
+        return '{0}({1})'.format(self.__class__, clean_dict)
+
     @classmethod
     def from_response(cls, client, response):
         """Construct a User from a response dict."""
@@ -30,8 +36,7 @@ class User():
           is_business=response.get('extra').get('is_business'),
           cip_tag=response.get('extra').get('cip_tag')
         )
-        user.base_documents = BaseDocument.multiple_from_response(user,
-                                                                  response['documents'])
+        user.base_documents = BaseDocument.multiple_from_response(user, response['documents'])
         return user
 
     @classmethod

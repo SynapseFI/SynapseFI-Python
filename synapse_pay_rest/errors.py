@@ -8,6 +8,10 @@ class SynapsePayError(Exception):
         self.code = code
         self.response = response
 
+    def __repr__(self):
+        return '{0}(code={1},message={2})'.format(self.__class__, self.code,
+                                                  self.message)
+
 
 class ClientError(SynapsePayError):
     pass

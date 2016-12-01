@@ -38,22 +38,24 @@ class BaseNode():
           'ifsc': response['info'].get('ifsc')
         }
 
-        # correspondent info (optional)
         if response['info'].get('correspondent_info'):
             info = response['info']['correspondent_info']
             args['correspondent_swift'] = info.get('swift')
             args['correspondent_bank_name'] = info.get('bank_name')
             args['correspondent_routing_number'] = info.get('routing_num')
             args['correspondent_address'] = info.get('address')
-            args['correspondent_swift'] = info.get('swift')
 
-        # balance info (optional)
+        if response['info'].get('match_info'):
+            match_info = response['info']['match_info']
+            args['email_match'] = match_info.get('email_match')
+            args['name_match'] = match_info.get('name_match')
+            args['phonenumber_match'] = match_info.get('phonenumber_match')
+
         if response['info'].get('balance'):
             info = response['info']['balance']
             args['balance'] = info.get('amount')
             args['currency'] = info.get('currency')
 
-        # extra info (optional)
         if response.get('extra'):
             info = response['extra']
             args['supp_id'] = info.get('supp_id')
@@ -82,7 +84,7 @@ class BaseNode():
             if option in kwargs:
                 payload['info'][option] = kwargs[option]
 
-        # these have to be renamed in a custom manner
+        # the rest are done individually since they are custom renamed
         correspondent_info = {}
         if 'correspondent_routing_number' in kwargs:
             correspondent_info['routing_num'] = kwargs['correspondent_routing_number']

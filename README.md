@@ -8,11 +8,9 @@ Check out the samples.md and our API documentation(http://docs.synapsepay.com/v3
 
 ## Installation
 
+**note**: we are temporarily using the package name "synapse_pay_rest_native" on pip, but you should still import `synapse_pay_rest` after installing it.
 ```bash
 pip install synapse_pay_rest_native
-# note: we are temporarily using the package name synapse_pay_rest_native on pip
-# until we can upgrade the synapse_pay_rest package. you should still import
-# synapse_pay_rest after installation.
 ```
 
 ## Development

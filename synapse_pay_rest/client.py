@@ -16,15 +16,21 @@ class Client():
             client_secret (str): your API client secret
             fingerprint (str): the user's fingerprint
             ip_address (str): the user's IP address
-            development_mode (bool): if True, requests sent to
-            production endpoints (else sandbox)
+            development_mode (bool): if True, requests sent to sandbox
+            endpoints (else production)
             logging (bool): if True, requests logged to stdout
-        """
-        base_url = 'https://synapsepay.com/api/3'
-        if kwargs.get('development_mode'):
-            base_url = 'https://sandbox.synapsepay.com/api/3'
 
-        self.http_client = HttpClient(base_url=base_url, **kwargs)
+        Todo:
+            Allow logging to file
+        """
+        self.base_url = 'https://synapsepay.com/api/3'
+        if kwargs.get('development_mode'):
+            self.base_url = 'https://sandbox.synapsepay.com/api/3'
+
+        self.http_client = HttpClient(base_url=self.base_url, **kwargs)
         self.users = Users(self.http_client)
         self.nodes = Nodes(self.http_client)
         self.trans = Trans(self.http_client)
+
+    def __repr__(self):
+        return '{0}(base_url={1})'.format(self.__class__, self.base_url)

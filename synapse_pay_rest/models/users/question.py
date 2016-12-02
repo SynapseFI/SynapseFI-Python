@@ -1,12 +1,13 @@
-
-
 class Question():
-    """
+    """An MFA question caused by SSN partial match.
     """
 
     def __init__(self, **kwargs):
         for arg, value in kwargs.items():
             setattr(self, arg, value)
+
+    def __repr__(self):
+        return '{0}({1})'.format(self.__class__, self.__dict__)
 
     @classmethod
     def from_response(cls, response):

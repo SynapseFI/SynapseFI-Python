@@ -2,7 +2,7 @@ from .base_node import BaseNode
 
 
 class EftIndNode(BaseNode):
-    """Represents an EFT-IND node."""
+    """[DEPRECATED] Represents an EFT-IND node."""
 
     @classmethod
     def payload_for_create(cls, nickname, account_number, ifsc, **kwargs):

@@ -15,9 +15,13 @@ class HttpClient():
             ip_address=kwargs['ip_address'],
             oauth_key=''
         )
-
         self.base_url = kwargs['base_url']
         self.logging = kwargs.get('logging', False)
+
+    def __repr__(self):
+        return '{0}(base_url={1}, logging={2})'.format(self.__class__,
+                                                       self.base_url,
+                                                       self.logging)
 
     def update_headers(self, **kwargs):
         """Update the supplied properties on self and in the header dictionary.

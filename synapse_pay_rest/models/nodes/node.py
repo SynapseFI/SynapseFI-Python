@@ -1,4 +1,5 @@
 from synapse_pay_rest.models.users.user import User
+from .base_node import BaseNode
 from .ach_us_node import AchUsNode
 from .eft_ind_node import EftIndNode
 from .eft_np_node import EftNpNode
@@ -7,6 +8,7 @@ from .reserve_us_node import ReserveUsNode
 from .synapse_ind_node import SynapseIndNode
 from .synapse_np_node import SynapseNpNode
 from .synapse_us_node import SynapseUsNode
+from .triumph_subaccount_us_node import TriumphSubaccountUsNode
 from .wire_int_node import WireIntNode
 from .wire_us_node import WireUsNode
 
@@ -27,6 +29,7 @@ class Node():
       'SYNAPSE-IND': SynapseIndNode,
       'SYNAPSE-NP': SynapseNpNode,
       'SYNAPSE-US': SynapseUsNode,
+      'TRIUMPH-SUBACCOUNT-US': TriumphSubaccountUsNode,
       'WIRE-INT': WireIntNode,
       'WIRE-US': WireUsNode
     }
@@ -75,7 +78,7 @@ class Node():
             args['supp_id'] = info.get('supp_id')
             args['gateway_restricted'] = info.get('gateway_restricted')
 
-        klass = cls.NODE_TYPES_TO_CLASSES[response['type']]
+        klass = cls.NODE_TYPES_TO_CLASSES.get(response['type']) or BaseNode
         return klass(**args)
 
     @classmethod

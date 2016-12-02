@@ -8,23 +8,21 @@ Check out the samples.md and our API documentation(http://docs.synapsepay.com/v3
 
 ## Installation
 
+**note**: we are temporarily using the package name "synapse_pay_rest_native" on pip, but you should still import `synapse_pay_rest` after installing it.
 ```bash
 pip install synapse_pay_rest_native
-# note: we are temporarily using the package name synapse_pay_rest_native on pip
-# until we can upgrade the synapse_pay_rest package. you should still import
-# synapse_pay_rest after installation.
 ```
 
 ## Development
 1. Clone the repo from GitHub.
 2. Install requirements:
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Running the test suite:
 ```bash
-python -m unittest synapse_pay_rest.tests
+python3 -W ignore -m unittest synapse_pay_rest.tests
 ```
 
 ## License

@@ -1,4 +1,5 @@
 from synapse_pay_rest.models.users.user import User
+from .base_node import BaseNode
 from .ach_us_node import AchUsNode
 from .eft_ind_node import EftIndNode
 from .eft_np_node import EftNpNode
@@ -77,7 +78,7 @@ class Node():
             args['supp_id'] = info.get('supp_id')
             args['gateway_restricted'] = info.get('gateway_restricted')
 
-        klass = cls.NODE_TYPES_TO_CLASSES[response['type']]
+        klass = cls.NODE_TYPES_TO_CLASSES.get(response['type']) or BaseNode
         return klass(**args)
 
     @classmethod

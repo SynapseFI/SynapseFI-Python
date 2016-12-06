@@ -59,6 +59,8 @@ class User():
             'cip_tag': kwargs.get('cip_tag')
           }
         }
+        if 'password' in kwargs:
+            payload['logins'][0]['password'] = kwargs['password']
         return payload
 
     @classmethod

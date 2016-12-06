@@ -40,5 +40,6 @@ user_create_args = {
     'note': ':)',
     'supp_id': '123abc',
     'is_business': True,
-    'cip_tag': 1
+    'cip_tag': 1,
+    'password': 'password'
 }

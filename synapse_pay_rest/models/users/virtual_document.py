@@ -22,7 +22,7 @@ class VirtualDocument(Document):
             VirtualDocument: a new VirtualDocument instance
         """
         payload = cls.payload_for_create(type, value)
-        base_doc = base_document.update(virtual_documents=[payload])
+        base_doc = base_document.update(virtual_documents=payload)
         virtual_doc = [doc for doc in base_doc.virtual_documents
                        if doc.type == type][0]
         return virtual_doc

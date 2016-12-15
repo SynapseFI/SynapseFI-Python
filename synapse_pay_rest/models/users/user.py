@@ -124,8 +124,7 @@ class User():
         Returns:
             User: self
         """
-        payload = {'refresh_token': self.refresh_token}
-        self.client.users.refresh(self.id, payload)
+        self.client.users.refresh(self.id, self.payload_for_refresh())
         return self
 
     def payload_for_update(self, **kwargs):
@@ -149,6 +148,10 @@ class User():
             if option in kwargs:
                 payload['update'][option] = kwargs[option]
         return payload
+
+    def payload_for_refresh(self):
+        """Build the API 'oauth user' payload."""
+        return {'refresh_token': self.refresh_token}
 
     def add_base_document(self, **kwargs):
         """Add a BaseDocument to the User.
@@ -255,3 +258,56 @@ class User():
         payload = self.payload_for_update(cip_tag=new_cip)
         response = self.client.users.update(self.id, payload)
         return User.from_response(self.client, response)
+
+    def register_fingerprint(self, new_fingerprint):
+        """Supply a new fingerprint for the user.
+
+        This is step 1 of 3 in registering a new fingerprint. Additional 2FA
+        devices can be registered via add_phone_number() and add_login().
+
+        Args:
+            new_fingerprint (str): the new fingerprint value
+
+        Returns:
+            list: of registered 2FA devices (phone numbers or emails)
+        """
+        self.client.http_client.update_headers(fingerprint=new_fingerprint)
+        response = self.client.users.refresh(self.id, self.payload_for_refresh())
+        devices = response['phone_numbers']
+        return devices
+
+    def select_2fa_device(self, device):
+        """Provide the device to which the 2FA pin should be sent.
+
+        This is step 2 of 3 in registering a new fingerprint. Additional 2FA
+        devices can be registered via add_phone_number() and add_login(). If
+        the supplied device is a valid device that is registered to the user,
+        the user will receive a PIN after calling this method.
+
+        Args:
+            device (str): the registered 2FA email or phone number to use
+
+        Returns:
+            bool: True if PIN sent successfully
+        """
+        payload = self.payload_for_refresh()
+        payload['phone_number'] = device
+        self.client.users.refresh(self.id, payload)
+        return True
+
+    def confirm_2fa_pin(self, device, pin):
+        """Provide the PIN that was sent to the selected device.
+
+        This is step 3 of 3 in registering a new fingerprint.
+
+        Args:
+            pin (str): the new fingerprint value
+
+        Returns:
+            bool: True if confirmation succeeds
+        """
+        payload = self.payload_for_refresh()
+        payload['phone_number'] = device
+        payload['validation_pin'] = pin
+        self.client.users.refresh(self.id, payload)
+        return True

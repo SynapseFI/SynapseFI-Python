@@ -48,6 +48,7 @@ class VirtualDocument(Document):
             VirtualDocument: a new instance representing the updated document
         """
         user = self.base_document.user
+        user.authenticate()
         response = user.client.users.update(user.id, self.payload_for_kba())
         user = user.from_response(user.client, response)
         base_doc = [base_doc for base_doc in user.base_documents

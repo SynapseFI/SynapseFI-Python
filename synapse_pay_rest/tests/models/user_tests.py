@@ -110,3 +110,18 @@ class UserTestCases(unittest.TestCase):
                       'virtual_documents']
         for prop in properties:
             self.assertIsNotNone(getattr(base_document, prop))
+
+    def test_fingerprint_registration(self):
+        user = User.create(self.client, **user_create_args)
+
+        devices = user.register_fingerprint('new_fingerprint')
+        self.assertIsInstance(devices, list)
+        self.assertGreater(len(devices), 0)
+
+        # special header forces API to accept PIN '123456'
+        user.client.http_client.update_headers(fingerprint='static_pin')
+        confirmation = user.select_2fa_device(devices[0])
+        self.assertTrue(confirmation)
+
+        confirmation = user.confirm_2fa_pin(device=devices[0], pin='123456')
+        self.assertTrue(confirmation)

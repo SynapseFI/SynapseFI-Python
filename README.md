@@ -4,7 +4,7 @@ Simple API wrapper for SynapsePay v3 REST API.
 
 ## Code Example
 
-Check out the samples.md and our API documentation(http://docs.synapsepay.com/v3.1) for examples.
+Check out [samples.md](samples.md) and our [API documentation](http://docs.synapsepay.com/v3.1) for examples.
 
 ## Installation
 

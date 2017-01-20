@@ -38,7 +38,7 @@ class VirtualDocument(Document):
         return doc
 
     def submit_kba(self):
-        """Verify the VirtualDocument's MFA questions.
+        """[DEPRECATED] Verify the VirtualDocument's MFA questions.
 
         If the VirtualDocument requires MFA, it will have a question_set
         property. This method takes the user's answers to those questions and
@@ -57,7 +57,7 @@ class VirtualDocument(Document):
         return virtual_doc
 
     def payload_for_kba(self):
-        """Build the API 'answer KBA' payload from property values."""
+        """[DEPRECATED] Build the API 'answer KBA' payload from property values."""
         answers = [{'question_id': question.id, 'answer_id': question.choice}
                    for question in self.question_set]
         payload = {

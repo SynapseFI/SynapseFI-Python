@@ -1,6 +1,6 @@
 ## SynapsePayRest-Python
 
-Simple API wrapper for SynapsePay REST V3.x API.  This wrapper aims to handle the headers for each API request and appropriate error handling.
+Simple API wrapper for SynapsePay v3 REST API.
 
 ## Code Example
 
@@ -17,12 +17,12 @@ pip install synapse_pay_rest_native
 1. Clone the repo from GitHub.
 2. Install requirements:
 ```bash
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Running the test suite:
 ```bash
-python3 -W ignore -m unittest synapse_pay_rest.tests
+python -W ignore -m unittest synapse_pay_rest.tests
 ```
 
 ## License

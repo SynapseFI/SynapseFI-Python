@@ -7,7 +7,7 @@ from synapse_pay_rest import Client
 required = {
     'client_id': os.environ['CLIENT_ID'], # your client id
     'client_secret': os.environ['CLIENT_SECRET'], # your client secret
-    'fingerprint': os.environ['FINGERPRINT'], # user's fingerprint
+    'fingerprint': 'user_fingerprint',
     'ip_address': '127.0.0.1', # user's IP
 }
 
@@ -226,7 +226,7 @@ Returns a list of nodes unless the bank requires MFA.
 from synapse_pay_rest.models.nodes import AchUsNode
 
 required = {
-    'bank_name': 'bofa',
+    'bank_name': 'fake',
     'username': 'synapse_good',
     'password': 'test1234'
 }

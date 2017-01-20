@@ -1,5 +1,5 @@
 class Question():
-    """An MFA question caused by SSN partial match.
+    """[DEPRECATED] An MFA question caused by SSN partial match.
     """
 
     def __init__(self, **kwargs):

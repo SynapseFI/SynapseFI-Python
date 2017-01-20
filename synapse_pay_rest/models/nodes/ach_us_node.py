@@ -36,7 +36,6 @@ class AchUsNode(BaseNode):
                                              username=username,
                                              password=password,
                                              mfa_verified=True)
-        user.authenticate()
         response = user.client.nodes.create(user.id, payload)
         if 'mfa' in response:
             # create unverified node
@@ -86,7 +85,7 @@ class AchUsNode(BaseNode):
 
         If the user answers incorrectly, the node will remain unverified and
         the question will remain the same. If the bank requires an additional
-        MFA question, the method will remain unverified but the question
+        MFA question, the node will remain unverified but the question
         property will have a new value. Otherwise, if the user satisfies MFA,
         the method will retrieve their ACH-US node data.
 

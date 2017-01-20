@@ -2,7 +2,7 @@ from .base_node import BaseNode
 
 
 class SynapseNpNode(BaseNode):
-    """Represents a SYNAPSE-NP node."""
+    """[DEPRECATED] Represents a SYNAPSE-NP node."""
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):

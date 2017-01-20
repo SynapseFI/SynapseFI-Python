@@ -37,7 +37,7 @@ class User():
           cip_tag=response.get('extra').get('cip_tag')
         )
         user.base_documents = BaseDocument.multiple_from_response(user, response['documents'])
-        return user
+        return user.authenticate()
 
     @classmethod
     def multiple_from_response(cls, client, response):

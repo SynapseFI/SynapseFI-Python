@@ -9,13 +9,13 @@ class HttpClient():
     """
     def __init__(self, **kwargs):
         self.update_headers(
-            client_id='client_id_b8d24e32b6aa11e6bba40242ac110003',
-            client_secret='test1234',
-            fingerprint='e716990e50b67a1177736960b6357524b22090ccab093d068b3d7a18dbde3f4c',
+            client_id=kwargs['client_id'],
+            client_secret=kwargs['client_secret'],
+            fingerprint=kwargs['fingerprint'],
             ip_address=kwargs['ip_address'],
             oauth_key=''
         )
-        self.base_url = 'https://api-qa.synapsefi.com/v3.1'
+        self.base_url = kwargs['base_url']
         self.logging = kwargs.get('logging', False)
 
     def __repr__(self):

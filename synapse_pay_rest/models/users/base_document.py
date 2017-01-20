@@ -98,7 +98,6 @@ class BaseDocument():
             address_postal_code=kwargs['address_postal_code'],
             address_country_code=kwargs['address_country_code']
         )
-        user.authenticate()
         response = user.client.users.update(user.id, payload)
         user = user.from_response(user.client, response)
         base_document = user.base_documents[-1]
@@ -156,7 +155,6 @@ class BaseDocument():
             BaseDocument: a new instance representing the same API record
         """
         payload = self.payload_for_update(**kwargs)
-        self.user.authenticate()
         response = self.user.client.users.update(self.user.id, payload)
         user = self.user.from_response(self.user.client, response)
         base_doc = [base_doc for base_doc in user.base_documents

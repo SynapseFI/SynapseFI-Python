@@ -100,7 +100,6 @@ class Node():
         Returns:
             BaseNode: a BaseNode instance corresponding to the record
         """
-        user.authenticate()
         response = user.client.nodes.get(user.id, id)
         return cls.from_response(user, response)
 
@@ -117,6 +116,5 @@ class Node():
         Returns:
             list: containing 0 or more BaseNode instances
         """
-        user.authenticate()
         response = user.client.nodes.get(user.id, **kwargs)
         return cls.multiple_from_response(user, response['nodes'])

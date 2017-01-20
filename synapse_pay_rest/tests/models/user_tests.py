@@ -66,7 +66,7 @@ class UserTestCases(unittest.TestCase):
         # add phone number
         user = user.add_phone_number(phone_number)
         self.assertEqual(2, len(user.phone_numbers))
-        self.assertEqual(phone_number, user.phone_numbers[-1])
+        self.assertIn(phone_number, user.phone_numbers)
         # remove phone number
         user = user.remove_phone_number(phone_number)
         self.assertNotIn(phone_number, user.phone_numbers)

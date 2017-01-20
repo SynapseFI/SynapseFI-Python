@@ -17,6 +17,14 @@ class Transaction():
     @classmethod
     def from_response(cls, node, response):
         """Construct a Transaction from a response dict."""
+        fee_amount = None
+        fee_note = None
+        fee_to_id = None
+        if response.get('fees'):
+            fee_amount = response['fees'][-1]['fee'],
+            fee_note = response['fees'][-1]['note'],
+            fee_to_id = response['fees'][-1]['to']['id']
+
         return cls(
             node=node,
             id=response['_id'],
@@ -38,9 +46,9 @@ class Transaction():
             to_info=response['to'],
             to_type=response['to']['type'],
             to_id=response['to']['id'],
-            fee_amount=response['fees'][-1]['fee'],
-            fee_note=response['fees'][-1]['note'],
-            fee_to_id=response['fees'][-1]['to']['id'],
+            fee_amount=fee_amount,
+            fee_note=fee_note,
+            fee_to_id=fee_to_id
         )
 
     @classmethod
@@ -64,8 +72,8 @@ class Transaction():
             },
             'extra': {
                 'ip': ip,
-                'supp_id': kwargs.get('supp_id'),
-                'note': kwargs.get('note')
+                'supp_id': kwargs.get('supp_id') or '',
+                'note': kwargs.get('note') or ''
             }
         }
         if 'process_in' in kwargs:
@@ -112,7 +120,6 @@ class Transaction():
         """
         payload = cls.payload_for_create(to_type, to_id, amount, currency, ip,
                                          **kwargs)
-        node.user.authenticate()
         response = node.user.client.trans.create(node.user.id, node.id,
                                                  payload)
         return cls.from_response(node, response)
@@ -160,7 +167,7 @@ class Transaction():
                                                       self.node.id,
                                                       self.id,
                                                       payload)
-        return self.from_response(self.node, response['trans'])
+        return self.from_response(self.node, response)
 
     def cancel(self):
         """Cancel the transaction (will show in status).

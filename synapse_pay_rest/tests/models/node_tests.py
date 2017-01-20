@@ -14,7 +14,7 @@ class NodeTestCases(unittest.TestCase):
         self.user = User.create(self.client, **user_create_args)
 
     def test_by_id(self):
-        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+        nodes = AchUsNode.create_via_bank_login(self.user, 'fake',
                                                 'synapse_nomfa', 'test1234')
         node_id = nodes[0].id
         node = Node.by_id(self.user, node_id)
@@ -23,7 +23,7 @@ class NodeTestCases(unittest.TestCase):
         self.assertEqual(node_id, node.id)
 
     def test_all(self):
-        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+        nodes = AchUsNode.create_via_bank_login(self.user, 'fake',
                                                 'synapse_nomfa', 'test1234')
         nodes = Node.all(self.user)
         self.assertEqual(2, len(nodes))
@@ -41,7 +41,7 @@ class NodeTestCases(unittest.TestCase):
         self.assertEqual(0, len(synapse_nodes))
 
     def test_deactivate(self):
-        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+        nodes = AchUsNode.create_via_bank_login(self.user, 'fake',
                                                 'synapse_nomfa', 'test1234')
         nodes = Node.all(self.user)
         self.assertEqual(2, len(nodes))
@@ -54,7 +54,7 @@ class NodeTestCases(unittest.TestCase):
 
     def test_create_ach_us_via_account_and_routing(self):
         kwargs = {
-            'account_number': '2345654323456754323',
+            'account_number': '23456543234',
             'routing_number': '051000017',
             'account_type': 'PERSONAL',
             'account_class': 'CHECKING',
@@ -68,7 +68,7 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'bank_long_name', 'name_on_account', 'permission']
+                       'bank_long_name', 'permission']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -77,11 +77,8 @@ class NodeTestCases(unittest.TestCase):
         node = node.verify_microdeposits(amount1=0.1, amount2=0.1)
         self.assertEqual('CREDIT-AND-DEBIT', node.permission)
 
-    def test_verify_ach_us_node_microdeposits(self):
-        pass
-
     def test_create_ach_us_via_bank_login_without_mfa(self):
-        nodes = AchUsNode.create_via_bank_login(self.user, 'bofa',
+        nodes = AchUsNode.create_via_bank_login(self.user, 'fake',
                                                 'synapse_nomfa', 'test1234')
         self.assertIsInstance(nodes, list)
 
@@ -89,14 +86,14 @@ class NodeTestCases(unittest.TestCase):
         self.assertIsInstance(node, AchUsNode)
         self.assertEqual(self.user.id, node.user.id)
         other_props = ['user', 'id', 'type', 'is_active', 'bank_long_name',
-                       'name_on_account', 'permission', 'bank_name', 'balance',
+                       'permission', 'bank_name',
                        'currency', 'routing_number', 'account_number',
                        'account_class', 'account_type']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
     def test_create_ach_us_via_bank_login_with_mfa(self):
-        node = AchUsNode.create_via_bank_login(self.user, 'bofa',
+        node = AchUsNode.create_via_bank_login(self.user, 'fake',
                                                'synapse_good', 'test1234')
         self.assertIsInstance(node, AchUsNode)
         self.assertEqual(self.user.id, node.user.id)
@@ -109,15 +106,15 @@ class NodeTestCases(unittest.TestCase):
         nodes = node.answer_mfa('test_answer')
         self.assertTrue(node.mfa_verified)
         self.assertIsInstance(nodes, list)
-        self.assertEqual(2, len(nodes))
+        self.assertEqual(4, len(nodes))
         self.assertIsInstance(nodes[0], AchUsNode)
         self.assertEqual(self.user.id, nodes[0].user.id)
 
+    @unittest.skip("deprecated")
     def test_create_eft_ind_node(self):
-        pass  # DEPRECATED
         kwargs = {
           'ifsc': 'BKID0005046',
-          'account_number': '2345654323456754323',
+          'account_number': '23456543234',
           'supp_id': 'ABC123'
         }
         node = EftIndNode.create(self.user, 'Python Test EFT-IND', **kwargs)
@@ -131,10 +128,11 @@ class NodeTestCases(unittest.TestCase):
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
+    @unittest.skip("deprecated")
     def test_create_eft_np_node(self):
         kwargs = {
           'bank_name': 'Siddhartha Bank',
-          'account_number': '2345654323456754323',
+          'account_number': '23456543234',
           'supp_id': 'ABC123'
         }
         node = EftNpNode.create(self.user, 'Python Test EFT-NP', **kwargs)
@@ -176,12 +174,12 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission', 'balance', 'currency']
+                       'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
+    @unittest.skip("deprecated")
     def test_create_synapse_ind_node(self):
-        pass  # DEPRECATED
         kwargs = {
             'supp_id': 'ABC123'
         }
@@ -193,10 +191,11 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission', 'balance', 'currency', 'name_on_account']
+                       'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
+    @unittest.skip("deprecated")
     def test_create_synapse_np_node(self):
         kwargs = {
             'supp_id': 'ABC123'
@@ -209,7 +208,7 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission', 'balance', 'currency', 'name_on_account']
+                       'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -225,7 +224,7 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission', 'balance', 'currency', 'name_on_account']
+                       'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -243,7 +242,7 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
-                       'permission', 'balance', 'currency', 'name_on_account']
+                       'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
 
@@ -261,12 +260,26 @@ class NodeTestCases(unittest.TestCase):
             'correspondent_swift': 'TSIGFR22',
             'supp_id': 'ABC123'
         }
+
         node = WireIntNode.create(self.user, 'Python Test WIRE-INT Node',
                                   **kwargs)
         self.assertIsInstance(node, WireIntNode)
         self.assertEqual(self.user.id, node.user.id)
+
+        not_returned = [
+            'correspondent_routing_number',
+            'correspondent_bank_name',
+            'correspondent_address',
+            'name_on_account',
+            'swift',
+            'correspondent_swift',
+        ]
+
         for prop in kwargs:
-            self.assertIsNotNone(getattr(node, prop))
+            if prop in not_returned:
+                pass
+            else:
+                self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
                        'permission']
@@ -289,8 +302,21 @@ class NodeTestCases(unittest.TestCase):
                                  **kwargs)
         self.assertIsInstance(node, WireUsNode)
         self.assertEqual(self.user.id, node.user.id)
+
+        not_returned = [
+            'correspondent_routing_number',
+            'correspondent_bank_name',
+            'correspondent_address',
+            'name_on_account',
+            'swift',
+            'correspondent_swift',
+        ]
+
         for prop in kwargs:
-            self.assertIsNotNone(getattr(node, prop))
+            if prop in not_returned:
+                pass
+            else:
+                self.assertIsNotNone(getattr(node, prop))
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
                        'permission']

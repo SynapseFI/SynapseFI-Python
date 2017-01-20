@@ -2,7 +2,7 @@ from .base_node import BaseNode
 
 
 class EftNpNode(BaseNode):
-    """Represents an EFT-NP node."""
+    """[DEPRECATED] Represents an EFT-NP node."""
 
     @classmethod
     def payload_for_create(cls, nickname, bank_name, account_number, **kwargs):

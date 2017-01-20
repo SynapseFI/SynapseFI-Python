@@ -44,7 +44,4 @@ class NodesTestCases(unittest.TestCase):
                                             nodes_create_payload)
         node = response['nodes'][0]
         response = self.client.nodes.delete(self.user['_id'], node['_id'])
-        self.assertEqual('200', response['http_code'])
-        # verify it's gone (404)
-        with self.assertRaises(NotFoundError):
-            self.client.nodes.get(self.user['_id'], node['_id'])
+        self.assertIsNotNone(response['_id'])

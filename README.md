@@ -1,6 +1,6 @@
 ## SynapsePayRest-Python
 
-Simple API wrapper for SynapsePay REST V3.x API.  This wrapper aims to handle the headers for each API request and appropriate error handling.
+Simple API wrapper for SynapsePay v3 REST API.
 
 ## Code Example
 

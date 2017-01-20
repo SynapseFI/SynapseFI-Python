@@ -4,6 +4,7 @@
 class SynapsePayError(Exception):
     """Custom class for handling HTTP and API errors."""
     def __init__(self, message, code, response):
+        # print('\nRESPONSE:\n\n', response.json())
         self.message = message
         self.code = code
         self.response = response

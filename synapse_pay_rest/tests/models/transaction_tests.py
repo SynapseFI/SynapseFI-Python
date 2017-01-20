@@ -15,7 +15,7 @@ class TransactionTestCases(unittest.TestCase):
         self.client = test_client
         self.user = User.create(self.client, **user_create_args)
         self.nodes = AchUsNode.create_via_bank_login(self.user,
-                                                     'bofa',
+                                                     'fake',
                                                      'synapse_nomfa',
                                                      'test1234')
         self.from_node = self.nodes[0]
@@ -34,7 +34,7 @@ class TransactionTestCases(unittest.TestCase):
 
         other_props = ['node', 'amount', 'client_id', 'client_name',
                        'created_on', 'ip', 'latlon', 'note', 'process_on',
-                       'supp_id', 'webhook', 'fees', 'recent_status',
+                       'supp_id', 'fees', 'recent_status',
                        'from_info', 'to_info', 'to_type', 'to_id', 'supp_id',
                        'currency']
         for prop in other_props:

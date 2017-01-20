@@ -133,7 +133,6 @@ class BaseNode():
         See subclasses for more information about type-specific args.
         """
         payload = cls.payload_for_create(nickname, **kwargs)
-        user.authenticate()
         response = user.client.nodes.create(user.id, payload)
         return cls.from_response(user, response['nodes'][0])
 
@@ -146,5 +145,4 @@ class BaseNode():
         Returns:
             None
         """
-        self.user.authenticate()
         self.user.client.nodes.delete(self.user.id, self.id)

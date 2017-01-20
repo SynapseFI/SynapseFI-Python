@@ -78,6 +78,7 @@ class DocumentTestCases(unittest.TestCase):
         self.assertEqual(self.base_document.id, doc.base_document.id)
         self.assertEqual('SUBMITTED|INVALID', doc.status)
 
+    @unittest.skip("deprecated")
     def test_virtual_document_with_ssn_mfa(self):
         type = 'SSN'
         value = '3333'

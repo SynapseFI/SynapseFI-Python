@@ -33,18 +33,17 @@ class TransTestCases(unittest.TestCase):
 
     def test_get_multiple_trans(self):
         response = self.client.trans.get(self.user['_id'],
-                                                self.node['_id'])
+                                         self.node['_id'])
         self.assertIsNotNone(response['trans'])
 
     def test_update_transaction_with_comment(self):
         trans = self.client.trans.create(self.user['_id'],
                                          self.node['_id'],
                                          trans_create_payload)
-        response = self.client.trans.update(self.user['_id'],
-                                            self.node['_id'],
-                                            trans['_id'],
-                                            trans_update_payload)
-        trans = response['trans']
+        trans = self.client.trans.update(self.user['_id'],
+                                         self.node['_id'],
+                                         trans['_id'],
+                                         trans_update_payload)
         note = trans['recent_status']['note']
         self.assertIsNotNone(trans['_id'])
         self.assertIn(trans_update_payload['comment'], note)

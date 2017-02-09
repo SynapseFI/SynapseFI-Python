@@ -329,10 +329,7 @@ options = {
             'note': 'Test Fee 1', # Reason for the fee
             'to': {'id': fee_node.id} # Node ID where the fee would be credited when the transaction settles. Fee node has to be SYNAPSE-US type.
         }
-    ],
-    'fee_amount': 1.50, # deprecated
-    'fee_note': 'App Fee', # deprecated
-    'fee_to_id': '57ec5a2f86c27352af734011' # deprecated
+    ]
 }
 
 transaction = Transaction.create(node, **required, **options)

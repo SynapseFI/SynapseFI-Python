@@ -99,7 +99,7 @@ class Transaction():
 
     @classmethod
     def create(cls, node=None, to_type=None, to_id=None, amount=None,
-               currency=None, ip=None, **kwargs):
+               currency=None, ip=None, idempotency_key=None, **kwargs):
         """Create a trans record in API and corresponding Transaction instance.
 
         Args:
@@ -109,22 +109,20 @@ class Transaction():
             amount (float): amount of currency
             currency (str): type of currency (e.g. 'USD')
             ip (str): ip of the sender
+            idempotency_key (str): avoid accidentally performing the same operation twice
             process_in (int): delay in days until processing (default 1)
             note (str): a note to synapse
             supp_id (str): a supplementary id
+            fees (list): fees associated with the transaction
             fee_amount (float): an additional fee to include (deprecated)
             fee_note (str): a note to go with the fee (deprecated)
             fee_to_id (str): the node id from which to take the fee (deprecated)
-            fees (list): fees associated with the transaction
-
-        Todo:
-            - idempotency key
 
         Returns:
             Transaction: a new Transaction instance
         """
         payload = cls.payload_for_create(to_type, to_id, amount, currency, ip,
-                                         **kwargs)
+                                         idempotency_key, **kwargs)
         response = node.user.client.trans.create(node.user.id, node.id,
                                                  payload)
         return cls.from_response(node, response)

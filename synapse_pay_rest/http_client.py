@@ -53,7 +53,7 @@ class HttpClient():
         response = self.session.get(self.base_url + url, params=parameters)
         return self.parse_response(response)
 
-    def post(self, url, payload):
+    def post(self, url, payload, **kwargs):
         """Send a POST request to the API."""
         self.log_information(self.logging)
         data = json.dumps(payload)

@@ -78,7 +78,7 @@ class Node():
             args['supp_id'] = info.get('supp_id')
             args['gateway_restricted'] = info.get('gateway_restricted')
 
-        klass = cls.NODE_TYPES_TO_CLASSES.get(response['type']) or BaseNode
+        klass = cls.NODE_TYPES_TO_CLASSES.get(response['type'], BaseNode)
         return klass(**args)
 
     @classmethod

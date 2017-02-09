@@ -5,8 +5,8 @@ import os
 from synapse_pay_rest import Client
 
 required = {
-    'client_id': os.environ['CLIENT_ID'], # your client id
-    'client_secret': os.environ['CLIENT_SECRET'], # your client secret
+    'client_id': os.environ['TEST_CLIENT_ID'], # your client id
+    'client_secret': os.environ['TEST_CLIENT_SECRET'], # your client secret
     'fingerprint': 'user_fingerprint',
     'ip_address': '127.0.0.1', # user's IP
 }

@@ -1,9 +1,9 @@
 import os
 from synapse_pay_rest.client import Client
 
-CLIENT_ID = os.environ['CLIENT_ID']
-CLIENT_SECRET = os.environ['CLIENT_SECRET']
-FINGERPRINT = os.environ['FINGERPRINT']
+CLIENT_ID = os.environ['TEST_CLIENT_ID']
+CLIENT_SECRET = os.environ['TEST_CLIENT_SECRET']
+FINGERPRINT = 'test_fp'
 IP_ADDRESS = '127.0.0.1'
 
 test_client = Client(

@@ -26,7 +26,7 @@ class ClientTestCases(unittest.TestCase):
         self.assertIsInstance(self.client.trans, Trans)
 
     def test_passes_correct_base_url_to_http_client(self):
-        sandbox = 'https://sandbox.synapsepay.com/api/3'
+        sandbox = 'https://uat-api.synapsefi.com/v3.1'
         production = 'https://synapsepay.com/api/3'
         self.assertEqual(sandbox, self.client.http_client.base_url)
 

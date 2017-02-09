@@ -114,12 +114,10 @@ class UserTestCases(unittest.TestCase):
     def test_fingerprint_registration(self):
         user = User.create(self.client, **user_create_args)
 
-        devices = user.register_fingerprint('new_fingerprint')
+        devices = user.register_fingerprint('static_pin')
         self.assertIsInstance(devices, list)
         self.assertGreater(len(devices), 0)
 
-        # special header forces API to accept PIN '123456'
-        user.client.http_client.update_headers(fingerprint='static_pin')
         confirmation = user.select_2fa_device(devices[0])
         self.assertTrue(confirmation)
 

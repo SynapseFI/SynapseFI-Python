@@ -6,6 +6,7 @@ from synapse_pay_rest.tests.fixtures.node import *
 from synapse_pay_rest.tests.fixtures.trans import *
 from synapse_pay_rest.models import User
 from synapse_pay_rest.models.nodes.ach_us_node import AchUsNode
+from synapse_pay_rest.models.nodes.synapse_us_node import SynapseUsNode
 from synapse_pay_rest.models import Transaction
 
 
@@ -39,6 +40,35 @@ class TransactionTestCases(unittest.TestCase):
                        'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(transaction, prop))
+
+    def test_create_with_fees(self):
+        fee_node = SynapseUsNode.create(self.user, 'Python Test SYNAPSE-US Node')
+        fee_node2 = SynapseUsNode.create(self.user, 'Python Test SYNAPSE-US Node2')
+        test_fees = [
+            {
+                'fee': 0.12,
+                'note': 'Test Fee 1',
+                'to': {'id': fee_node.id}
+            },
+            {
+                'fee': 0.33,
+                'note': 'Test Fee 2',
+                'to': {'id': fee_node2.id}
+            }
+        ]
+        transaction_id = Transaction.create(self.from_node,
+                                         self.to_node.type,
+                                         self.to_node.id,
+                                         1.00,
+                                         'USD',
+                                         '127.0.0.1',
+                                         supp_id='ABC123',
+                                         fees=test_fees).id
+        transaction = Transaction.by_id(self.from_node, transaction_id)
+        self.assertIsInstance(transaction, Transaction)
+        self.assertEqual(self.from_node.id, transaction.node.id)
+        self.assertEqual(transaction.fees[0]['fee'], 0.12)
+        self.assertEqual(len(transaction.fees), 2)
 
     def test_by_id(self):
         transaction_id = Transaction.create(self.from_node,

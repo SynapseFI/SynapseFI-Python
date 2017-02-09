@@ -79,6 +79,7 @@ class Transaction():
         if 'process_in' in kwargs:
             payload['extra']['process_on'] = kwargs['process_in']
         fees = []
+        # deprecated fee flow
         if 'fee_amount' in kwargs:
             fee = {
                 'fee': kwargs['fee_amount'],
@@ -90,6 +91,10 @@ class Transaction():
             fees.append(fee)
         if fees:
             payload['fees'] = fees
+
+        # new fee flow
+        if 'fees' in kwargs:
+            payload['fees'] = kwargs['fees']
         return payload
 
     @classmethod
@@ -107,12 +112,12 @@ class Transaction():
             process_in (int): delay in days until processing (default 1)
             note (str): a note to synapse
             supp_id (str): a supplementary id
-            fee_amount (float): an additional fee to include
-            fee_note (str): a note to go with the fee
-            fee_to_id (str): the node id from which to take the fee
+            fee_amount (float): an additional fee to include (deprecated)
+            fee_note (str): a note to go with the fee (deprecated)
+            fee_to_id (str): the node id from which to take the fee (deprecated)
+            fees (list): fees associated with the transaction
 
         Todo:
-            - allow multiple fees
             - idempotency key
 
         Returns:

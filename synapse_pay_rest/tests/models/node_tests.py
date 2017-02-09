@@ -106,7 +106,7 @@ class NodeTestCases(unittest.TestCase):
         nodes = node.answer_mfa('test_answer')
         self.assertTrue(node.mfa_verified)
         self.assertIsInstance(nodes, list)
-        self.assertEqual(4, len(nodes))
+        self.assertEqual(2, len(nodes))
         self.assertIsInstance(nodes[0], AchUsNode)
         self.assertEqual(self.user.id, nodes[0].user.id)
 

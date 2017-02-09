@@ -139,10 +139,17 @@ class BaseNode():
     def deactivate(self):
         """Deactivate and deindex the node.
 
-        The node will not appear in results and will not be available to create
-        new transactions. This does not cancel transactions already underway.
+        The node will not appear in results lists and will not be available to
+        create new transactions. This does not cancel transactions already
+        underway.
 
         Returns:
-            None
+            BaseNode: a BaseNode instance corresponding to the record
         """
-        self.user.client.nodes.delete(self.user.id, self.id)
+        response = self.user.client.nodes.delete(self.user.id, self.id)
+        if '_id' in response:
+            # api v3.1.1
+            return self.__class__.from_response(self, response)
+        else:
+            # api v3.1.0
+            return None

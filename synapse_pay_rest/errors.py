@@ -118,16 +118,16 @@ class ErrorFactory():
     def from_response(cls, response):
         """Return the corresponding error from a response."""
         # import pdb; pdb.set_trace()
-        code = response.status_code
-        klass = cls.ERRORS.get(code, SynapsePayError)
-        body = response.json()
-        message, error_code = cls.parse_error(body)
+        message, error_code, http_code = cls.parse_error(response)
+        klass = cls.ERRORS.get(http_code, SynapsePayError)
         return klass(message=message, code=error_code, response=response)
 
     @classmethod
-    def parse_error(cls, body):
+    def parse_error(cls, response):
         """Determine error message and code from response body."""
+        body = response.json()
         if type(body) is dict and type(body['error']) is dict:
-            return [body['error']['en'], body['error_code']]
+            return [body['error']['en'], body['error_code'],
+                    response.status_code]
         else:
-            return ['', None]
+            return ['', None, None]

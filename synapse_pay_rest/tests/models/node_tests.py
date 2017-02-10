@@ -273,6 +273,7 @@ class NodeTestCases(unittest.TestCase):
             'name_on_account',
             'swift',
             'correspondent_swift',
+            'routing_number'
         ]
 
         for prop in kwargs:

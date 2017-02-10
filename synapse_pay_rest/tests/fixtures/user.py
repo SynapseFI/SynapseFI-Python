@@ -1,5 +1,3 @@
-USER_ID = '589cdf7784f2d00020ea407c'
-
 users_create_payload = {
     'logins': [
         {

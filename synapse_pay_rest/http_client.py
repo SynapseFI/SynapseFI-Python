@@ -42,6 +42,9 @@ class HttpClient():
         self.session = requests.Session()
         self.session.headers.update(self.headers)
 
+    def get_headers(self):
+        return self.session.headers
+
     def get(self, url, **params):
         """Send a GET request to the API."""
         self.log_information(self.logging)

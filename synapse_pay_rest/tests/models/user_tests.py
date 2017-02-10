@@ -2,6 +2,7 @@ import unittest
 import pdb
 from synapse_pay_rest.tests.fixtures.client import *
 from synapse_pay_rest.tests.fixtures.user import *
+from synapse_pay_rest.client import Client
 from synapse_pay_rest.models import User
 from synapse_pay_rest.models import BaseDocument
 
@@ -31,7 +32,9 @@ class UserTestCases(unittest.TestCase):
         users = User.all(self.client)
         self.assertIsInstance(users, list)
         self.assertIsInstance(users[0], User)
-        self.assertEqual(users[0].client, self.client)
+        self.assertIsInstance(users[0].client, Client)
+        # no duplicate clients on different users
+        self.assertNotEqual(users[0].client, users[1].client)
         # with params
         query = "test"
         per_page = 5

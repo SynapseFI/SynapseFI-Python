@@ -1,3 +1,4 @@
+import copy
 from synapse_pay_rest.client import Client
 from .base_document import BaseDocument
 
@@ -42,7 +43,8 @@ class User():
     @classmethod
     def multiple_from_response(cls, client, response):
         """Construct multiple Users from a response dict."""
-        users = [cls.from_response(client, user_data) for user_data in response]
+        users = [cls.from_response(copy.copy(client), user_data)
+                 for user_data in response]
         return users
 
     @staticmethod

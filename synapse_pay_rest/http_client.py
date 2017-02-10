@@ -41,6 +41,7 @@ class HttpClient():
         }
         self.session = requests.Session()
         self.session.headers.update(self.headers)
+        return self.session.headers
 
     def get_headers(self):
         return self.session.headers
@@ -59,6 +60,9 @@ class HttpClient():
     def post(self, url, payload, **kwargs):
         """Send a POST request to the API."""
         self.log_information(self.logging)
+        headers = self.get_headers()
+        if 'idempotency_key' in kwargs:
+            headers['X-SP-IDEMPOTENCY-KEY'] = kwargs['idempotency_key']
         data = json.dumps(payload)
         response = self.session.post(self.base_url + url, data=data)
         return self.parse_response(response)

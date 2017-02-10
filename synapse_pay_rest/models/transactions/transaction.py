@@ -122,9 +122,9 @@ class Transaction():
             Transaction: a new Transaction instance
         """
         payload = cls.payload_for_create(to_type, to_id, amount, currency, ip,
-                                         idempotency_key, **kwargs)
+                                         **kwargs)
         response = node.user.client.trans.create(node.user.id, node.id,
-                                                 payload)
+                                                 payload, idempotency_key)
         return cls.from_response(node, response)
 
     @classmethod

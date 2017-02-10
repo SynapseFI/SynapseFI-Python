@@ -1,5 +1,6 @@
 import unittest
 import pdb
+import time
 from synapse_pay_rest.tests.fixtures.client import *
 from synapse_pay_rest.tests.fixtures.user import *
 from synapse_pay_rest.tests.fixtures.node import *
@@ -8,6 +9,7 @@ from synapse_pay_rest.models import User
 from synapse_pay_rest.models.nodes.ach_us_node import AchUsNode
 from synapse_pay_rest.models.nodes.synapse_us_node import SynapseUsNode
 from synapse_pay_rest.models import Transaction
+from synapse_pay_rest.errors import *
 
 
 class TransactionTestCases(unittest.TestCase):
@@ -40,6 +42,37 @@ class TransactionTestCases(unittest.TestCase):
                        'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(transaction, prop))
+
+    def test_create_with_idempotency_key(self):
+        idempotency_key = str(time.time())
+        transaction = Transaction.create(self.from_node,
+                                         self.to_node.type,
+                                         self.to_node.id,
+                                         1.00,
+                                         'USD',
+                                         '127.0.0.1',
+                                         idempotency_key=idempotency_key,
+                                         supp_id='ABC123')
+        self.assertIsInstance(transaction, Transaction)
+        self.assertEqual(self.from_node.id, transaction.node.id)
+
+        other_props = ['node', 'amount', 'client_id', 'client_name',
+                       'created_on', 'ip', 'latlon', 'note', 'process_on',
+                       'supp_id', 'fees', 'recent_status',
+                       'from_info', 'to_info', 'to_type', 'to_id', 'supp_id',
+                       'currency']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(transaction, prop))
+
+        with self.assertRaises(ConflictError):
+            Transaction.create(self.from_node,
+                               self.to_node.type,
+                               self.to_node.id,
+                               1.00,
+                               'USD',
+                               '127.0.0.1',
+                               idempotency_key=idempotency_key,
+                               supp_id='ABC123')
 
     def test_create_with_fees(self):
         fee_node = SynapseUsNode.create(self.user, 'Python Test SYNAPSE-US Node')

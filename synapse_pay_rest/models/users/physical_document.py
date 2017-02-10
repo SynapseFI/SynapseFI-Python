@@ -69,6 +69,5 @@ class PhysicalDocument(Document):
         """
         response = requests.get(url)
         mime_type = mimetypes.guess_type(url)[0]
-        import pdb; pdb.set_trace()
         byte_stream = base64.b64encode(response.content)
         return PhysicalDocument.byte_stream_to_base64(byte_stream, mime_type)

@@ -33,6 +33,8 @@ class PhysicalDocument(Document):
         if file_path:
             value = cls.file_to_base64(file_path)
         elif url:
+            has_query = url.find('?') > 0
+            url = url[:url.find('?')] if has_query else url
             value = cls.url_to_base64(url)
         elif byte_stream:
             value = cls.byte_stream_to_base64(byte_stream, mime_type)

@@ -1,3 +1,4 @@
+import copy
 from synapse_pay_rest.client import Client
 from .base_document import BaseDocument
 
@@ -21,7 +22,7 @@ class User():
         return '{0}({1})'.format(self.__class__, clean_dict)
 
     @classmethod
-    def from_response(cls, client, response):
+    def from_response(cls, client, response, oauth=True):
         """Construct a User from a response dict."""
         user = cls(
           client=client,
@@ -37,12 +38,15 @@ class User():
           cip_tag=response.get('extra').get('cip_tag')
         )
         user.base_documents = BaseDocument.multiple_from_response(user, response['documents'])
-        return user.authenticate()
+        if oauth:
+            user.authenticate()
+        return user
 
     @classmethod
     def multiple_from_response(cls, client, response):
         """Construct multiple Users from a response dict."""
-        users = [cls.from_response(client, user_data) for user_data in response]
+        users = [cls.from_response(copy.copy(client), user_data, oauth=False)
+                 for user_data in response]
         return users
 
     @staticmethod

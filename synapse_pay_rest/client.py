@@ -25,7 +25,7 @@ class Client():
         """
         self.base_url = 'https://synapsepay.com/api/3'
         if kwargs.get('development_mode'):
-            self.base_url = 'https://sandbox.synapsepay.com/api/3'
+            self.base_url = 'https://uat-api.synapsefi.com/v3.1'
 
         self.http_client = HttpClient(base_url=self.base_url, **kwargs)
         self.users = Users(self.http_client)

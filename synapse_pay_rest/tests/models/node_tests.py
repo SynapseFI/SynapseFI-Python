@@ -250,10 +250,10 @@ class NodeTestCases(unittest.TestCase):
         kwargs = {
             'bank_name': 'Bank of America',
             'account_number': '888888888',
-            'routing_number': '051000017',
+            'routing_number': '026009593',
             'name_on_account': 'Medusa Pythonlady',
             'address': '123 Hiss Hiss',
-            'correspondent_routing_number': '051000017',
+            'correspondent_routing_number': '026009593',
             'correspondent_bank_name': 'Bank of America',
             'correspondent_address': '415 Donut Hiss at Me',
             'swift': 'TSIGFR22',
@@ -273,6 +273,7 @@ class NodeTestCases(unittest.TestCase):
             'name_on_account',
             'swift',
             'correspondent_swift',
+            'routing_number'
         ]
 
         for prop in kwargs:
@@ -290,10 +291,10 @@ class NodeTestCases(unittest.TestCase):
         kwargs = {
             'bank_name': 'Bank of America',
             'account_number': '888888888',
-            'routing_number': '051000017',
+            'routing_number': '026009593',
             'name_on_account': 'Medusa Pythonlady',
             'address': '123 Hiss Hiss',
-            'correspondent_routing_number': '051000017',
+            'correspondent_routing_number': '026009593',
             'correspondent_bank_name': 'Bank of America',
             'correspondent_address': '415 Donut Hiss at Me',
             'supp_id': 'ABC123'

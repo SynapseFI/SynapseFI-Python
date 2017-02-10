@@ -60,6 +60,12 @@ class DocumentTestCases(unittest.TestCase):
         doc = self.base_document.add_physical_document(type=type, url=url)
         self.assertIsInstance(doc, PhysicalDocument)
 
+    def test_physical_doc_with_url_and_query_params(self):
+        type = 'GOVT_ID'
+        url = 'https://cdn.synapsepay.com/static_assets/logo@2x.png?testinh=1234'
+        doc = self.base_document.add_physical_document(type=type, url=url)
+        self.assertEqual(doc.type, type)
+
     def test_virtual_document_with_valid_ssn(self):
         type = 'SSN'
         value = '2222'

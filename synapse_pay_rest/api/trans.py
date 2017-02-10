@@ -19,7 +19,7 @@ class Trans():
         else:
             return path
 
-    def create(self, user_id, node_id, payload):
+    def create(self, user_id, node_id, payload, idempotency_key=None):
         """Create a transaction record via POST request to the API.
 
         https://docs.synapsepay.com/docs/create-transaction
@@ -33,7 +33,8 @@ class Trans():
             dict: JSON data from response body (single node record)
         """
         path = self.create_trans_path(user_id, node_id)
-        response = self.client.post(path, payload)
+        response = self.client.post(path, payload,
+                                    idempotency_key=idempotency_key)
         return response
 
     def get(self, user_id, node_id, trans_id=None, **params):

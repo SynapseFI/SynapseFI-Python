@@ -5,8 +5,8 @@ import os
 from synapse_pay_rest import Client
 
 required = {
-    'client_id': os.environ['CLIENT_ID'], # your client id
-    'client_secret': os.environ['CLIENT_SECRET'], # your client secret
+    'client_id': os.environ['TEST_CLIENT_ID'], # your client id
+    'client_secret': os.environ['TEST_CLIENT_SECRET'], # your client secret
     'fingerprint': 'user_fingerprint',
     'ip_address': '127.0.0.1', # user's IP
 }
@@ -329,10 +329,7 @@ options = {
             'note': 'Test Fee 1', # Reason for the fee
             'to': {'id': fee_node.id} # Node ID where the fee would be credited when the transaction settles. Fee node has to be SYNAPSE-US type.
         }
-    ],
-    'fee_amount': 1.50, # deprecated
-    'fee_note': 'App Fee', # deprecated
-    'fee_to_id': '57ec5a2f86c27352af734011' # deprecated
+    ]
 }
 
 transaction = Transaction.create(node, **required, **options)

@@ -61,7 +61,7 @@ class HttpClient():
         """Send a POST request to the API."""
         self.log_information(self.logging)
         headers = self.get_headers()
-        if 'idempotency_key' in kwargs:
+        if kwargs.get('idempotency_key'):
             headers['X-SP-IDEMPOTENCY-KEY'] = kwargs['idempotency_key']
         data = json.dumps(payload)
         response = self.session.post(self.base_url + url, data=data)

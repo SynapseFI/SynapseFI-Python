@@ -15,6 +15,8 @@ class TransTestCases(unittest.TestCase):
         response = self.client.nodes.create(self.user['_id'],
                                             ach_us_bank_login_payload)
         self.node = response['nodes'][0]
+        self.to_node = response['nodes'][1]
+        trans_create_payload['to']['id'] = self.to_node['_id']
 
     def test_create_a_new_transaction(self):
         trans = self.client.trans.create(self.user['_id'],

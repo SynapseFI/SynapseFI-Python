@@ -1,9 +1,7 @@
-TO_NODE_ID = '57ec57be86c27345b3f8a159'
-
 trans_create_payload = {
     "to": {
         "type": "ACH-US",
-        "id": TO_NODE_ID
+        "id": ''
     },
     "amount": {
         "amount": 1.10,

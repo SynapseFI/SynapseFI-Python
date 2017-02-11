@@ -170,7 +170,12 @@ class Transaction():
                                                       self.node.id,
                                                       self.id,
                                                       payload)
-        return self.from_response(self.node, response)
+        if 'trans' in response:
+            # API v3.1.0
+            return self.from_response(self.node, response['trans'])
+        else:
+            # API v3.1.1
+            return self.from_response(self.node, response)
 
     def cancel(self):
         """Cancel the transaction (will show in status).

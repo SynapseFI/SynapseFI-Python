@@ -107,4 +107,5 @@ class AchUsNode(BaseNode):
             # incorrect answer or additional mfa answer required
             self.mfa_access_token = response['mfa']['access_token']
             self.mfa_message = response['mfa']['message']
+            self.json = response
             return self

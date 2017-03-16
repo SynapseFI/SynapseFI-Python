@@ -39,6 +39,7 @@ class Node():
         """Construct a BaseNode subclass instance from a response dict."""
         args = {
           'user': user,
+          'json': response,
           'type': response.get('type'),
           'id': response.get('_id'),
           'is_active': response.get('is_active'),

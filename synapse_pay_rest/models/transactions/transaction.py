@@ -27,6 +27,7 @@ class Transaction():
 
         return cls(
             node=node,
+            json=response,
             id=response['_id'],
             amount=response['amount']['amount'],
             currency=response['amount']['currency'],

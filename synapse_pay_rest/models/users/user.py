@@ -26,6 +26,7 @@ class User():
         """Construct a User from a response dict."""
         user = cls(
           client=client,
+          json=response,
           id=response['_id'],
           refresh_token=response['refresh_token'],
           logins=response['logins'],

@@ -45,20 +45,17 @@ user = User.by_id(client, '57e97ab786c2737f4ccd4dc1')
 #### Create a User
 
 ```python
-required = {
+args = {
     'email': 'hello@synapsepay.com',
     'phone_number': '555-555-5555',
-    'legal_name': 'Hello McHello'
-}
-
-options = {
-    'note': ':)',
-    'supp_id': '123abc',
+    'legal_name': 'Hello McHello',
+    'note': ':)',  # optional
+    'supp_id': '123abc',  # optional
     'is_business': True,
     'cip_tag': 1
 }
 
-user = User.create(client, **required, **options)
+user = User.create(client, **args)
 ```
 
 #### Update a User's Personal Info

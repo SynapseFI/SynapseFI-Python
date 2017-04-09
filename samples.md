@@ -4,19 +4,16 @@
 import os
 from synapse_pay_rest import Client
 
-required = {
+args = {
     'client_id': os.environ['TEST_CLIENT_ID'], # your client id
     'client_secret': os.environ['TEST_CLIENT_SECRET'], # your client secret
     'fingerprint': 'user_fingerprint',
     'ip_address': '127.0.0.1', # user's IP
+    'development_mode': True, # (optional) default False
+    'logging': False # (optional) logs to stdout if True
 }
 
-options = {
-    'development_mode': True, # default False
-    'logging': False # logs to stdout if True
-}
-
-client = Client(**required, **options)
+client = Client(**args)
 ```
 
 

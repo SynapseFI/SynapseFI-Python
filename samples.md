@@ -311,19 +311,16 @@ transaction = Transaction.by_id(node, '57fc1a6886c2732e64a94c25')
 #### Create a Transaction from a Node
 
 ```python
-required = {
+args = {
     'to_type': 'ACH-US',
     'to_id': '57f4241d86c27331523e2f26',
     'amount': 5.50,
     'currency': 'USD',
-    'ip': '127.0.0.1'
-}
-
-options = {
-    'process_in': 1, # delay until processing (in days)
-    'note': 'hi synapse', # a note to synapse
-    'supp_id': 'ABC123',
-    'fees': [
+    'ip': '127.0.0.1',
+    'process_in': 0, # delay until processing (in days) [optional]
+    'note': 'hi synapse', # a note to synapse [optional]
+    'supp_id': 'ABC123', # optional
+    'fees': [   # optional
         {
             'fee': 0.12, # Fee associated with the transaction
             'note': 'Test Fee 1', # Reason for the fee
@@ -332,7 +329,7 @@ options = {
     ]
 }
 
-transaction = Transaction.create(node, **required, **options)
+transaction = Transaction.create(node, **args)
 ```
 
 #### Add a Comment to a Transaction's Status

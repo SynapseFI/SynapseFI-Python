@@ -39,7 +39,6 @@ class Transaction():
             note=response['extra']['note'],
             process_on=response['extra']['process_on'],
             supp_id=response['extra']['supp_id'],
-            webhook=response['extra']['webhook'],
             fees=response['fees'],
             recent_status=response['recent_status'],
             timeline=response['timeline'],

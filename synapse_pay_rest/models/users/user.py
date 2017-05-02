@@ -145,9 +145,13 @@ class User():
             for option in options:
                 if kwargs.get(option):
                     payload['update']['login'][option] = kwargs[option]
+        if 'remove_legal_name' in kwargs:
+            payload['update']['remove_legal_name'] = kwargs['remove_legal_name']
+        if 'cip_tag' in kwargs:
+            payload['update']['cip_tag'] = kwargs['cip_tag']
         if 'remove_login' in kwargs:
             payload['update']['remove_login'] = {'email': kwargs['remove_login']}
-        options = ['legal_name', 'phone_number', 'remove_phone_number',
+        options = ['legal_name', 'phone_number', 'remove_phone_number', 'remove_legal_name'
                    'cip_tag']
         for option in options:
             if option in kwargs:
@@ -248,6 +252,19 @@ class User():
             User: a new instance representing the same API record
         """
         payload = self.payload_for_update(remove_phone_number=phone_number)
+        response = self.client.users.update(self.id, payload)
+        return User.from_response(self.client, response)
+
+    def remove_legal_name(self, legal_name):
+        """Remove a legal name from the User.
+
+        Args:
+            legal_name (str): name to remove
+
+        Returns:
+            User: a new instance representing the same API record
+        """
+        payload = self.payload_for_update(remove_legal_name=legal_name)
         response = self.client.users.update(self.id, payload)
         return User.from_response(self.client, response)
 

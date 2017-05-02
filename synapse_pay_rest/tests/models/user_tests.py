@@ -44,23 +44,27 @@ class UserTestCases(unittest.TestCase):
         self.assertEqual(per_page, len(page1))
         # TODO test that query is substring of legal names or emails
 
-    def test_add_legal_name(self):
+    def test_add_and_remove_legal_name(self):
         user = User.create(self.client, **user_create_args)
         new_name = "Barb Holland"
         self.assertNotIn(new_name, user.legal_names)
+        # add legal name
         user = user.add_legal_name(new_name)
         self.assertIn(new_name, user.legal_names)
+        # remove legal name
+        user = user.remove_legal_name(new_name)
+        self.assertNotIn(new_name, user.legal_names)
 
     def test_add_and_remove_login(self):
         user = User.create(self.client, **user_create_args)
         email = 'foo@foo.com'
         # add login
         user = user.add_login(email, password='letmein', read_only=True)
-        self.assertEqual(2, len(user.logins))
         self.assertEqual(email, user.logins[-1]['email'])
         self.assertEqual('READ', user.logins[-1]['scope'])
         # remove login
         user = user.remove_login(email)
+        # TODO: update to loop through logins and check each dict for email
         self.assertEqual(1, len(user.logins))
 
     def test_add_and_remove_phone_number(self):

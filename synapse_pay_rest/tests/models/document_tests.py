@@ -36,9 +36,7 @@ class DocumentTestCases(unittest.TestCase):
 
     def test_physical_document_with_bytestream(self):
         type = 'GOVT_ID'
-        file_path = ('/Users/Synapsepay/Documents/libraries/'
-                     'SynapsePayRest-Python/synapse_pay_rest/'
-                     'tests/fixtures/test.png')
+        file_path = input("Input file test file full path")
         byte_stream = open(file_path, 'rb').read()
         doc = self.base_document.add_physical_document(type=type,
                                                        byte_stream=byte_stream,
@@ -47,9 +45,7 @@ class DocumentTestCases(unittest.TestCase):
 
     def test_physical_document_with_file_path(self):
         type = 'GOVT_ID'
-        file_path = ('/Users/Synapsepay/Documents/libraries/'
-                     'SynapsePayRest-Python/synapse_pay_rest/'
-                     'tests/fixtures/test.png')
+        file_path = input("Input file test file full path")
         doc = self.base_document.add_physical_document(type=type,
                                                        file_path=file_path)
         self.assertIsInstance(doc, PhysicalDocument)

@@ -8,6 +8,9 @@ from synapse_pay_rest.models import PhysicalDocument
 from synapse_pay_rest.models import SocialDocument
 from synapse_pay_rest.models import VirtualDocument
 from synapse_pay_rest.models import Question
+import os
+dir = os.path.dirname(__file__)
+filename = os.path.join(dir, '../fixtures/test.png')
 
 
 class DocumentTestCases(unittest.TestCase):
@@ -36,7 +39,7 @@ class DocumentTestCases(unittest.TestCase):
 
     def test_physical_document_with_bytestream(self):
         type = 'GOVT_ID'
-        file_path = input("Input file test file full path")
+        file_path = filename
         byte_stream = open(file_path, 'rb').read()
         doc = self.base_document.add_physical_document(type=type,
                                                        byte_stream=byte_stream,
@@ -45,7 +48,7 @@ class DocumentTestCases(unittest.TestCase):
 
     def test_physical_document_with_file_path(self):
         type = 'GOVT_ID'
-        file_path = input("Input file test file full path")
+        file_path = filename
         doc = self.base_document.add_physical_document(type=type,
                                                        file_path=file_path)
         self.assertIsInstance(doc, PhysicalDocument)

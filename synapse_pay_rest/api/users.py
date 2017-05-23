@@ -1,6 +1,8 @@
 import base64
 import mimetypes
+import requests
 from synapse_pay_rest.http_client import HttpClient
+
 
 
 class Users():

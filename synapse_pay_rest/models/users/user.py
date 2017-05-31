@@ -94,17 +94,18 @@ class User():
         return cls.from_response(client, response)
 
     @classmethod
-    def by_id(cls, client=None, id=None):
+    def by_id(cls, client=None, id=None, full_dehydrate='no'):
         """Retrieve a user record by id and create a User instance from it.
 
         Args:
             client (Client): an instance of the API Client
             id (str): id of the user to retrieve
+            full_dehyrdate (optional, str): if 'yes' returns all info on user
 
         Returns:
             User: a User instance corresponding to the record
         """
-        response = client.users.get(id)
+        response = client.users.get(id, full_dehydrate=full_dehydrate)
         return cls.from_response(client, response)
 
     @classmethod

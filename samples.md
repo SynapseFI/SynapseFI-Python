@@ -37,6 +37,9 @@ users = User.all(client, **options)
 
 ```python
 user = User.by_id(client, '57e97ab786c2737f4ccd4dc1')
+
+(optional, full_dehydrate='yes' returns extra info on user)
+user = User.by_id(client, '57e97ab786c2737f4ccd4dc1', full_dehydrate='yes')
 ```
 
 #### Create a User
@@ -210,6 +213,10 @@ nodes = Node.all(user, **options)
 
 ```python
 node = Node.by_id(user, '57ec57be86c27345b3f8a159')
+
+(optional, full_dehydrate='yes' returns transaction data on node)
+node = Node.by_id(user, '57ec57be86c27345b3f8a159', full_dehydrate='yes')
+
 ```
 
 #### Create ACH-US Node(s) via Bank Login

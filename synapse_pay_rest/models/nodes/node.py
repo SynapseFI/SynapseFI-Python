@@ -55,7 +55,10 @@ class Node():
           'account_id': response['info'].get('account_id'),
           'address': response['info'].get('address'),
           'swift': response['info'].get('swift'),
-          'ifsc': response['info'].get('ifsc')
+          'ifsc': response['info'].get('ifsc'),
+          'user_info': response['extra']['other'].get('info',None),
+          'timeline': response.get('timeline',None),
+          'transactions': response['extra']['other'].get('transactions',None)
         }
 
         # correspondent info (optional)

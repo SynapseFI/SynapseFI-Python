@@ -130,7 +130,9 @@ class User():
         Returns:
             User: self
         """
-        self.client.users.refresh(self.id, self.payload_for_refresh())
+        response = self.client.users.refresh(self.id, self.payload_for_refresh())
+        self.oauth_key = response['oauth_key']
+        self.expires_in = response['expires_in']
         return self
 
     def payload_for_update(self, **kwargs):

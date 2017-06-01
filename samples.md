@@ -38,8 +38,89 @@ users = User.all(client, **options)
 ```python
 user = User.by_id(client, '57e97ab786c2737f4ccd4dc1')
 
-(optional, full_dehydrate='yes' returns extra info on user)
+optional:
 user = User.by_id(client, '57e97ab786c2737f4ccd4dc1', full_dehydrate='yes')
+
+Example of user response with full_dehydrate:
+**Please note: if full_dehydrate='no', some fields will return as 'None'
+
+user.base_documents[0] =
+
+{
+  'user': "<class 'synapse_pay_rest.models.users.user.User'>(id=592f1dfa8384540026e39a95)",
+  'id': '189d2fc37c1ee5694aa62f302bcd7c0efaae2c0229f45bfc8bb3470f6f7ab92a',
+  'name': 'Charlie Brown',
+  'email': 'test@test.com',
+  'phone_number': '111-111-1111',
+  'ip': '::1',
+  'alias': 'Woof Woof',
+  'entity_type': 'M',
+  'entity_scope': 'Arts & Entertainment',
+  'birth_day': 2,
+  'birth_month': 5,
+  'birth_year': 1989,
+  'address_street': '170 St Germain Ave',
+  'address_city': 'SF',
+  'address_subdivision': 'CA',
+  'address_postal_code': '94114',
+  'address_country_code': 'US',
+  'screening_results': {
+    '561': 'NO_MATCH',
+    'aucl': 'NO_MATCH',
+    'concern_location': 'NO_MATCH',
+    'dpl': 'NO_MATCH',
+    'dtc': 'NO_MATCH',
+    'el': 'NO_MATCH',
+    'eucl': 'NO_MATCH',
+    'fatf_non_cooperative_jurisdiction': 'NO_MATCH',
+    'fbi_bank_robbers': 'NO_MATCH',
+    'fbi_counter_intelligence': 'NO_MATCH',
+    'fbi_crimes_against_children': 'NO_MATCH',
+    'fbi_criminal_enterprise_investigations': 'NO_MATCH',
+    'fbi_cyber': 'NO_MATCH',
+    'fbi_domestic_terrorism': 'NO_MATCH',
+    'fbi_human_trafficking': 'NO_MATCH',
+    'fbi_murders': 'NO_MATCH',
+    'fbi_violent_crimes': 'NO_MATCH',
+    'fbi_wanted_terrorists': 'NO_MATCH',
+    'fbi_white_collar': 'NO_MATCH',
+    'fincen_red_list': 'NO_MATCH',
+    'fse': 'NO_MATCH',
+    'fto_sanctions': 'NO_MATCH',
+    'futures_sanctions': 'NO_MATCH',
+    'hkma_sanctions': 'NO_MATCH',
+    'hm_treasury_sanctions': 'NO_MATCH',
+    'isn': 'NO_MATCH',
+    'mas_sanctions': 'NO_MATCH',
+    'monitored_location': 'NO_MATCH',
+    'ns-isa': 'NO_MATCH',
+    'ofac_561_list': 'NO_MATCH',
+    'ofac_eo13645': 'NO_MATCH',
+    'ofac_fse': 'NO_MATCH',
+    'ofac_fse_ir': 'NO_MATCH',
+    'ofac_fse_sy': 'NO_MATCH',
+    'ofac_isa': 'NO_MATCH',
+    'ofac_ns_isa': 'NO_MATCH',
+    'ofac_plc': 'NO_MATCH',
+    'ofac_sdn': 'NO_MATCH',
+    'ofac_ssi': 'NO_MATCH',
+    'ofac_syria': 'NO_MATCH',
+    'ofac_ukraine_eo13662': 'NO_MATCH',
+    'osfi': 'NO_MATCH',
+    'pep': 'NO_MATCH',
+    'plc': 'NO_MATCH',
+    'primary_concern': 'NO_MATCH',
+    'sdn': 'NO_MATCH',
+    'ssi': 'NO_MATCH',
+    'tel_sanctions': 'NO_MATCH',
+    'ukcl': 'NO_MATCH',
+    'uvl': 'NO_MATCH'
+  },
+  'permission_scope': 'SEND|RECEIVE|1000|DAILY',
+  'physical_documents': 1,
+  'social_documents': 4,
+  'virtual_documents': 1
+}
 ```
 
 #### Create a User

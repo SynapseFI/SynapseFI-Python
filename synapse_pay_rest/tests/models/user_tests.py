@@ -22,6 +22,14 @@ class UserTestCases(unittest.TestCase):
         for prop in properties:
             self.assertIsNotNone(getattr(user, prop))
 
+    def test_create_with_add_base_doc(self):
+        base_doc = User.build_base_doc(**user_base_doc)
+        user_create_args['base_doc'] = base_doc
+        user = User.create(self.client, **user_create_args)
+        self.assertEqual(self.client, user.client)
+        print(user.base_documents)
+        self.assertEqual(len(user.base_documents), 1)
+
     def test_by_id(self):
         user_id = User.create(self.client, **user_create_args).id
         user = User.by_id(self.client, user_id)

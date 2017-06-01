@@ -41,3 +41,21 @@ user_create_args = {
     'cip_tag': 1,
     'password': 'password'
 }
+
+user_base_doc = {
+    'email': 'scoobie@doo.com',
+    'phone_number': '707-555-5555',
+    'ip': '127.0.0.1',
+    'name': 'Doctor BaseDoc',
+    'alias': 'Basey',
+    'entity_type': 'F',
+    'entity_scope': 'Arts & Entertainment',
+    'birth_day': 28,
+    'birth_month': 2,
+    'birth_year': 1990,
+    'address_street': '42 Base Blvd',
+    'address_city': 'San Francisco',
+    'address_subdivision': 'CA',
+    'address_postal_code': '94114',
+    'address_country_code': 'US'
+}

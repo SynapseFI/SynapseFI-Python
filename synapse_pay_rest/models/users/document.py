@@ -28,7 +28,9 @@ class Document():
         return cls(type=response['document_type'],
                    id=response['id'],
                    status=response['status'],
-                   last_updated=response['last_updated'])
+                   last_updated=response['last_updated'],
+                   meta=response.get('meta',None),
+                   document_value=response.get('document_value',None))
 
     @classmethod
     def multiple_from_response(cls, response):

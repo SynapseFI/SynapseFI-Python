@@ -64,8 +64,32 @@ class User():
             'cip_tag': kwargs.get('cip_tag')
           }
         }
+        if 'base_doc' in kwargs:
+            payload['documents'] = [kwargs['base_doc']]
         if 'password' in kwargs:
             payload['logins'][0]['password'] = kwargs['password']
+        return payload
+
+    @staticmethod
+    def build_base_doc(**kwargs):
+        """Build the API 'create user with base docs' payload from property values."""
+        payload = {
+            'email': kwargs.get('email'),
+            'phone_number': kwargs.get('phone_number'),
+            'ip': kwargs.get('ip'),
+            'name': kwargs.get('name'),
+            'alias': kwargs.get('alias'),
+            'entity_type': kwargs.get('entity_type'),
+            'entity_scope': kwargs.get('entity_scope'),
+            'birth_day': kwargs.get('birth_day'),
+            'birth_month': kwargs.get('birth_month'),
+            'birth_year': kwargs.get('birth_year'),
+            'address_street': kwargs.get('address_street'),
+            'address_city': kwargs.get('address_city'),
+            'address_subdivision': kwargs.get('address_subdivision'),
+            'address_postal_code': kwargs.get('address_postal_code'),
+            'address_country_code': kwargs.get('address_country_code')
+        }
         return payload
 
     @classmethod
@@ -94,17 +118,18 @@ class User():
         return cls.from_response(client, response)
 
     @classmethod
-    def by_id(cls, client=None, id=None):
+    def by_id(cls, client=None, id=None, full_dehydrate='no'):
         """Retrieve a user record by id and create a User instance from it.
 
         Args:
             client (Client): an instance of the API Client
             id (str): id of the user to retrieve
+            full_dehyrdate (optional, str): if 'yes' returns all info on user
 
         Returns:
             User: a User instance corresponding to the record
         """
-        response = client.users.get(id)
+        response = client.users.get(id, full_dehydrate=full_dehydrate)
         return cls.from_response(client, response)
 
     @classmethod
@@ -129,7 +154,9 @@ class User():
         Returns:
             User: self
         """
-        self.client.users.refresh(self.id, self.payload_for_refresh())
+        response = self.client.users.refresh(self.id, self.payload_for_refresh())
+        self.oauth_key = response['oauth_key']
+        self.expires_in = response['expires_in']
         return self
 
     def payload_for_update(self, **kwargs):

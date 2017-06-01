@@ -55,7 +55,10 @@ class Node():
           'account_id': response['info'].get('account_id'),
           'address': response['info'].get('address'),
           'swift': response['info'].get('swift'),
-          'ifsc': response['info'].get('ifsc')
+          'ifsc': response['info'].get('ifsc'),
+          'user_info': response['extra']['other'].get('info',None),
+          'timeline': response.get('timeline',None),
+          'transactions': response['extra']['other'].get('transactions',None)
         }
 
         # correspondent info (optional)
@@ -91,17 +94,18 @@ class Node():
         return nodes
 
     @classmethod
-    def by_id(cls, user=None, id=None):
+    def by_id(cls, user=None, id=None, full_dehydrate='no'):
         """Retrieve a node record by id and create a BaseNode instance from it.
 
         Args:
             user (User): the  User that the node belongs to
             id (str): id of the node to retrieve
+            full_dehydrate(optional, str): if 'yes', returns transaction data on node
 
         Returns:
             BaseNode: a BaseNode instance corresponding to the record
         """
-        response = user.client.nodes.get(user.id, id)
+        response = user.client.nodes.get(user.id, id, full_dehydrate=full_dehydrate)
         return cls.from_response(user, response)
 
     @classmethod

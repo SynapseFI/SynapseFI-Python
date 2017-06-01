@@ -45,7 +45,7 @@ class Users():
 
         Args:
             user_id (str): if specified the method returns a single user
-            **params: valid params are 'query', 'page', 'per_page'
+            **params: valid params are 'query', 'page', 'per_page', 'full_dehydrate'
 
         Returns:
             dict: response body (single or multiple user records)

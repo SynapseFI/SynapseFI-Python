@@ -45,7 +45,7 @@ class Nodes():
         Args:
             user_id (str): id of the user the node belongs to
             node_id (str): if specified the method returns a single node
-            **params: valid params are 'type', 'page', 'per_page'
+            **params: valid params are 'type', 'page', 'per_page', 'full_dehydrate'
 
         Returns:
             dict: response body (single or multiple node records)

@@ -17,7 +17,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='3.0.3',
+    version='3.1.0',
 
     description='SynapsePay Rest Native Python Library',
 
@@ -25,7 +25,7 @@ setup(
     url='https://github.com/synapsepay/SynapsePayRest-Python',
 
     # Author details
-    author='SynapsePay LLC',
+    author='Synapse Financial Technologies Inc.',
     author_email='help@synapsepay.com',
 
     # Choose your license

@@ -251,28 +251,6 @@ virtual_document = base_document.add_virtual_document(type='SSN', value='3333')
 base_document = virtual_document.base_document
 ```
 
-##### Answer KBA Questions for Virtual Document
-If a Virtual Document is returned with status **SUBMITTED|MFA_PENDING**, you will need to have the user answer some questions:
-
-```python
-# check for any virtual docs with SUBMITTED|MFA_PENDING status
-pending_doc = [doc for doc in base_document.virtual_documents 
-               if doc.status == 'SUBMITTED|MFA_PENDING'][0]
-
-for question in pending_doc.question_set:
-    print(question.question)
-    # => "Which one of the following zip codes is associated with you?"
-    print(question.answers)
-    # => {1=>"49230", 2=>"49209", 3=>"49268", 4=>"49532", 5=>"None Of The Above"}
-    question.choice = 1 # this should be based on user input
-
-# submit after finished answering all questions in question_set
-pending_doc = pending_doc.submit_kba()
-
-# assign the variable to the updated base doc if needed
-base_document = pending_doc.base_document
-```
-
 
 ## Node Methods
 

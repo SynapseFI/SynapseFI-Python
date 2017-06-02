@@ -58,7 +58,9 @@ class Node():
           'ifsc': response['info'].get('ifsc'),
           'user_info': response['extra']['other'].get('info',None),
           'timeline': response.get('timeline',None),
-          'transactions': response['extra']['other'].get('transactions',None)
+          'transactions': response['extra']['other'].get('transactions',None),
+          'billpay_info': response['extra']['other'].get('billpay_info',None),
+          'transaction_analysis': response['extra']['other'].get('transaction_analysis',None)
         }
 
         # correspondent info (optional)

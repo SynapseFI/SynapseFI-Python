@@ -38,8 +38,89 @@ users = User.all(client, **options)
 ```python
 user = User.by_id(client, '57e97ab786c2737f4ccd4dc1')
 
-(optional, full_dehydrate='yes' returns extra info on user)
+optional:
 user = User.by_id(client, '57e97ab786c2737f4ccd4dc1', full_dehydrate='yes')
+
+Example of user response with full_dehydrate:
+**Please note: if full_dehydrate='no', some fields will return as 'None'
+
+user.base_documents[0] =
+
+{
+  'user': "<class 'synapse_pay_rest.models.users.user.User'>(id=592f1dfa8384540026e39a95)",
+  'id': '189d2fc37c1ee5694aa62f302bcd7c0efaae2c0229f45bfc8bb3470f6f7ab92a',
+  'name': 'Charlie Brown',
+  'email': 'test@test.com',
+  'phone_number': '111-111-1111',
+  'ip': '::1',
+  'alias': 'Woof Woof',
+  'entity_type': 'M',
+  'entity_scope': 'Arts & Entertainment',
+  'birth_day': 2,
+  'birth_month': 5,
+  'birth_year': 1989,
+  'address_street': '170 St Germain Ave',
+  'address_city': 'SF',
+  'address_subdivision': 'CA',
+  'address_postal_code': '94114',
+  'address_country_code': 'US',
+  'screening_results': {
+    '561': 'NO_MATCH',
+    'aucl': 'NO_MATCH',
+    'concern_location': 'NO_MATCH',
+    'dpl': 'NO_MATCH',
+    'dtc': 'NO_MATCH',
+    'el': 'NO_MATCH',
+    'eucl': 'NO_MATCH',
+    'fatf_non_cooperative_jurisdiction': 'NO_MATCH',
+    'fbi_bank_robbers': 'NO_MATCH',
+    'fbi_counter_intelligence': 'NO_MATCH',
+    'fbi_crimes_against_children': 'NO_MATCH',
+    'fbi_criminal_enterprise_investigations': 'NO_MATCH',
+    'fbi_cyber': 'NO_MATCH',
+    'fbi_domestic_terrorism': 'NO_MATCH',
+    'fbi_human_trafficking': 'NO_MATCH',
+    'fbi_murders': 'NO_MATCH',
+    'fbi_violent_crimes': 'NO_MATCH',
+    'fbi_wanted_terrorists': 'NO_MATCH',
+    'fbi_white_collar': 'NO_MATCH',
+    'fincen_red_list': 'NO_MATCH',
+    'fse': 'NO_MATCH',
+    'fto_sanctions': 'NO_MATCH',
+    'futures_sanctions': 'NO_MATCH',
+    'hkma_sanctions': 'NO_MATCH',
+    'hm_treasury_sanctions': 'NO_MATCH',
+    'isn': 'NO_MATCH',
+    'mas_sanctions': 'NO_MATCH',
+    'monitored_location': 'NO_MATCH',
+    'ns-isa': 'NO_MATCH',
+    'ofac_561_list': 'NO_MATCH',
+    'ofac_eo13645': 'NO_MATCH',
+    'ofac_fse': 'NO_MATCH',
+    'ofac_fse_ir': 'NO_MATCH',
+    'ofac_fse_sy': 'NO_MATCH',
+    'ofac_isa': 'NO_MATCH',
+    'ofac_ns_isa': 'NO_MATCH',
+    'ofac_plc': 'NO_MATCH',
+    'ofac_sdn': 'NO_MATCH',
+    'ofac_ssi': 'NO_MATCH',
+    'ofac_syria': 'NO_MATCH',
+    'ofac_ukraine_eo13662': 'NO_MATCH',
+    'osfi': 'NO_MATCH',
+    'pep': 'NO_MATCH',
+    'plc': 'NO_MATCH',
+    'primary_concern': 'NO_MATCH',
+    'sdn': 'NO_MATCH',
+    'ssi': 'NO_MATCH',
+    'tel_sanctions': 'NO_MATCH',
+    'ukcl': 'NO_MATCH',
+    'uvl': 'NO_MATCH'
+  },
+  'permission_scope': 'SEND|RECEIVE|1000|DAILY',
+  'physical_documents': 1,
+  'social_documents': 4,
+  'virtual_documents': 1
+}
 ```
 
 #### Create a User
@@ -214,8 +295,377 @@ nodes = Node.all(user, **options)
 ```python
 node = Node.by_id(user, '57ec57be86c27345b3f8a159')
 
-(optional, full_dehydrate='yes' returns transaction data on node)
+optional:
 node = Node.by_id(user, '57ec57be86c27345b3f8a159', full_dehydrate='yes')
+
+Example of node response with full_dehydrate:
+**Please note: if full_dehydrate='no', some fields will return as 'None'
+
+node =
+
+<class'synapse_pay_rest.models.nodes.ach_us_node.AchUsNode'>({
+  'user': "<class 'synapse_pay_rest.models.users.user.User'>(id=592f1dfa8384540026e39a95)",
+  'type': 'ACH-US',
+  'id': '592f1e2d603964002f1b07f7',
+  'is_active': True,
+  'permission': 'LOCKED',
+  'nickname': 'SynapsePay Test Checking Account - 8901',
+  'name_on_account': ' ',
+  'bank_long_name': 'CAPITAL ONE N.A.',
+  'bank_name': 'CAPITAL ONE N.A.',
+  'account_type': 'PERSONAL',
+  'account_class': 'CHECKING',
+  'account_number': '12345678901',
+  'routing_number': '031176110',
+  'account_id': None,
+  'address': 'PO BOX 85139, RICHMOND, VA, US',
+  'swift': None,
+  'ifsc': None,
+  'user_info': {
+    'account_id': 'fd52bf51f0354335e634940139a006ef91d7e789c665857e9821656d18e7d012',
+    'addresses': [
+      {
+        'city': 'San Francisco',
+        'state': 'CA',
+        'street': '5315 Castro St.',
+        'zipcode': '94110'
+      }
+    ],
+    'dob': '',
+    'emails': [
+      'test@synapsepay.com'
+    ],
+    'names': [
+      'Test User'
+    ],
+    'phone_numbers': [
+      '1652545112',
+      '1432656106',
+      '1888321821',
+      '6589100779'
+    ]
+  },
+  'timeline': [
+    {
+      'date': 1496260140541,
+      'note': 'Node created.'
+    },
+    {
+      'date': 1496260142204,
+      'note': 'Unable to send micro deposits as node allowed is not CREDIT.'
+    },
+    {
+      'date': 1496260420927,
+      'note': "User locked. Thus node 'allowed' changed to LOCKED."
+    }
+  ],
+  'transactions': [
+    {
+      'amount': 8.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 8693.0,
+      'date': 1470715200.0,
+      'debit': False,
+      'description': 'CAPITAL ONE MOBILE PMT PPD:32078173097005',
+      'pending': False
+    },
+    {
+      'amount': 249.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 827.0,
+      'date': 1411358400.0,
+      'debit': False,
+      'description': 'WF Credit Card PPD:21164346914575',
+      'pending': True
+    },
+    {
+      'amount': 61.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 4284.0,
+      'date': 1460779200.0,
+      'debit': False,
+      'description': 'AMEX EPAYMENT PPD:22042046432370',
+      'pending': True
+    },
+    {
+      'amount': 289.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 2039.0,
+      'date': 1481432400.0,
+      'debit': False,
+      'description': 'BK OF AM CRD PPD:76067398573865',
+      'pending': True
+    },
+    {
+      'amount': 489.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1938.0,
+      'date': 1397880000.0,
+      'debit': True,
+      'description': 'CAPITAL ONE MOBILE PMT PPD:12283074879351',
+      'pending': True
+    },
+    {
+      'amount': 306.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 4175.0,
+      'date': 1436587200.0,
+      'debit': False,
+      'description': 'BK OF AM CRD PPD:36590769006391',
+      'pending': False
+    },
+    {
+      'amount': 162.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 2830.0,
+      'date': 1480654800.0,
+      'debit': True,
+      'description': 'Payment to Chase card PPD:50214599701703',
+      'pending': True
+    },
+    {
+      'amount': 40.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1738.0,
+      'date': 1425099600.0,
+      'debit': False,
+      'description': 'BK OF AM CRD PPD:51422971086988',
+      'pending': False
+    },
+    {
+      'amount': 126.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 8386.0,
+      'date': 1393131600.0,
+      'debit': False,
+      'description': 'CAPITAL ONE MOBILE PMT PPD:83488871898117',
+      'pending': False
+    },
+    {
+      'amount': 18.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 5685.0,
+      'date': 1439611200.0,
+      'debit': True,
+      'description': 'DISCOVER E-PAYMENT PPD:35631911243360',
+      'pending': True
+    },
+    {
+      'amount': 67.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 4634.0,
+      'date': 1416027600.0,
+      'debit': True,
+      'description': 'DISCOVER E-PAYMENT PPD:52756385725550',
+      'pending': True
+    },
+    {
+      'amount': 228.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1321.0,
+      'date': 1404532800.0,
+      'debit': False,
+      'description': 'Payment to Chase card PPD:18727859364976',
+      'pending': True
+    },
+    {
+      'amount': 107.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1065.0,
+      'date': 1414296000.0,
+      'debit': True,
+      'description': 'CAPITAL ONE MOBILE PMT PPD:26468111647708',
+      'pending': True
+    },
+    {
+      'amount': 103.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 7907.0,
+      'date': 1415336400.0,
+      'debit': False,
+      'description': 'DISCOVER E-PAYMENT PPD:82490497472711',
+      'pending': True
+    },
+    {
+      'amount': 106.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 7574.0,
+      'date': 1468814400.0,
+      'debit': True,
+      'description': 'DISCOVER E-PAYMENT PPD:38032120832376',
+      'pending': False
+    },
+    {
+      'amount': 50.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 8876.0,
+      'date': 1406433600.0,
+      'debit': True,
+      'description': 'Payment to Chase card PPD:35892567736339',
+      'pending': True
+    },
+    {
+      'amount': 61.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 9015.0,
+      'date': 1435291200.0,
+      'debit': False,
+      'description': 'CITI CARDS PPD:28749452237576',
+      'pending': True
+    },
+    {
+      'amount': 445.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 9027.0,
+      'date': 1447477200.0,
+      'debit': True,
+      'description': 'Payment to Chase card PPD:77434089827332',
+      'pending': False
+    },
+    {
+      'amount': 343.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1252.0,
+      'date': 1428206400.0,
+      'debit': True,
+      'description': 'Payment to Chase card PPD:48935439759518',
+      'pending': True
+    },
+    {
+      'amount': 50.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 5973.0,
+      'date': 1462766400.0,
+      'debit': True,
+      'description': 'WF Credit Card PPD:91101427763846',
+      'pending': False
+    },
+    {
+      'amount': 253.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 2814.0,
+      'date': 1401854400.0,
+      'debit': False,
+      'description': 'CAPITAL ONE MOBILE PMT PPD:79516847131777',
+      'pending': True
+    },
+    {
+      'amount': 275.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 9891.0,
+      'date': 1423112400.0,
+      'debit': False,
+      'description': 'WF Credit Card PPD:69798304985993',
+      'pending': True
+    },
+    {
+      'amount': 102.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1775.0,
+      'date': 1421211600.0,
+      'debit': True,
+      'description': 'DISCOVER E-PAYMENT PPD:67858400658712',
+      'pending': True
+    },
+    {
+      'amount': 382.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 1585.0,
+      'date': 1402632000.0,
+      'debit': False,
+      'description': 'BK OF AM CRD PPD:59371638589444',
+      'pending': False
+    },
+    {
+      'amount': 486.0,
+      'category': {
+        'primary': '',
+        'subcategory': ''
+      },
+      'current_balance': 3946.0,
+      'date': 1404187200.0,
+      'debit': True,
+      'description': 'WF Credit Card PPD:97364551261150',
+      'pending': False
+    }
+  ],
+  'balance': '800.00',
+  'currency': 'USD',
+  'supp_id': '',
+  'gateway_restricted': None
+})
 
 ```
 

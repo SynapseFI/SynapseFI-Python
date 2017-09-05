@@ -75,6 +75,15 @@ class AchUsNode(BaseNode):
         payload = {'micro': [amount1, amount2]}
         response = self.user.client.nodes.update(self.user.id, self.id, payload)
         return self.from_response(self.user, response)
+    
+    def resend_micro(self):
+        """Resend microdeposits for ACH-US added by acct/routing.
+
+        Returns:
+            AchUsNode: a new instance representing the same API record
+        """
+        response = self.user.client.nodes.resend_micro(self.user.id, self.id)
+        return self.from_response(self.user, response)
 
     def answer_mfa(self, answer):
         """Answer the MFA questions presented during bank login attempt.

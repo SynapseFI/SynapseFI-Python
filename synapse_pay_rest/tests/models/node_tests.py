@@ -73,6 +73,8 @@ class NodeTestCases(unittest.TestCase):
             self.assertIsNotNone(getattr(node, prop))
 
         self.assertEqual('CREDIT', node.permission)
+        # resend microdeposits
+        node = node.resend_micro()
         # verify microdeposits
         node = node.verify_microdeposits(amount1=0.1, amount2=0.1)
         self.assertEqual('CREDIT-AND-DEBIT', node.permission)

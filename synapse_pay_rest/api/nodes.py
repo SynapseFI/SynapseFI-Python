@@ -72,6 +72,19 @@ class Nodes():
         path = self.create_node_path(user_id, node_id)
         response = self.client.patch(path, payload)
         return response
+    
+    def resend_micro(self, user_id, node_id):
+        """Resends microdeposits for node via PATCH request to the API.
+
+        Used to edit node information (verify microdeposits).
+
+        Returns:
+            dict: response body (single node record)
+        """
+        path = self.create_node_path(user_id, node_id)
+        path = "{0}/?resend_micro=YES".format(path)
+        response = self.client.patch(path, {})
+        return response
 
     def verify(self, user_id, payload, node_id=None, **kwargs):
         """[DEPRECATED] Verify microdeposits or answer MFA, depending on args.

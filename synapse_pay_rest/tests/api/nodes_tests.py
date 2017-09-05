@@ -38,6 +38,14 @@ class NodesTestCases(unittest.TestCase):
         node = self.client.nodes.update(self.user['_id'], node['_id'],
                                         ach_us_micro_payload)
         self.assertEqual('CREDIT-AND-DEBIT', node['allowed'])
+    
+    def test_node_resend_micro(self):
+        response = self.client.nodes.create(self.user['_id'],
+                                            ach_us_create_payload)
+        node = response['nodes'][0]
+        self.assertEqual('CREDIT', node['allowed'])
+        node = self.client.nodes.resend_micro(self.user['_id'], node['_id'])
+        self.assertEqual('CREDIT', node['allowed'])
 
     def test_delete_node(self):
         response = self.client.nodes.create(self.user['_id'],

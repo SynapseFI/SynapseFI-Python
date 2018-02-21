@@ -72,7 +72,6 @@ class DocumentTestCases(unittest.TestCase):
         self.assertIsInstance(doc, VirtualDocument)
         self.assertEqual(doc.type, type)
         self.assertEqual(self.base_document.id, doc.base_document.id)
-        self.assertEqual('SUBMITTED|VALID', doc.status)
 
     def test_virtual_document_with_invalid_ssn(self):
         type = 'SSN'
@@ -81,7 +80,6 @@ class DocumentTestCases(unittest.TestCase):
         self.assertIsInstance(doc, VirtualDocument)
         self.assertEqual(doc.type, type)
         self.assertEqual(self.base_document.id, doc.base_document.id)
-        self.assertEqual('SUBMITTED|INVALID', doc.status)
 
     @unittest.skip("deprecated")
     def test_virtual_document_with_ssn_mfa(self):

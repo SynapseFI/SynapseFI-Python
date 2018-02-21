@@ -5,6 +5,7 @@ from synapse_pay_rest.tests.fixtures.user import *
 from synapse_pay_rest.tests.fixtures.node import *
 from synapse_pay_rest.models import User
 from synapse_pay_rest.models.nodes import *
+from synapse_pay_rest.models import BaseDocument
 
 
 class NodeTestCases(unittest.TestCase):
@@ -321,5 +322,144 @@ class NodeTestCases(unittest.TestCase):
 
         other_props = ['user', 'nickname', 'id', 'type', 'is_active',
                        'permission']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_deposit_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = DepositUsNode.create(self.user, 'Python Test DEPOSIT-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, DepositUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'currency']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_check_us_node(self):
+        kwargs = {
+            'nickname': 'Python Test CHECK-US Account',
+            'payee_name': 'Test McTest',
+            'address_street': '1 MARKET ST',
+            'address_city': 'SAN FRANCISCO',
+            'address_subdivision': 'CA',
+            'address_country_code': 'US',
+            'address_postal_code':  '94105' 
+        }
+        node = CheckUsNode.create(self.user, **kwargs)
+        self.assertIsInstance(node, CheckUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['is_active', 'permission', 'type', 'payee_name',
+                           'address_street', 'address_city', 'address_subdivision',
+                           'address_country_code', 'address_postal_code']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_interchange_us_node(self):
+        user = User.create(self.client, **user_create_args)
+        args = {
+            'email': 'scoobie@doom.com',
+            'phone_number': '707-555-5555',
+            'ip': '127.0.0.1',
+            'name': 'Doctor BaseDoc',
+            'alias': 'Basey',
+            'entity_type': 'F',
+            'entity_scope': 'Arts & Entertainment',
+            'day': 28,
+            'month': 2,
+            'year': 1990,
+            'address_street':'1 Market St.',
+            'address_city':'SF',
+            'address_subdivision':'CA',
+            'address_postal_code':'94114',
+            'address_country_code':'US',
+        }
+        base_document = user.add_base_document(**args)
+        doc_id = base_document.id
+        kwargs = {
+            'nickname': 'Python Test INTERCHANGE-US Account',
+            'card_number': 'nNKBubGyeL+31Hhgim89lIvfezPdfe8hLQxvm9H2wfpI2PxHk6yqvdh0jKwhib74LHBemAI5sRyr/5LmnYOeJoUU5TmkBtpvhxDTAtoCrim7+3KGatDwq1Z6NzV+S46fu+hp2h5DxUx6Os3PPalwz06qgbTG1yIkEvFi23D1FJGj2RM5BwYuy+dASktSoSHejj4+idiG8Sc48rKzOJXkRHSA/GIhyGeL0/GscTqAwiXaA9f9QjW74T0Ux/LRjXqVVK1wmT2M/UHLV/rheVCNZPw9Xq/VPoO3Jb/VbezsSvPwaHEV9M+utmUyn/jPru4vQpX7WM133Zx7OerGsyr/Zg==',
+            'exp_date': 'ctA4Zj1CP0WCiMefPYsyewVbIHNilfwA09X9NSCyWxft4WGwFZmZkhsBJh51QL751/iFkUHbd09ZpDYjS86PqyNPZ5LkBueGHDIghLwWyzH1l99RiIs8urOW9c4g3L1USD+kzzRAqG1DBkW47FAX6AhPSi3YgQd94ery1H+asaqDrP79ayzoJ+nRXeEqe83FIgNUk/J5+EcAz3JYnoBmp1sfz7a4zHkvk0eKCxQWLETdqvONyCZyXdC/4CkaCxJ/87VsN3i4+ToULtSluRv8xr1NpRhzipKiEKTYW1nvNDAaJQezTVP/+GxmTmQfnfpVNDpJbXjNrOTej1HgMFpg4w==',
+            'document_id': str(doc_id)
+        }
+        node = InterchangeUsNode.create(user, **kwargs)
+        self.assertIsInstance(node, InterchangeUsNode)
+        self.assertEqual(user.id, node.user.id)
+
+        other_props = ['nickname', 'id', 'type', 'is_active',
+                       'network', 'card_type', 'document_id', 'card_hash',
+                       'is_international']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_ib_deposit_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = IbDepositUsNode.create(self.user, 'Python Test IB-DEPOSIT-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, IbDepositUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'currency']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_ib_subaccount_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = IbSubaccountUsNode.create(self.user, 'Python Test IB-SUBACCOUNT-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, IbSubaccountUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'currency']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_subaccount_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = SubaccountUsNode.create(self.user, 'Python Test SUBACCOUNT-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, SubaccountUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'currency']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_clearing_us_node(self):
+        kwargs = {
+            'supp_id': 'ABC123'
+        }
+        node = ClearingUsNode.create(self.user, 'Python Test CLEARING-US Node',
+                                    **kwargs)
+        self.assertIsInstance(node, ClearingUsNode)
+        self.assertEqual(self.user.id, node.user.id)
+        for prop in kwargs:
+            self.assertIsNotNone(getattr(node, prop))
+
+        other_props = ['user', 'nickname', 'id', 'type', 'is_active',
+                       'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))

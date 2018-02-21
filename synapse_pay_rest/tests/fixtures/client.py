@@ -8,7 +8,9 @@ except KeyError:
   CLIENT_ID = input("Please enter client ID: ")
   CLIENT_SECRET = input("Please enter client secret: ")
 
-FINGERPRINT = 'test_fp'
+# FINGERPRINT = '737321631015eefd8dd6573ccce33319'
+FINGERPRINT = 'c7e516361e6e5453de96223616d73a7b'
+
 IP_ADDRESS = '127.0.0.1'
 
 test_client = Client(

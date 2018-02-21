@@ -36,7 +36,13 @@ class BaseNode():
           'account_id': response['info'].get('account_id'),
           'address': response['info'].get('address'),
           'swift': response['info'].get('swift'),
-          'ifsc': response['info'].get('ifsc')
+          'ifsc': response['info'].get('ifsc'),
+          'payee_name': response['info'].get('payee_name'),
+          'document_id': response['info'].get('document_id'),
+          'network': response['info'].get('network'),
+          'card_type': response['info'].get('type'),
+          'card_hash': response['info'].get('card_hash'),
+          'is_international': response['info'].get('is_international')
         }
 
         if response['info'].get('correspondent_info'):
@@ -61,6 +67,15 @@ class BaseNode():
             info = response['extra']
             args['supp_id'] = info.get('supp_id')
             args['gateway_restricted'] = info.get('gateway_restricted')
+
+        #check info(optional)
+        if response['info'].get('payee_address'):
+            info = response['info']['payee_address']
+            args['address_street'] = info.get('address_street')
+            args['address_city'] = info.get('address_city')
+            args['address_subdivision'] = info.get('address_subdivision')
+            args['address_country_code'] = info.get('address_country_code')
+            args['address_postal_code'] = info.get('address_postal_code')
 
         return cls(**args)
 
@@ -109,6 +124,14 @@ class BaseNode():
             payload['info']['bank_id'] = kwargs['username']
         if 'password' in kwargs:
             payload['info']['bank_pw'] = kwargs['password']
+        if 'payee_name' in kwargs:
+            payload['info']['payee_name'] = kwargs['payee_name']
+        if 'card_number' in kwargs:
+            payload['info']['card_number'] = kwargs['card_number']
+        if 'exp_date' in kwargs:
+            payload['info']['exp_date'] = kwargs['exp_date']
+        if 'document_id' in kwargs:
+            payload['info']['document_id'] = kwargs['document_id']
 
         balance_options = ['currency']
         balance = {}
@@ -125,6 +148,15 @@ class BaseNode():
                 extra[option] = kwargs[option]
         if extra:
             payload['extra'] = extra
+
+        payee_address_options = ['address_street', 'address_city', 'address_subdivision', 
+          'address_country_code', 'address_postal_code']
+        payee_address = {}
+        for option in payee_address_options:
+            if option in kwargs:
+                payee_address[option] = kwargs[option]
+        if payee_address:
+            payload['info']['payee_address'] =payee_address
         return payload
 
     @classmethod

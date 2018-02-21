@@ -7,3 +7,6 @@ the model system (User, BaseDocument, Node, etc.).
 from .users import Users
 from .nodes import Nodes
 from .trans import Trans
+from .subnets import Subnets
+from .subscriptions import Subscriptions
+from .client import ClientEndpoint

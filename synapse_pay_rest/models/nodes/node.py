@@ -11,6 +11,13 @@ from .synapse_us_node import SynapseUsNode
 from .triumph_subaccount_us_node import TriumphSubaccountUsNode
 from .wire_int_node import WireIntNode
 from .wire_us_node import WireUsNode
+from .deposit_us_node import DepositUsNode
+from .check_us_node import CheckUsNode
+from .interchange_us_node import InterchangeUsNode
+from .ib_deposit_us_node import IbDepositUsNode
+from .ib_subaccount_us_node import IbSubaccountUsNode
+from .clearing_us_node import ClearingUsNode
+from .subaccount_us_node import SubaccountUsNode
 
 
 class Node():
@@ -31,7 +38,14 @@ class Node():
       'SYNAPSE-US': SynapseUsNode,
       'TRIUMPH-SUBACCOUNT-US': TriumphSubaccountUsNode,
       'WIRE-INT': WireIntNode,
-      'WIRE-US': WireUsNode
+      'WIRE-US': WireUsNode,
+      'DEPOSIT-US': DepositUsNode,
+      'CHECK-US': CheckUsNode,
+      'INTERCHANGE-US': InterchangeUsNode,
+      'IB-DEPOSIT-US': IbDepositUsNode,
+      'IB-SUBACCOUNT-US': IbSubaccountUsNode,
+      'CLEARING-US': ClearingUsNode,
+      'SUBACCOUNT-US': SubaccountUsNode
     }
 
     @classmethod
@@ -60,7 +74,11 @@ class Node():
           'timeline': response.get('timeline',None),
           'transactions': response['extra']['other'].get('transactions',None),
           'billpay_info': response['extra']['other'].get('billpay_info',None),
-          'transaction_analysis': response['extra']['other'].get('transaction_analysis',None)
+          'transaction_analysis': response['extra']['other'].get('transaction_analysis',None),
+          'payee_name': response['info'].get('payee_name'),
+          'document_id': response['info'].get('document_id'),
+          'network': response['info'].get('network'),
+          'card_type': response['info'].get('type'),
         }
 
         # correspondent info (optional)
@@ -83,6 +101,15 @@ class Node():
             info = response['extra']
             args['supp_id'] = info.get('supp_id')
             args['gateway_restricted'] = info.get('gateway_restricted')
+
+        #check info(optional)
+        if response['info'].get('payee_address'):
+            info = response['info']['payee_address']
+            args['address_street'] = info.get('address_street')
+            args['address_city'] = info.get('address_city')
+            args['address_subdivision'] = info.get('address_subdivision')
+            args['address_country_code'] = info.get('address_country_code')
+            args['address_postal_code'] = info.get('address_postal_code')
 
         klass = cls.NODE_TYPES_TO_CLASSES.get(response['type'], BaseNode)
         return klass(**args)

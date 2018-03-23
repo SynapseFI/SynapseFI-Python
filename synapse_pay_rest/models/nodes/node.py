@@ -18,6 +18,8 @@ from .ib_deposit_us_node import IbDepositUsNode
 from .ib_subaccount_us_node import IbSubaccountUsNode
 from .clearing_us_node import ClearingUsNode
 from .subaccount_us_node import SubaccountUsNode
+from .card_us_node import CardUsNode
+from .subcard_us_node import SubcardUsNode
 
 
 class Node():
@@ -45,7 +47,9 @@ class Node():
       'IB-DEPOSIT-US': IbDepositUsNode,
       'IB-SUBACCOUNT-US': IbSubaccountUsNode,
       'CLEARING-US': ClearingUsNode,
-      'SUBACCOUNT-US': SubaccountUsNode
+      'SUBACCOUNT-US': SubaccountUsNode,
+      'CARD-US': CardUsNode,
+      'SUBCARD-US': SubcardUsNode
     }
 
     @classmethod
@@ -110,6 +114,15 @@ class Node():
             args['address_subdivision'] = info.get('address_subdivision')
             args['address_country_code'] = info.get('address_country_code')
             args['address_postal_code'] = info.get('address_postal_code')
+
+        #cards info(optional)
+        if response['info'].get('preferences'):
+            info = response['info']['preferences']
+            args['allow_foreign_transactions'] = info.get('allow_foreign_transactions')
+            args['atm_withdrawal_limit'] = info.get('atm_withdrawal_limit')
+            args['max_pin_attempts'] = info.get('max_pin_attempts')
+            args['pos_withdrawal_limit'] = info.get('pos_withdrawal_limit')
+            args['security_alerts'] = info.get('security_alerts')
 
         klass = cls.NODE_TYPES_TO_CLASSES.get(response['type'], BaseNode)
         return klass(**args)

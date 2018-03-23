@@ -82,11 +82,6 @@ class TransactionTestCases(unittest.TestCase):
                 'fee': 0.12,
                 'note': 'Test Fee 1',
                 'to': {'id': fee_node.id}
-            },
-            {
-                'fee': 0.33,
-                'note': 'Test Fee 2',
-                'to': {'id': fee_node2.id}
             }
         ]
         transaction_id = Transaction.create(self.from_node,
@@ -101,7 +96,7 @@ class TransactionTestCases(unittest.TestCase):
         self.assertIsInstance(transaction, Transaction)
         self.assertEqual(self.from_node.id, transaction.node.id)
         self.assertEqual(transaction.fees[0]['fee'], 0.12)
-        self.assertEqual(len(transaction.fees), 2)
+        self.assertEqual(len(transaction.fees), 1)
 
     def test_by_id(self):
         transaction_id = Transaction.create(self.from_node,

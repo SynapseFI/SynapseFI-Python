@@ -8,7 +8,8 @@ from .users import User, PhysicalDocument, SocialDocument, VirtualDocument,\
                    BaseDocument, Question
 from .nodes import AchUsNode, EftIndNode, EftNpNode, IouNode, ReserveUsNode,\
                    SynapseIndNode, SynapseNpNode, SynapseUsNode, WireIntNode,\
-                   WireUsNode, DepositUsNode, CheckUsNode, InterchangeUsNode, IbSubaccountUsNode, IbDepositUsNode, SubaccountUsNode, ClearingUsNode, Node
+                   WireUsNode, DepositUsNode, CheckUsNode, InterchangeUsNode,\
+                   IbSubaccountUsNode, IbDepositUsNode, SubaccountUsNode, ClearingUsNode, CardUsNode, SubcardUsNode, Node
 from .transactions import Transaction
 from .subnets import Subnet
 from .subscriptions import Subscription

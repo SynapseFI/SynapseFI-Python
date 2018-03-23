@@ -772,3 +772,94 @@ transaction = transaction.add_comment('this is my best transaction')
 ```python
 transaction = transaction.cancel()
 ```
+
+## Subnet Methods
+
+#### Retrieve All Subnets Sent from a Node
+
+```python
+from synapse_pay_rest import Subnet
+
+options = {
+    'page': 1,
+    'per_page': 20
+}
+
+subnets = Subnet.all(node, **options)
+```
+
+#### Retrieve Node's Subnet by Subnet ID
+
+```python
+subnet = Subnet.by_id(node, '57fc1a6886c2732e64a94c25')
+```
+
+#### Create a Subnet from a Node
+
+```python
+args = {
+    'nickname': 'Test Subnet'
+}
+
+subnet = Subnet.create(node, **args)
+```
+
+#### Lock Subnet
+
+```python
+subnet = subnet.lock()
+```
+
+## Subscription Methods
+
+#### Retrieve All Subscriptions
+
+```python
+from synapse_pay_rest import Subscription
+
+options = {
+    'page': 1,
+    'per_page': 20
+}
+
+subscription = Subscription.all(client)
+```
+
+#### Retrieve Subscription by ID
+
+```python
+subscription = Subscription.by_id(client, '57fc1a6886c2732e64a94c25')
+```
+
+#### Create a Subscription
+
+```python
+args = {
+  'scope': [
+    'USERS|POST',
+    'USER|PATCH',
+    'NODES|POST',
+    'NODE|PATCH',
+    'TRANS|POST',
+    'TRAN|PATCH'
+  ],
+  'url': 'https://requestb.in/1756g2g1'
+}
+
+subscription = Subscription.create(client, **args)
+```
+
+#### Update a Subscription's URL
+
+```python
+new_url = 'test.com'
+subscription = subscription.update_url(new_url)
+```
+
+#### Update a Subscription's scope
+
+```python
+new_scope = ["USERS|POST"]
+subscription = subscription.update_scope(new_scope)
+```
+

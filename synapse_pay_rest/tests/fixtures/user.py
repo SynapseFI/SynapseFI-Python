@@ -37,7 +37,7 @@ user_create_args = {
     'legal_name': 'Hello McHello',
     'note': ':)',
     'supp_id': '123abc',
-    'is_business': True,
+    'is_business': False,
     'cip_tag': 1,
     'password': 'password'
 }
@@ -59,3 +59,21 @@ user_base_doc = {
     'address_postal_code': '94114',
     'address_country_code': 'US'
 }
+
+base_doc_args = {
+            "email":"test@test.com",
+            "phone_number":"901.111.1111",
+            "ip":"127.0.0.1",
+            "name":"FirstName LastName",
+            "alias":"Test",
+            "entity_type":"M",
+            "entity_scope":"Arts & Entertainment",
+            "day":2,
+            "month":5,
+            "year":1989,
+            "address_street":"1 Market St.",
+            "address_city":"SF",
+            "address_subdivision":"CA",
+            "address_postal_code":"94114",
+            "address_country_code":"US"
+            }

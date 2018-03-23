@@ -40,9 +40,10 @@ class BaseNode():
           'payee_name': response['info'].get('payee_name'),
           'document_id': response['info'].get('document_id'),
           'network': response['info'].get('network'),
-          'card_type': response['info'].get('type'),
+          'interchange_type': response['info'].get('type'),
           'card_hash': response['info'].get('card_hash'),
-          'is_international': response['info'].get('is_international')
+          'is_international': response['info'].get('is_international'),
+          'card_type': response['info'].get('card_type')
         }
 
         if response['info'].get('correspondent_info'):
@@ -76,6 +77,15 @@ class BaseNode():
             args['address_subdivision'] = info.get('address_subdivision')
             args['address_country_code'] = info.get('address_country_code')
             args['address_postal_code'] = info.get('address_postal_code')
+
+        #cards info(optional)
+        if response['info'].get('preferences'):
+            info = response['info']['preferences']
+            args['allow_foreign_transactions'] = info.get('allow_foreign_transactions')
+            args['atm_withdrawal_limit'] = info.get('atm_withdrawal_limit')
+            args['max_pin_attempts'] = info.get('max_pin_attempts')
+            args['pos_withdrawal_limit'] = info.get('pos_withdrawal_limit')
+            args['security_alerts'] = info.get('security_alerts')
 
         return cls(**args)
 
@@ -132,6 +142,8 @@ class BaseNode():
             payload['info']['exp_date'] = kwargs['exp_date']
         if 'document_id' in kwargs:
             payload['info']['document_id'] = kwargs['document_id']
+        if 'card_type' in kwargs:
+            payload['info']['card_type'] = kwargs['card_type']
 
         balance_options = ['currency']
         balance = {}

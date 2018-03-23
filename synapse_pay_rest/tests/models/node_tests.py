@@ -1,5 +1,6 @@
 import unittest
 import pdb
+import time
 from synapse_pay_rest.tests.fixtures.client import *
 from synapse_pay_rest.tests.fixtures.user import *
 from synapse_pay_rest.tests.fixtures.node import *
@@ -365,24 +366,24 @@ class NodeTestCases(unittest.TestCase):
 
     def test_create_interchange_us_node(self):
         user = User.create(self.client, **user_create_args)
-        args = {
-            'email': 'scoobie@doom.com',
-            'phone_number': '707-555-5555',
-            'ip': '127.0.0.1',
-            'name': 'Doctor BaseDoc',
-            'alias': 'Basey',
-            'entity_type': 'F',
-            'entity_scope': 'Arts & Entertainment',
-            'day': 28,
-            'month': 2,
-            'year': 1990,
-            'address_street':'1 Market St.',
-            'address_city':'SF',
-            'address_subdivision':'CA',
-            'address_postal_code':'94114',
-            'address_country_code':'US',
-        }
-        base_document = user.add_base_document(**args)
+        # args = {
+        #     "email":"test@test.com",
+        #     "phone_number":"901.111.1111",
+        #     "ip":"::1",
+        #     "name":"FirstName LastName",
+        #     "alias":"Test",
+        #     "entity_type":"M",
+        #     "entity_scope":"Arts & Entertainment",
+        #     "day":2,
+        #     "month":5,
+        #     "year":1989,
+        #     "address_street":"1 Market St.",
+        #     "address_city":"SF",
+        #     "address_subdivision":"CA",
+        #     "address_postal_code":"94114",
+        #     "address_country_code":"US"
+        #     }
+        base_document = user.add_base_document(**base_doc_args)
         doc_id = base_document.id
         kwargs = {
             'nickname': 'Python Test INTERCHANGE-US Account',
@@ -395,7 +396,7 @@ class NodeTestCases(unittest.TestCase):
         self.assertEqual(user.id, node.user.id)
 
         other_props = ['nickname', 'id', 'type', 'is_active',
-                       'network', 'card_type', 'document_id', 'card_hash',
+                       'network', 'interchange_type', 'document_id', 'card_hash',
                        'is_international']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
@@ -463,3 +464,112 @@ class NodeTestCases(unittest.TestCase):
                        'permission', 'currency']
         for prop in other_props:
             self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_card_us_node(self):
+        user = self.user
+        base_document = user.add_base_document(**base_doc_args)
+        doc_id = base_document.id
+        time.sleep(5)
+        kwargs = {
+            'nickname': 'Python Test CARD-US Account',
+            'document_id': str(doc_id),
+            'card_type': "VIRTUAL"
+        }
+        node = CardUsNode.create(user, **kwargs)
+        self.assertIsInstance(node, CardUsNode)
+        self.assertEqual(user.id, node.user.id)
+
+        other_props = ['nickname', 'id', 'type', 'is_active',
+                       'document_id', 'allow_foreign_transactions',
+                       'atm_withdrawal_limit', 'max_pin_attempts', 'pos_withdrawal_limit',
+                       'security_alerts', 'card_type']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_create_subcard_us_node(self):
+        user = self.user
+        base_document = user.add_base_document(**base_doc_args)
+        doc_id = base_document.id
+        time.sleep(5)
+        kwargs = {
+            'nickname': 'Python Test SUBCARD-US Account',
+            'document_id': str(doc_id),
+            'card_type': "VIRTUAL"
+        }
+        node = SubcardUsNode.create(user, **kwargs)
+        self.assertIsInstance(node, SubcardUsNode)
+        self.assertEqual(user.id, node.user.id)
+
+        other_props = ['nickname', 'id', 'type', 'is_active',
+                       'document_id', 'allow_foreign_transactions',
+                       'atm_withdrawal_limit', 'max_pin_attempts', 'pos_withdrawal_limit',
+                       'security_alerts', 'card_type']
+        for prop in other_props:
+            self.assertIsNotNone(getattr(node, prop))
+
+    def test_update_preference_card_us_node(self):
+        user = self.user
+        base_document = user.add_base_document(**base_doc_args)
+        doc_id = base_document.id
+        time.sleep(5)
+        kwargs = {
+            'nickname': 'Python Test CARD-US Account',
+            'document_id': str(doc_id),
+            'card_type': "VIRTUAL"
+        }
+        node = CardUsNode.create(user, **kwargs)
+        args2 = {
+          'max_pin_attempts': 4
+        }
+        node = node.update_preferences(**args2)
+        time.sleep(2)
+        self.assertEqual(4, node.max_pin_attempts)
+
+    def test_update_allowed_card_us_node(self):
+        user = self.user
+        base_document = user.add_base_document(**base_doc_args)
+        doc_id = base_document.id
+        time.sleep(5)
+        kwargs = {
+            'nickname': 'Python Test CARD-US Account',
+            'document_id': str(doc_id),
+            'card_type': "VIRTUAL"
+        }
+        node = CardUsNode.create(user, **kwargs)
+        node = node.update_allowed('INACTIVE')
+        time.sleep(1)
+        self.assertEqual('INACTIVE', node.permission)
+
+    def test_update_preference_subcard_us_node(self):
+        user = self.user
+        base_document = user.add_base_document(**base_doc_args)
+        doc_id = base_document.id
+        time.sleep(5)
+        kwargs = {
+            'nickname': 'Python Test SUBCARD-US Account',
+            'document_id': str(doc_id),
+            'card_type': "VIRTUAL"
+        }
+        node = SubcardUsNode.create(user, **kwargs)
+        args2 = {
+          'max_pin_attempts': 4
+        }
+        node = node.update_preferences(**args2)
+        time.sleep(2)
+        self.assertEqual(4, node.max_pin_attempts)
+
+    def test_update_allowed_subcard_us_node(self):
+        user = self.user
+        base_document = user.add_base_document(**base_doc_args)
+        doc_id = base_document.id
+        time.sleep(5)
+        kwargs = {
+            'nickname': 'Python Test SUBCARD-US Account',
+            'document_id': str(doc_id),
+            'card_type': "VIRTUAL"
+        }
+        node = SubcardUsNode.create(user, **kwargs)
+        node = node.update_allowed('INACTIVE')
+        time.sleep(1)
+        self.assertEqual('INACTIVE', node.permission)
+

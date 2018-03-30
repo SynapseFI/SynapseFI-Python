@@ -5,6 +5,7 @@ from .api.nodes import Nodes
 from .api.subnets import Subnets
 from .api.subscriptions import Subscriptions
 from .api.client import ClientEndpoint
+from .api.atms import Atms
 
 class Client():
     """Handles configuration and requests to the SynapsePay API.
@@ -36,6 +37,7 @@ class Client():
         self.subnets = Subnets(self.http_client)
         self.subscriptions = Subscriptions(self.http_client)
         self.client_endpoint = ClientEndpoint(self.http_client)
+        self.atms = Atms(self.http_client)
 
     def __repr__(self):
         return '{0}(base_url={1})'.format(self.__class__, self.base_url)

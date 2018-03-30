@@ -6,5 +6,5 @@ more at https://docs.synapsepay.com
 """
 
 from .client import Client
-from .api import Users, Nodes, Trans, Subnets, Subscriptions, ClientEndpoint
-from .models import User, Node, Transaction, Subnet, Subscription, PublicKey
+from .api import Users, Nodes, Trans, Subnets, Subscriptions, ClientEndpoint, Atms
+from .models import User, Node, Transaction, Subnet, Subscription, PublicKey, Atm

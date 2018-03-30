@@ -2,7 +2,7 @@ from .base_node import BaseNode
 
 
 class ClearingUsNode(BaseNode):
-    """Represents a SYNAPSE-US node."""
+    """Represents a CLEARING-US node."""
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):

@@ -863,3 +863,36 @@ new_scope = ["USERS|POST"]
 subscription = subscription.update_scope(new_scope)
 ```
 
+## Issue Public Key Methods
+
+#### Issue Public Key
+
+```python
+from synapse_pay_rest.models import PublicKey
+
+options = {
+    'scope': 'CLIENT|CONTROLS'
+}
+
+public_key = PublicKey.issue(client, **options)
+```
+
+## Locate Atm Methods
+
+#### Locate Atm via Zipcode
+
+```python
+from synapse_pay_rest.models import Atm
+
+options = {
+  'zip': '94113',
+  'radius': '5',
+  'page': 1,
+  'per_page': 20
+}
+
+atms = Atm.locate(client, **options)
+
+atm = atms[0]
+```
+

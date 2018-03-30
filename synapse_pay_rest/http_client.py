@@ -49,7 +49,7 @@ class HttpClient():
     def get(self, url, **params):
         """Send a GET request to the API."""
         self.log_information(self.logging)
-        valid_params = ['query', 'page', 'per_page', 'type', 'full_dehydrate']
+        valid_params = ['query', 'page', 'per_page', 'type', 'full_dehydrate', 'radius']
         parameters = {}
         for param in valid_params:
             if param in params:

@@ -2,7 +2,7 @@ from .base_node import BaseNode
 
 
 class IbDepositUsNode(BaseNode):
-    """Represents a SYNAPSE-US node."""
+    """Represents a IB-DEPOSIT-US node."""
 
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):

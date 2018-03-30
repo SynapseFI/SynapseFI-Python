@@ -385,6 +385,7 @@ class NodeTestCases(unittest.TestCase):
         #     }
         base_document = user.add_base_document(**base_doc_args)
         doc_id = base_document.id
+        time.sleep(5)
         kwargs = {
             'nickname': 'Python Test INTERCHANGE-US Account',
             'card_number': 'nNKBubGyeL+31Hhgim89lIvfezPdfe8hLQxvm9H2wfpI2PxHk6yqvdh0jKwhib74LHBemAI5sRyr/5LmnYOeJoUU5TmkBtpvhxDTAtoCrim7+3KGatDwq1Z6NzV+S46fu+hp2h5DxUx6Os3PPalwz06qgbTG1yIkEvFi23D1FJGj2RM5BwYuy+dASktSoSHejj4+idiG8Sc48rKzOJXkRHSA/GIhyGeL0/GscTqAwiXaA9f9QjW74T0Ux/LRjXqVVK1wmT2M/UHLV/rheVCNZPw9Xq/VPoO3Jb/VbezsSvPwaHEV9M+utmUyn/jPru4vQpX7WM133Zx7OerGsyr/Zg==',

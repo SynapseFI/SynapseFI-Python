@@ -879,13 +879,30 @@ public_key = PublicKey.issue(client, **options)
 
 ## Locate Atm Methods
 
-#### Locate Atm via Zipcode
+#### Locate nearby Atms with Zipcode
 
 ```python
 from synapse_pay_rest.models import Atm
 
 options = {
   'zip': '94113',
+  'radius': '5',
+  'page': 1,
+  'per_page': 20
+}
+
+atms = Atm.locate(client, **options)
+
+atm = atms[0]
+```
+#### Locate nearby Atms with Lat and Lon Coordinates
+
+```python
+from synapse_pay_rest.models import Atm
+
+options = {
+  'lat': '350.3040400',
+  'lon': "-122.33333"
   'radius': '5',
   'page': 1,
   'per_page': 20

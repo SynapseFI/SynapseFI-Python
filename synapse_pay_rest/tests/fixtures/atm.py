@@ -1,7 +1,7 @@
 atm_args = {
-  'zip': '94113',
+  'zip': '95113',
   'radius': '5',
-  'page': 2,
+  'page': 1,
   'per_page': 10
 }
 

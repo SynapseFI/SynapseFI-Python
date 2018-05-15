@@ -11,7 +11,7 @@ class AtmTestCases(unittest.TestCase):
         print('\n{0}.{1}'.format(type(self).__name__, self._testMethodName))
         self.client = test_client
 
-    def test_locate_radius(self):
+    def test_locate_zip(self):
         atms = Atm.locate(self.client, **atm_args)
         atm = atms[0]
         properties = ['client', 'address_city', 'address_country', 'address_postal_code', 'address_state', 'address_street',

@@ -468,17 +468,17 @@ class NodeTestCases(unittest.TestCase):
 
     def test_create_card_us_node(self):
         user = self.user
-        time.sleep(3)
         base_document = user.add_base_document(**base_doc_args)
+        time.sleep(10)
         doc_id = base_document.id
-        time.sleep(3)
+        
         kwargs = {
             'nickname': 'Python Test CARD-US Account',
             'document_id': str(doc_id),
             'card_type': "VIRTUAL"
         }
         node = CardUsNode.create(user, **kwargs)
-        time.sleep(3)
+        time.sleep(15)
         self.assertIsInstance(node, CardUsNode)
         self.assertEqual(user.id, node.user.id)
 
@@ -491,17 +491,16 @@ class NodeTestCases(unittest.TestCase):
 
     def test_create_subcard_us_node(self):
         user = self.user
-        time.sleep(3)
         base_document = user.add_base_document(**base_doc_args)
+        time.sleep(10)
         doc_id = base_document.id
-        time.sleep(3)
         kwargs = {
             'nickname': 'Python Test SUBCARD-US Account',
             'document_id': str(doc_id),
             'card_type': "VIRTUAL"
         }
         node = SubcardUsNode.create(user, **kwargs)
-        time.sleep(3)
+        time.sleep(15)
         self.assertIsInstance(node, SubcardUsNode)
         self.assertEqual(user.id, node.user.id)
 
@@ -514,71 +513,71 @@ class NodeTestCases(unittest.TestCase):
 
     def test_update_preference_card_us_node(self):
         user = self.user
-        time.sleep(3)
         base_document = user.add_base_document(**base_doc_args)
+        time.sleep(10)
         doc_id = base_document.id
-        time.sleep(3)
         kwargs = {
             'nickname': 'Python Test CARD-US Account',
             'document_id': str(doc_id),
             'card_type': "VIRTUAL"
         }
         node = CardUsNode.create(user, **kwargs)
+        time.sleep(15)
         args2 = {
           'max_pin_attempts': 4
         }
         node = node.update_preferences(**args2)
-        time.sleep(5)
+        time.sleep(10)
         self.assertEqual(4, node.max_pin_attempts)
 
     def test_update_allowed_card_us_node(self):
         user = self.user
-        time.sleep(3)
         base_document = user.add_base_document(**base_doc_args)
+        time.sleep(10)
         doc_id = base_document.id
-        time.sleep(3)
         kwargs = {
             'nickname': 'Python Test CARD-US Account',
             'document_id': str(doc_id),
             'card_type': "VIRTUAL"
         }
         node = CardUsNode.create(user, **kwargs)
+        time.sleep(15)
         node = node.update_allowed('INACTIVE')
-        time.sleep(5)
+        time.sleep(10)
         self.assertEqual('INACTIVE', node.permission)
 
     def test_update_preference_subcard_us_node(self):
         user = self.user
-        time.sleep(3)
         base_document = user.add_base_document(**base_doc_args)
+        time.sleep(10)
         doc_id = base_document.id
-        time.sleep(3)
         kwargs = {
             'nickname': 'Python Test SUBCARD-US Account',
             'document_id': str(doc_id),
             'card_type': "VIRTUAL"
         }
         node = SubcardUsNode.create(user, **kwargs)
+        time.sleep(15)
         args2 = {
           'max_pin_attempts': 4
         }
         node = node.update_preferences(**args2)
-        time.sleep(5)
+        time.sleep(10)
         self.assertEqual(4, node.max_pin_attempts)
 
     def test_update_allowed_subcard_us_node(self):
         user = self.user
-        time.sleep(3)
         base_document = user.add_base_document(**base_doc_args)
+        time.sleep(10)
         doc_id = base_document.id
-        time.sleep(3)
         kwargs = {
             'nickname': 'Python Test SUBCARD-US Account',
             'document_id': str(doc_id),
             'card_type': "VIRTUAL"
         }
         node = SubcardUsNode.create(user, **kwargs)
+        time.sleep(15)
         node = node.update_allowed('INACTIVE')
-        time.sleep(5)
+        time.sleep(10)
         self.assertEqual('INACTIVE', node.permission)
 

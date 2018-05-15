@@ -50,7 +50,7 @@ class Atm():
 
 
     @classmethod
-    def locate(cls,client=None, zip=None, **kwargs):
+    def locate(cls,client=None, **kwargs):
         """Locates nearby atms and create an Atm instance from it.
 
         Args:
@@ -63,7 +63,7 @@ class Atm():
             Atm: an ATM instance corresponding to the record
         """
 
-        response = client.atms.locate(zip, **kwargs)
+        response = client.atms.locate(**kwargs)
         return cls.multiple_from_response(client, response['atms'])
 
    

@@ -11,8 +11,8 @@ class Atms():
     def __init__(self, client):
         self.client = client
 
-    def locate(self, zip=None, **kwargs):
+    def locate(self, **kwargs):
         
-        path = '/nodes/atms?zip=' + zip
+        path = '/nodes/atms?'
         response = self.client.get(path, **kwargs)
         return response

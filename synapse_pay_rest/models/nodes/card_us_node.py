@@ -7,7 +7,7 @@ class CardUsNode(BaseNode):
     @classmethod
     def payload_for_create(cls, nickname, document_id, card_type, **kwargs):
         """Build the API 'create node' payload specific to CARD-US."""
-        payload = super().payload_for_create('CARD-US',
+        payload = super(CardUsNode, cls).payload_for_create('CARD-US',
                                              nickname=nickname,
                                              document_id=document_id,
                                              card_type=card_type,
@@ -50,4 +50,3 @@ class CardUsNode(BaseNode):
         if 'security_alerts' in kwargs:
             payload['preferences']['security_alerts'] = kwargs['security_alerts']
         return payload
-

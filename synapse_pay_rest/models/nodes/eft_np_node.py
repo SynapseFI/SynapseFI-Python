@@ -7,7 +7,7 @@ class EftNpNode(BaseNode):
     @classmethod
     def payload_for_create(cls, nickname, bank_name, account_number, **kwargs):
         """Build the API 'create node' payload specific to EFT-NP."""
-        payload = super().payload_for_create('EFT-NP',
+        payload = super(EftNpNode, cls).payload_for_create('EFT-NP',
                                              nickname=nickname,
                                              account_number=account_number,
                                              bank_name=bank_name, **kwargs)

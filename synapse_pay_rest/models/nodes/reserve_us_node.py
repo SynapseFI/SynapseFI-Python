@@ -7,7 +7,7 @@ class ReserveUsNode(BaseNode):
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
         """Build the API 'create node' payload specific to RESERVE-US."""
-        payload = super().payload_for_create('RESERVE-US',
+        payload = super(ReserveUsNode, cls).payload_for_create('RESERVE-US',
                                              nickname=nickname,
                                              **kwargs)
         return payload

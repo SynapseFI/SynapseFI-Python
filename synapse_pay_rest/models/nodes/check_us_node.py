@@ -8,7 +8,7 @@ class CheckUsNode(BaseNode):
     def payload_for_create(cls, nickname, payee_name, address_street, address_city,
         address_subdivision, address_country_code, address_postal_code, **kwargs):
         """Build the API 'create node' payload specific to CHECK-US."""
-        payload = super().payload_for_create('CHECK-US',
+        payload = super(CheckUsNode, cls).payload_for_create('CHECK-US',
                                              nickname=nickname,
                                              payee_name=payee_name,
                                              address_street=address_street,

@@ -1,4 +1,4 @@
-class BaseNode():
+class BaseNode(object):
     """Ancestor of the various node types.
 
     Stores common functionality of child classes, but should not be
@@ -161,7 +161,7 @@ class BaseNode():
         if extra:
             payload['extra'] = extra
 
-        payee_address_options = ['address_street', 'address_city', 'address_subdivision', 
+        payee_address_options = ['address_street', 'address_city', 'address_subdivision',
           'address_country_code', 'address_postal_code']
         payee_address = {}
         for option in payee_address_options:

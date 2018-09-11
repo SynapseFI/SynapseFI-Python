@@ -8,7 +8,7 @@ class WireIntNode(BaseNode):
     def payload_for_create(cls, nickname, bank_name, account_number, swift,
                            name_on_account, address, **kwargs):
         """Build the API 'create node' payload specific to WIRE-INT."""
-        payload = super().payload_for_create('WIRE-INT',
+        payload = super(WireIntNode, cls).payload_for_create('WIRE-INT',
                                              nickname=nickname,
                                              bank_name=bank_name,
                                              account_number=account_number,

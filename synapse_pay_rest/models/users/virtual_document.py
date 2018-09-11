@@ -30,7 +30,7 @@ class VirtualDocument(Document):
     @classmethod
     def from_response(cls, response):
         """Construct a VirtualDocument from a response dict."""
-        doc = super().from_response(response)
+        doc = super(VirtualDocument, cls).from_response(response)
         if response.get('status') == 'SUBMITTED|MFA_PENDING':
             question_data = response['meta']['question_set']['questions']
             question_set = Question.multiple_from_response(question_data)

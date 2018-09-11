@@ -7,7 +7,7 @@ class IbDepositUsNode(BaseNode):
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
         """Build the API 'create node' payload specific to IB-DEPOSIT-US."""
-        payload = super().payload_for_create('IB-DEPOSIT-US',
+        payload = super(IbDepositUsNode, cls).payload_for_create('IB-DEPOSIT-US',
                                              nickname=nickname,
                                              **kwargs)
         return payload

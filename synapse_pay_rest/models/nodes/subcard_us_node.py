@@ -7,7 +7,7 @@ class SubcardUsNode(BaseNode):
     @classmethod
     def payload_for_create(cls, nickname, document_id, card_type, **kwargs):
         """Build the API 'create node' payload specific to SUBCARD-US."""
-        payload = super().payload_for_create('SUBCARD-US',
+        payload = super(SubcardUsNode, cls).payload_for_create('SUBCARD-US',
                                              nickname=nickname,
                                              document_id=document_id,
                                              card_type=card_type,

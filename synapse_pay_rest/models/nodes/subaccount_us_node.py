@@ -7,7 +7,7 @@ class SubaccountUsNode(BaseNode):
     @classmethod
     def payload_for_create(cls, nickname, **kwargs):
         """Build the API 'create node' payload specific to SUBACCOUNT-US."""
-        payload = super().payload_for_create('SUBACCOUNT-US',
+        payload = super(SubaccountUsNode, cls).payload_for_create('SUBACCOUNT-US',
                                              nickname=nickname,
                                              **kwargs)
         return payload

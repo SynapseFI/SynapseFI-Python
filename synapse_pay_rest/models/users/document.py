@@ -1,4 +1,4 @@
-class Document():
+class Document(object):
     """Ancestor of PhysicalDocument, SocialDocument, and VirtualDocument.
 
     Stores common functionality of child classes, but should not be

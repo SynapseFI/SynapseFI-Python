@@ -8,7 +8,7 @@ class TriumphSubaccountUsNode(BaseNode):
     def payload_for_create(cls, nickname, **kwargs):
         """Build the API 'create node' payload specific to TRIUMPH-SUBACCOUNT-US.
         """
-        payload = super().payload_for_create('TRIUMPH-SUBACCOUNT-US',
+        payload = super(TriumphSubaccountUsNode, cls).payload_for_create('TRIUMPH-SUBACCOUNT-US',
                                              nickname=nickname,
                                              **kwargs)
         return payload

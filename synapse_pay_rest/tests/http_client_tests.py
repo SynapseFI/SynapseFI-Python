@@ -11,12 +11,12 @@ class HttpClientTestCases(unittest.TestCase):
             client_secret=CLIENT_SECRET,
             fingerprint=FINGERPRINT,
             ip_address=IP_ADDRESS,
-            base_url='https://sandbox.synapsepay.com/api/3',
+            base_url='https://uat-api.synapsefi.com/v3.1',
             logging=True
         )
 
     def test_properties_are_set(self):
-        self.assertEqual('https://sandbox.synapsepay.com/api/3',
+        self.assertEqual('https://uat-api.synapsefi.com/v3.1',
                          self.http_client.base_url)
         self.assertTrue(self.http_client.logging)
 

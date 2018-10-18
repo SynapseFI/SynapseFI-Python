@@ -21,8 +21,8 @@ class Subnet():
             node=node,
             json=response,
             id=response['_id'],
+            account_class=response['account_class'],
             account_num=response['account_num'],
-            allowed=response['allowed'],
             client_id=response['client']['id'],
             client_name=response['client']['name'],
             nickname=response['nickname'],
@@ -115,4 +115,3 @@ class Subnet():
         else:
             # API v3.1.1
             return self.from_response(self.node, response)
-

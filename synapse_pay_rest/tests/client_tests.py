@@ -49,5 +49,3 @@ class ClientTestCases(unittest.TestCase):
         self.assertEqual(gateway, headers['X-SP-GATEWAY'])
         self.assertEqual(user, headers['X-SP-USER'])
         self.assertEqual(IP_ADDRESS, headers['X-SP-USER-IP'])
-
-

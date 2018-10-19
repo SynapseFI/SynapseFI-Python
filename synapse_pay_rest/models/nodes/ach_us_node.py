@@ -14,6 +14,7 @@ class AchUsNode(BaseNode):
         return cls(user=user,
                    mfa_access_token=response['mfa']['access_token'],
                    mfa_message=response['mfa']['message'],
+                   mfa_type=response['mfa']['type'],
                    mfa_verified=False)
 
     @classmethod

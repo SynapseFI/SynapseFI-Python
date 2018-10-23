@@ -11,3 +11,5 @@ from .subnets import Subnets
 from .subscriptions import Subscriptions
 from .client import ClientEndpoint
 from .atms import Atms
+from .institutions import Institutions
+from .statements import Statements

@@ -7,3 +7,5 @@ from .subnet_tests import *
 from .subscription_tests import *
 from .issue_public_key import *
 from .atm_tests import *
+from .institution_tests import *
+from .statement_tests import *

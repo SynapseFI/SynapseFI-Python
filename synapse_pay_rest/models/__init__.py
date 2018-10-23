@@ -15,3 +15,5 @@ from .subnets import Subnet
 from .subscriptions import Subscription
 from .issue_public_keys import PublicKey
 from .atms import Atm
+from .institutions import Institution
+from .statements import Statement

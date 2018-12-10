@@ -145,7 +145,7 @@ class User():
         Returns:
             list: containing 0 or more User instances
         """
-        response = client.users.get(**kwargs)
+        response = client.users.get(**kwargs) # Really?! what if the client is None!
         return cls.multiple_from_response(client, response['users'])
 
     def authenticate(self):
@@ -187,7 +187,20 @@ class User():
 
     def payload_for_refresh(self):
         """Build the API 'oauth user' payload."""
-        return {'refresh_token': self.refresh_token}
+        return { 'refresh_token': self.refresh_token }
+
+    def add_documents(self, docs):
+        """Adds documents 
+
+        Args:
+            docs (dict): dictionary containing the docs to add to user
+
+        Returns:
+            User: a new instance of a user
+        """
+        payload = { 'documents': [docs] }
+        response = self.client.users.update(self.id, payload)
+        return User.from_response(self.client, response, oauth=False)
 
     def add_base_document(self, **kwargs):
         """Add a BaseDocument to the User.
@@ -341,7 +354,11 @@ class User():
         """
         payload = self.payload_for_refresh()
         payload['phone_number'] = device
-        self.client.users.refresh(self.id, payload)
+
+        response = self.client.users.refresh(self.id, payload)
+
+        # if int(response.get('error_code', 0)) > 10:
+        #     return False
         return True
 
     def confirm_2fa_pin(self, device, pin):
@@ -358,5 +375,8 @@ class User():
         payload = self.payload_for_refresh()
         payload['phone_number'] = device
         payload['validation_pin'] = pin
-        self.client.users.refresh(self.id, payload)
+        response = self.client.users.refresh(self.id, payload)
+
+        # if int(response.get('error_code', 0)) > 0:
+        #     return False
         return True

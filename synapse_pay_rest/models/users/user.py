@@ -190,7 +190,7 @@ class User():
         return { 'refresh_token': self.refresh_token }
 
     def add_documents(self, docs):
-        """Adds documents 
+        """Adds a document to the current user
 
         Args:
             docs (dict): dictionary containing the docs to add to user

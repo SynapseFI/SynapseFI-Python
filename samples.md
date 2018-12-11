@@ -123,7 +123,7 @@ user.base_documents[0] =
 }
 ```
 
-#### Create a User
+#### Create a User w/o Base Documents
 
 ```python
 args = {
@@ -136,7 +136,53 @@ args = {
     'cip_tag': 1
 }
 
-user = User.create(client, **args)
+user_without_basedocs = User.create(client, **args)
+```
+
+#### Create a User w/ Base Documents
+
+```python
+docs = {
+        "email":"test@test.com",
+        "phone_number":"901.111.1111",
+        "ip":"::1",
+        "name":"Test User",
+        "alias":"Test",
+        "entity_type":"M",
+        "entity_scope":"Arts & Entertainment",
+        "day":2,
+        "month":5,
+        "year":1989,
+        "address_street":"1 Market St.",
+        "address_city":"San Francisco",
+        "address_subdivision":"CA",
+        "address_postal_code":"94114",
+        "address_country_code":"US",
+        "virtual_docs":[{
+            "document_value":"2222",
+            "document_type":"SSN"
+        }],
+        "physical_docs":[{
+            "document_value": "data:image/gif;base64,SUQs==",
+            "document_type": "GOVT_ID"
+        }],
+        "social_docs":[{
+            "document_value":"https://www.facebook.com/valid",
+            "document_type":"FACEBOOK"
+        }]
+    }
+
+args = {
+    'email': 'hello@synapsepay.com',
+    'phone_number': '555-555-5555',
+    'legal_name': 'Hello McHello',
+    'note': ':)',  # optional
+    'supp_id': '123abc',  # optional
+    'is_business': True,
+    'cip_tag': 1
+}
+
+user_with_basedocs = User.create(client, base_docs=docs, **args)
 ```
 
 #### Update a User's Personal Info
@@ -309,8 +355,8 @@ nodes = Node.all(user, **options)
 ```python
 node = Node.by_id(user, '57ec57be86c27345b3f8a159')
 
-optional:
-node = Node.by_id(user, '57ec57be86c27345b3f8a159', full_dehydrate='yes')
+optional parameters:
+node = Node.by_id(user, '57ec57be86c27345b3f8a159', full_dehydrate='yes', force_refresh='yes')
 
 Example of node response with full_dehydrate:
 **Please note: if full_dehydrate='no', some fields will return as 'None'

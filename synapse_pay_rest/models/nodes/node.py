@@ -136,18 +136,19 @@ class Node():
         return nodes
 
     @classmethod
-    def by_id(cls, user=None, id=None, full_dehydrate='no'):
+    def by_id(cls, user=None, id=None, full_dehydrate='no', force_refresh='no'):
         """Retrieve a node record by id and create a BaseNode instance from it.
 
         Args:
             user (User): the  User that the node belongs to
             id (str): id of the node to retrieve
             full_dehydrate(optional, str): if 'yes', returns transaction data on node
+            force_refresh(optional, str): if 'yes', returns synced account data
 
         Returns:
             BaseNode: a BaseNode instance corresponding to the record
         """
-        response = user.client.nodes.get(user.id, id, full_dehydrate=full_dehydrate)
+        response = user.client.nodes.get(user.id, id, full_dehydrate=full_dehydrate, force_refresh=force_refresh)
         return cls.from_response(user, response)
 
     @classmethod

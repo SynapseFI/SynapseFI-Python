@@ -104,6 +104,7 @@ class User():
             read_only (bool): (opt) False if admin user (default)
             phone_number (str): user's phone number
             legal_name (str): user's legal name
+            base_doc (dict): (opt) user's basedocs
             note (str): (opt) note to SynapsePay
             supp_id (str): (opt) supplemental id
             is_business (bool): (opt) False if personal user (default)
@@ -376,5 +377,5 @@ class User():
         payload['phone_number'] = device
         payload['validation_pin'] = pin
         response = self.client.users.refresh(self.id, payload)
-        
+
         return True

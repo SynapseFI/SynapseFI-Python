@@ -376,7 +376,5 @@ class User():
         payload['phone_number'] = device
         payload['validation_pin'] = pin
         response = self.client.users.refresh(self.id, payload)
-
-        # if int(response.get('error_code', 0)) > 0:
-        #     return False
+        
         return True

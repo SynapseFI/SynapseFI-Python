@@ -152,7 +152,8 @@ user = user.change_cip_tag(1)
 
 ## Adding Documents to Users
 
-#### Add multiple KYC
+#### Add Multiple KYC
+Updates the current user's KYC and returns the updated user as a User object
 ```python
 document = {
         "email":"test@test.com",
@@ -184,7 +185,7 @@ document = {
         }]
     }
 
-new_user = user.add_document(document)
+user = user.add_document(document) 
 ```
 
 #### Add a CIP Base Document to a User

@@ -153,7 +153,7 @@ class BaseNode(object):
         if balance:
             payload['info']['balance'] = balance
 
-        extra_options = ['supp_id', 'gateway_restricted']
+        extra_options = ['supp_id', 'gateway_restricted', 'other']
         extra = {}
         for option in extra_options:
             if option in kwargs:

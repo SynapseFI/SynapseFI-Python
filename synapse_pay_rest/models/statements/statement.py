@@ -1,6 +1,4 @@
 import copy
-from synapse_pay_rest.client import Client
-
 
 class Statement():
 
@@ -18,19 +16,7 @@ class Statement():
         return cls(
             user = user,
             json = response,
-            _id = response['_id'],
-            client_id = response['client_id'],
-            date_end = response['date_end'],
-            date_start = response['date_start'],
-            ending_balance = response.get('ending_balance', None),
-            is_active = response['is_active'],
-            node_id = response['node_id'],
-            opening_balance = response.get('opening_balance', None),
-            status = response['status'],
-            csv_url = response['urls']['csv'],
-            json_url = response['urls'].get('json', None),
-            pdf_url = response['urls']['pdf'],
-            user_id = response['user_id']
+            **response
         )
 
     @classmethod

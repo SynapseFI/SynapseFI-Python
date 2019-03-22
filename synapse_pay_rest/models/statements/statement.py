@@ -28,5 +28,9 @@ class Statement():
 
     @classmethod
     def retrieve(cls, user, node_id=None, **kwargs):
-        response = user.client.statements.retrieve(user.id, **kwargs)
+        response = None
+        if not node_id:
+            response = user.client.statements.retrieve(user.id, **kwargs)
+        else:
+            response = user.client.statements.retrieve(user.id, node_id, **kwargs)
         return cls.multiple_from_response(user, response['statements'])

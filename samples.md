@@ -778,6 +778,14 @@ required = {
 node = AchUsNode.create(user, **required)
 ```
 
+##### Resend Microdeposits
+
+Resend microdeposits if user failed verification
+
+```python
+node = node.resend_microdeposits()
+```
+
 ##### Verify Microdeposits
 
 ACH-US nodes added by account/routing must be verified with microdeposits:

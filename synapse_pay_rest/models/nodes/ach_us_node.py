@@ -58,6 +58,15 @@ class AchUsNode(BaseNode):
                                              **kwargs)
         return payload
 
+    def resend_microdeposits(self):
+        """Resend the microdeposits required for ACH Node verification
+        Returns:
+            AchUsNode: a new instance representing the same API record
+        """
+        response = self.user.client.nodes.update(self.user.id, self.id, {}, resend_micro='YES')
+
+        return self.from_response(self.user, response)
+
     def verify_microdeposits(self, amount1, amount2):
         """Verify the microdeposits to activate ACH-US added by acct/routing.
 

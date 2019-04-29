@@ -54,7 +54,7 @@ class Nodes():
         response = self.client.get(path, **params)
         return response
 
-    def update(self, user_id, node_id, payload):
+    def update(self, user_id, node_id, payload, **params):
         """Updates a node record via PATCH request to the API.
 
         Used to edit node information (verify microdeposits).
@@ -65,12 +65,13 @@ class Nodes():
             user_id (str): id of the user the node belongs to
             node_id (str): id of the node to update
             payload (dict): See the docs for exact payload structure
+            params (kwargs): Query parameters
 
         Returns:
             dict: response body (single node record)
         """
         path = self.create_node_path(user_id, node_id)
-        response = self.client.patch(path, payload)
+        response = self.client.patch(path, payload, **params)
         return response
 
     def verify(self, user_id, payload, node_id=None, **kwargs):

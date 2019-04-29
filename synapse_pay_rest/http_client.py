@@ -67,11 +67,11 @@ class HttpClient():
         response = self.session.post(self.base_url + url, data=data)
         return self.parse_response(response)
 
-    def patch(self, url, payload):
+    def patch(self, url, payload, **params):
         """Send a PATCH request to the API."""
         self.log_information(self.logging)
         data = json.dumps(payload)
-        response = self.session.patch(self.base_url + url, data=data)
+        response = self.session.patch(self.base_url + url, data=data, params=params)
         return self.parse_response(response)
 
     def delete(self, url):

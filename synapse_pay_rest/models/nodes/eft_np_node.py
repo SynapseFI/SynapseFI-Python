@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class EftNpNode(BaseNode):
+class EftNpNode(BaseNode, object):
     """[DEPRECATED] Represents an EFT-NP node."""
 
     @classmethod

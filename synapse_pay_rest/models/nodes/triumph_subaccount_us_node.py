@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class TriumphSubaccountUsNode(BaseNode):
+class TriumphSubaccountUsNode(BaseNode, object):
     """Represents a TRIUMPH-SUBACCOUNT-US node."""
 
     @classmethod

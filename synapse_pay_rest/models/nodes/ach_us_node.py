@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class AchUsNode(BaseNode):
+class AchUsNode(BaseNode, object):
     """Represents an ACH-US node."""
 
     @classmethod

@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class SynapseUsNode(BaseNode):
+class SynapseUsNode(BaseNode, object):
     """Represents a SYNAPSE-US node."""
 
     @classmethod

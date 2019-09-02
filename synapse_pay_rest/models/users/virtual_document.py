@@ -2,7 +2,7 @@ from .document import Document
 from .question import Question
 
 
-class VirtualDocument(Document):
+class VirtualDocument(Document, object):
     """Object representation of a supporting virtual document.
 
     Virtual documents are normally ID numbers that help verify the user's

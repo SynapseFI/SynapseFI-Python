@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class WireUsNode(BaseNode):
+class WireUsNode(BaseNode, object):
     """Represents a WIRE-US node."""
 
     @classmethod

@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class IouNode(BaseNode):
+class IouNode(BaseNode, object):
     """Represents an IOU node."""
 
     @classmethod

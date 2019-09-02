@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class ReserveUsNode(BaseNode):
+class ReserveUsNode(BaseNode, object):
     """Represents a RESERVE-US node."""
 
     @classmethod

@@ -1,7 +1,7 @@
 from .base_node import BaseNode
 
 
-class SynapseNpNode(BaseNode):
+class SynapseNpNode(BaseNode, object):
     """[DEPRECATED] Represents a SYNAPSE-NP node."""
 
     @classmethod
